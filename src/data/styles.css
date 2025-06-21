@@ -176,7 +176,10 @@ input[type="radio"] {
 	width: 100%;
 }
 .checkbox-container {
+	display: flex;
+	direction: column;
 	gap: 2em;
+
 }
 input[type="checkbox"] {
 	height: 25px;
@@ -186,4 +189,10 @@ input[type="checkbox"] {
 .checkbox-label {
 	font-size: 16px;
 	width: auto;
+}
+.checkbox-label-row{
+	align-items: center;
+	display:flex;
+	justify-content: start;
+	gap:1em;
 }

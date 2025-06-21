@@ -115,8 +115,11 @@ label {
 	justify-content: start;
 	gap:1em;
 }
-.getstarted-deadline-row input{
+.getstarted-deadline-row select{
 	max-width: 10%;
+}
+.getstarted-deadline-row select:first-of-type{
+	max-width: 20%;
 }
 .getstarted-deadline-row span{
 	font-size:2em;

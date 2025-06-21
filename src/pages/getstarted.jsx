@@ -368,7 +368,7 @@ function GetStarted() {
 						build something amazing and unique, reliable, on time,
 						and cost effective.
 						<br />
-						<br />I make an effort to respond to all messages
+						<br />I make an effort to respond to all messages within 24 hours during weekdays.
 					</div>
 					<div className="getstarted-hosting-info-row">
 						<a name="hosting" className="getstarted-hosting-link">
@@ -480,26 +480,28 @@ function GetStarted() {
 								)}
 								<div className="checkbox-container">
 									<label className="checkbox-label-row">
+									<div className="checkbox-label">
+											I already own this url
+										</div>
 										<input
 											type="checkbox"
 											name="ownurl"
 											checked={form.ownurl}
 											onChange={handleChange}
 										/>
-										<div className="checkbox-label">
-											I already own this url
-										</div>
+									
 									</label>
 									<label className="checkbox-label-row">
+									<div className="checkbox-label">
+											I will need hosting
+										</div>
 										<input
 											type="checkbox"
 											name="hosting"
 											checked={form.hosting}
 											onChange={handleChange}
 										/>
-										<div className="checkbox-label">
-											I will need hosting
-										</div>
+									
 									</label>
 								</div>
 							</div>
@@ -660,7 +662,7 @@ function GetStarted() {
 								)}
 							</div>
 							<div>
-								<label>Approximate Deadline</label>
+								<label>Approximate Deadline [ USA Style date: MM/DD/YYYY ]</label>
 								<div className="getstarted-deadline-row">
 									{/* Month dropdown */}
 									<select
