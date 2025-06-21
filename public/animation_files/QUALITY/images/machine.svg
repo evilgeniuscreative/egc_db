@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 17.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve">
+<g id="bar">
+</g>
+<g id="Computer">
+	<path fill="#E2F3F6" stroke="#000000" stroke-width="5" stroke-miterlimit="10" d="M148.4,83c0,0.4-0.3,0.6-0.5,0.6H55.8
+		c-0.3,0-0.5-0.3-0.5-0.6V13.9c0-0.4,0.3-0.6,0.5-0.6h92.2c0.3,0,0.5,0.3,0.5,0.6L148.4,83L148.4,83z"/>
+	<rect x="93.2" y="41.3" fill="#D9A664" stroke="#000000" stroke-width="6" stroke-miterlimit="10" width="15.5" height="15.5"/>
+</g>
+<path id="leg_3_" fill="#7CAFD7" stroke="#000000" stroke-width="6" stroke-miterlimit="10" d="M77.7,185.3c0,0.4,0.3,0.8,0.7,0.9
+	l12.9,1.4c0.4,0,0.8-0.3,0.8-0.7l3.6-50.2c0-0.5-0.3-0.8-0.7-0.9l-11.6-1.2c-0.4,0-0.8,0.3-0.8,0.7L77.7,185.3z"/>
+<path id="shoe" d="M90.6,194.5c-0.1,1.3-1.1,1.2-2.2,1.1l-9.2-0.8c-1.1-0.1-2.1-0.2-1.9-1.5l0.9-6.1c0.1-1.3,1.1-1.2,2.2-1.1
+	l8.8,0.8c1.1,0.1,2.1,0.2,1.9,1.5L90.6,194.5z"/>
+<path id="leg_2_" fill="#7CAFD7" stroke="#000000" stroke-width="6" stroke-miterlimit="10" d="M123,185.4c0,0.5-0.3,0.8-0.7,0.9
+	l-12.9,1.2c-0.4,0-0.8-0.3-0.8-0.7l-3.2-50.2c0-0.5,0.3-0.8,0.7-0.9l11.6-1.1c0.4,0,0.8,0.3,0.8,0.7L123,185.4z"/>
+<path id="shoe_1_" d="M110.1,194.5c0.1,1.3,1.1,1.2,2.2,1.1l9.2-0.7c1.1-0.1,2.1-0.2,1.9-1.5l-0.8-6.2c-0.1-1.3-1.1-1.2-2.2-1.1
+	l-8.8,0.7c-1.1,0.1-2.1,0.2-1.9,1.5L110.1,194.5z"/>
+<path fill="#D9A664" stroke="#000000" stroke-width="6" stroke-miterlimit="10" d="M79.3,79.1c-0.3,1.2-1.5,2-2.7,1.7l-6-1.4
+	c-1.2-0.3-2-1.5-1.7-2.7l2.1-9.1c0.3-1.2,1.5-2,2.7-1.7l6,1.4c1.2,0.3,2,1.5,1.7,2.7L79.3,79.1z"/>
+<path fill="#D9A664" stroke="#000000" stroke-width="6" stroke-miterlimit="10" d="M122.8,79.1c0.3,1.2,1.5,2,2.7,1.7l6-1.4
+	c1.2-0.3,2-1.5,1.7-2.7l-2.1-9.1c-0.3-1.2-1.5-2-2.7-1.7l-6,1.4c-1.2,0.3-2,1.5-1.7,2.7L122.8,79.1z"/>
+<path id="shirt_1_" fill="#FFDD82" stroke="#000000" stroke-width="6" stroke-miterlimit="10" d="M125.9,108.6
+	c0,8.6-49.9,8.6-49.9,0l-3-35.4l-3-3.8c0-14.4,6.1-21.1,13.7-21.1h34.2c7.6,0,13.7,6.5,13.7,21.1l-3.2,3.8L125.9,108.6z"/>
+<path id="butt_1_" fill="#7CAFD7" stroke="#000000" stroke-width="6" stroke-miterlimit="10" d="M125.9,112.3
+	c0,8.6-0.3,26.8-7.8,26.8H83.9c-7.6,0-7.8-18.1-7.8-26.8c0,0,15,4.4,24.9,4.4C110.9,116.7,125.9,112.3,125.9,112.3z"/>
+<path id="head_1_" stroke="#000000" stroke-width="2.2747" stroke-miterlimit="10" d="M118.6,28.3c0,13-7.9,17-17.6,17
+	s-17.6-4-17.6-17S91.3,4.8,101,4.8C110.7,4.8,118.6,15.3,118.6,28.3z"/>
+<g id="Chair">
+	<rect x="59.3" y="181.5" fill="#BCBEC0" stroke="#000000" stroke-width="6" stroke-miterlimit="10" width="3" height="5.9"/>
+	<path fill="#BCBEC0" stroke="#000000" stroke-width="6" stroke-miterlimit="10" d="M103.3,181.5c0,0.7-0.6,1.3-1.3,1.3h-3.2
+		c-0.7,0-1.3-0.6-1.3-1.3v-32c0-0.7,0.6-1.3,1.3-1.3h3.2c0.7,0,1.3,0.6,1.3,1.3V181.5z"/>
+	<path fill="#BCBEC0" stroke="#000000" stroke-width="6" stroke-miterlimit="10" d="M145.3,181.5h-40.8c-1.6,0-1.6-9.7,0-9.7h40.8
+		c1.6,0,3,1.4,3,3C148.3,174.8,146.9,181.5,145.3,181.5z"/>
+	<path fill="#BCBEC0" stroke="#000000" stroke-width="6" stroke-miterlimit="10" d="M55.4,181.5h40.8c1.6,0,1.6-9.7,0-9.7H55.4
+		c-1.6,0-3,1.4-3,3C52.4,174.8,53.7,181.5,55.4,181.5z"/>
+	<circle cx="62.2" cy="190.3" r="5.9"/>
+	<rect x="138.5" y="181.5" fill="#BCBEC0" stroke="#000000" stroke-width="6" stroke-miterlimit="10" width="3" height="5.9"/>
+	<circle cx="141.4" cy="190.3" r="5.9"/>
+	<path fill="#6D6E71" stroke="#000000" stroke-width="6" stroke-miterlimit="10" d="M131.2,146.9c0,0.7-0.5,1.3-1.1,1.3H71.1
+		c-0.6,0-1.1-0.6-1.1-1.3v-6.2c0-0.7,0.5-1.3,1.1-1.3h59.1c0.6,0,1.1,0.6,1.1,1.3L131.2,146.9L131.2,146.9z"/>
+	<path fill="#6D6E71" stroke="#000000" stroke-width="6" stroke-miterlimit="10" d="M126.8,122.9c0,0.6-0.5,1.2-1.2,1.2H75.2
+		c-0.6,0-1.2-0.5-1.2-1.2c-0.6-1.6-19.4-47.7-4.1-47.7h61C146.2,75.2,127.5,121.4,126.8,122.9z"/>
+	<path fill="#BCBEC0" stroke="#000000" stroke-width="6" stroke-miterlimit="10" d="M103.3,141.1c0,0.7-0.6,1.3-1.3,1.3h-3.2
+		c-0.7,0-1.3-0.6-1.3-1.3L85.7,116c0-0.7,12.3-3,13-3h3.2c0.7,0,13,2.2,13,3L103.3,141.1z"/>
+</g>
+</svg>

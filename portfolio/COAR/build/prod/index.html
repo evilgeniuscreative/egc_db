@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang = "en" ng-app = "app">
+<head>
+    <title ng-bind = "title">COAR Cisco OAuth Registration Application</title>
+    <meta http-equiv = 'cache-control' content = 'no-cache'>
+    <meta http-equiv = 'expires' content = '0'>
+    <meta http-equiv = 'pragma' content = 'no-cache'>
+    <link rel = "stylesheet" href = "resources/css/styles.css">
+    <link rel = "stylesheet" href = "resources/css/font-awesome.min.css">
+</head>
+<body>
+<!--<div id = "skip-to-main-content">-->
+<!--<a href="#" ng-click="moveFocusToFunction()" >Skip to Main Content</a>-->
+<!--</div>-->
+<div id = "modal-background"></div>
+<div id = "header-line" role = "presentation"></div>
+<div id = "wrap">
+    <ng-include src = "'resources/templates/shared/pageHead/pageHead.html'"></ng-include>
+    <main id = "main">
+        <ng-view></ng-view>
+    </main>
+</div>
+<script src="resources/js/vendor/combined.js"></script>
+<!--<script src="js/vendor/tota11y.min.js" type = "text/javascript"></script> accessibility hints -->
+
+<script src = "resources/js/app.js" type = "text/javascript"></script>
+
+</body>
+</html>

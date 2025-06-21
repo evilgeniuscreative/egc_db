@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="theme-color" content="#000000" />
+		<meta property="og:title" content="Evil Genius Creative" />
+		<meta
+			property="og:description"
+			content="Evil Genius Creative / EvilGeniusCreative.com: Creative services for web development, marketing, and design."
+		/>
+		<meta property="og:image" content="/egcog.jpg" />
+		<meta property="og:url" content="https://www.EvilGeniusCreative.com" />
+		<meta property="og:type" content="website" />
+		<title>
+			Evil Genius Creative / EvilGeniusCreative.com: Creative services for
+			web development, marketing, and design.
+		</title>
+		<script
+			type="text/javascript"
+			src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"
+		></script>
+		<script type="text/javascript">
+			(function () {
+				// https://dashboard.emailjs.com/admin/account
+				emailjs.init({
+					publicKey: "41CWR9J7p79kVgXoW",
+				});
+			})();
+		</script>
+		<script type="text/javascript">
+			window.onload = function () {
+				var form = document.getElementById("contact-form");
+				if (form) {
+					form.addEventListener("submit", function (event) {
+						event.preventDefault();
+						// these IDs from the previous steps
+						emailjs
+							.sendForm("contact_service", "contact_form", this)
+							.then(
+								() => {
+									console.log("SUCCESS!");
+								},
+								(error) => {
+									console.log("FAILED...", error);
+								}
+							);
+					});
+				}
+			};
+		</script>
+		<meta
+			name="description"
+			content="Evil Genius Creative / EvilGeniusCreative.com: Creative services for web development, marketing, and design."
+		/>
+		<meta
+			name="keywords"
+			content="Evil Genius Creative, EvilGeniusCreative, Evil Genius Creative, EvilGeniusCreative.com, web development, marketing, design"
+		/>
+	</head>
+	<body>
+		<noscript>You need to enable JavaScript to run this app.</noscript>
+		<div id="root"></div>
+	</body>
+</html>

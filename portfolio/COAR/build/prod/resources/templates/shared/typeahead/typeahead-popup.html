@@ -1,0 +1,10 @@
+<div>
+    <ul aria-label = "Dropdown select list for autocomplete" class = "uib-typeahead-popup dropdown-menu" ng-show = "isOpen() && !moveInProgress" role = "listbox" aria-hidden = "{{!isOpen()}}">
+        <li ng-repeat = "match in matches track by $index" ng-class = "{active: isActive($index) }" ng-mouseenter = "selectActive($index)" ng-click = "selectMatch($index, $event)" role = "option" id = "{{::match.id}}">
+            <div uib-typeahead-match index = "$index" match = "match" query = "query" template-url = "templateUrl"></div>
+        </li>
+    </ul>
+    <div role = "status" aria-live = "assertive" aria-atomic="true" aria-relevant = "additions" class="dropdown-status" style = "position:absolute; right:-100%;">
+        <p ng-if = "isOpen()"><span ng-bind="matches.length"></span> matches found</p>
+    </div>
+</div>

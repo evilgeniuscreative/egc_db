@@ -1,0 +1,6 @@
+<a aria-label = "Click to Copy {{title}}" aria-haspopup = "true" href = "" ng-click = "openMe()" ng-bind = "type == 'short'? shorttext : fulltext" ></a>
+<div aria-label = "Tooltip with {{title}} pre-selected. Use control or command dash c to copy" class = "copy-this-balloon ng-hide" ng-show = "showThis">
+    <button ng-click = "closeMe()"><span class="invisible">Close</span><i class = "fa fa-close"></i></button>
+    <p role = "presentation">Ctrl-C to Copy</p>
+    <input title = "{{title}}: ctrl-c to copy" type = "text" value = "{{fulltext}}">
+</div>

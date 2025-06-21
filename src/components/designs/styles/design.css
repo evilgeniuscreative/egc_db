@@ -1,0 +1,79 @@
+@import "../../../data/styles.css";
+
+.design {
+    mix-blend-mode: normal;
+    border-radius: 20px;
+    opacity: 0.8;
+    height: 100%;
+}
+
+.design a {
+    text-decoration: none;
+}
+
+.design:hover {
+    background: #fafafa;
+    opacity: 1;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.design:hover .design-link {
+    color: var(--link-color);
+    transition: color 0.3s ease-in-out;
+}
+
+.design-container {
+    padding: 30px;
+}
+
+.design-logo-wrap {
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+}
+.design-logo {
+    width: 30px;
+    align-self: center;
+    text-align: center;
+}
+
+.design-logo img {
+    width: 100%;
+}
+
+.design-title {
+    font-family: var(--secondary-font);
+    color: var(--primary-color);
+    font-size: 16px;
+    padding-top: 15px;
+    margin-bottom: 1em;
+    font-weight: 700;
+}
+
+.design-description {
+    color: var(--secondary-color);
+}
+
+.design-link {
+    display: flex;
+    align-items: center;
+    color: var(--secondary-color);
+    font-size: 12px;
+    padding-top: 20px;
+}
+
+.design-link-icon {
+    padding-left: 5px;
+    font-size: 13px;
+}
+
+.design-link-text {
+    padding-left: 20px;
+    font-weight: 700;
+}
+
+@media (max-width: 600px) {
+    .design {
+        height: 300px;
+    }
+}

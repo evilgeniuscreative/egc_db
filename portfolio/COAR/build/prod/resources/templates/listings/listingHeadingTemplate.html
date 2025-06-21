@@ -1,0 +1,9 @@
+<a href="" id="{{tableCtrl.tableType}}_heading_a_{{heading | shortenHeading }}" ng-click = "listingCtrl.sortType = heading; listingCtrl.sortReverse = !listingCtrl.sortReverse" aria-label="{{heading | screenReaderFriendly}}">
+  <span role="presentation" aria-hidden="true">{{heading | shortenHeading }}</span>
+  <span class="invisible">{{heading | screenReaderFriendly}}</span>
+    <i class = "fa" ng-class = "{
+    'fa-caret-up':listingCtrl.sortType == heading && listingCtrl.sortReverse,
+    'fa-caret-down':listingCtrl.sortType == heading && !listingCtrl.sortReverse,
+    'fa-unsorted':listingCtrl.sortType != heading
+    }" role="presentation"></i>
+</a>

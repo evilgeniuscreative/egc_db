@@ -1,0 +1,43 @@
+.homepage-rollover-image-container {
+	position: relative;
+	display: block;
+	width: 100%;
+	max-width: 500px; /* Or whatever fits your design */
+	height: 350px; /* Or whatever fits your design */
+	margin: 0 auto;
+}
+
+.homepage-rollover-image {
+	position: absolute;
+	top: 0;
+	left: 0;
+	transition: opacity 0.5s ease;
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+}
+.homepage-rollover-image-text {
+	margin-top: 5px;
+}
+.homepage-rollover-image-text a {
+	color: var(--secondary-color);
+	display: block;
+	font-size: 14px;
+	font-weight: bold;
+	text-align: center;
+	text-decoration: none;
+}
+
+.homepage-rollover-image.top {
+	pointer-events: auto;
+}
+
+.homepage-rollover-image.hidden {
+	opacity: 0;
+	z-index: 1;
+}
+
+.homepage-rollover-image.visible {
+	opacity: 1;
+	z-index: 2;
+}

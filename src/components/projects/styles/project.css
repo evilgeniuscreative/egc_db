@@ -1,0 +1,279 @@
+@import "../../../data/styles.css";
+
+@keyframes fadeInProject {
+	0% {
+		opacity: 0;
+		transform: translateY(20px);
+	}
+	100% {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.all-projects-project {
+	opacity: 0;
+	animation: fadeInProject 0.5s ease-in-out forwards;
+}
+
+/* Staggered animation delays for each project */
+.project-0 {
+	animation-delay: 0ms;
+}
+.project-1 {
+	animation-delay: 150ms;
+}
+.project-2 {
+	animation-delay: 300ms;
+}
+.project-3 {
+	animation-delay: 450ms;
+}
+.project-4 {
+	animation-delay: 600ms;
+}
+.project-5 {
+	animation-delay: 750ms;
+}
+.project-6 {
+	animation-delay: 900ms;
+}
+.project-7 {
+	animation-delay: 1050ms;
+}
+.project-8 {
+	animation-delay: 1200ms;
+}
+.project-9 {
+	animation-delay: 1350ms;
+}
+.project-10 {
+	animation-delay: 1500ms;
+}
+.project-11 {
+	animation-delay: 1650ms;
+}
+.project-12 {
+	animation-delay: 1800ms;
+}
+.project-13 {
+	animation-delay: 1950ms;
+}
+.project-14 {
+	animation-delay: 2100ms;
+}
+.project-15 {
+	animation-delay: 2250ms;
+}
+.project-16 {
+	animation-delay: 2400ms;
+}
+.project-17 {
+	animation-delay: 2550ms;
+}
+.project-18 {
+	animation-delay: 2700ms;
+}
+.project-19 {
+	animation-delay: 2850ms;
+}
+.project-20 {
+	animation-delay: 3000ms;
+}
+.project-21 {
+	animation-delay: 3150ms;
+}
+.project-22 {
+	animation-delay: 3300ms;
+}
+.project-23 {
+	animation-delay: 3450ms;
+}
+.project-24 {
+	animation-delay: 3600ms;
+}
+.project-25 {
+	animation-delay: 3750ms;
+}
+.project-26 {
+	animation-delay: 3900ms;
+}
+.project-27 {
+	animation-delay: 4050ms;
+}
+.project-28 {
+	animation-delay: 4200ms;
+}
+.project-29 {
+	animation-delay: 4350ms;
+}
+.project-30 {
+	animation-delay: 4500ms;
+}
+.project-31 {
+	animation-delay: 4650ms;
+}
+.project-32 {
+	animation-delay: 4800ms;
+}
+.project-33 {
+	animation-delay: 4950ms;
+}
+
+.project {
+	mix-blend-mode: normal;
+	border-radius: 20px;
+	opacity: 0.8;
+	height: 100%;
+	transition: background-color 0.5s ease-in-out;
+}
+
+.project a {
+	text-decoration: none;
+}
+
+.project:hover {
+	background: #fafafa;
+	opacity: 1;
+	transition: background-color 0.5s ease-in-out;
+}
+
+.project:hover .project-link {
+	color: var(--link-color);
+	transition: color 0.3s ease-in-out;
+}
+
+.project-container {
+	padding: 30px;
+	margin: 8px;
+}
+
+.project-logo-wrap {
+	display: flex;
+	justify-content: flex-start;
+	flex-direction: row;
+	gap: 10px;
+	min-height: 45px;
+}
+.project-logo {
+	width: 30px;
+	align-self: center;
+	text-align: center;
+}
+
+.project-logo img {
+	width: 100%;
+}
+
+.project-title {
+	font-family: var(--secondary-font);
+	color: var(--primary-color);
+	font-size: 16px;
+	padding-top: 15px;
+	margin-bottom: 1em;
+	font-weight: 700;
+}
+
+.description-container {
+	position: relative;
+	min-height: 145px;
+	width: 260.66px;
+}
+
+.project-description {
+	color: var(--secondary-color);
+	min-height: 145px;
+	margin-top: 15px;
+	overflow: hidden;
+	max-height: 100px;
+	transition: all 0.3s ease-in-out;
+}
+
+.full-description {
+	color: var(--secondary-color);
+	display: none;
+	min-height: 145px;
+	max-height: 750px;
+	margin-top: 15px;
+	transition: all 0.3s ease-in-out;
+}
+
+.project-link {
+	display: flex;
+	align-items: center;
+	color: var(--secondary-color);
+	font-size: 12px;
+	padding-top: 20px;
+}
+
+.project-link-section {
+	padding-top: 10px !important;
+}
+
+.project-link-text {
+	background-color: var(--lightest-gray);
+	color: var(--secondary-color);
+	display: block;
+	font-weight: 700;
+	font-size: 13px;
+	text-align: center;
+	padding: 3px 5px;
+	transition: all, 0.3s;
+}
+.project-link-text:hover {
+	background-color: var(--secondary-color);
+	color: var(--lightest-gray);
+	border-radius: 10px;
+	transition: all, 0.3s;
+}
+
+.project-thumb-section {
+	height: 125px;
+}
+.project-thumb {
+	height: 125px;
+	display: block;
+	width: auto;
+	max-width: 100%;
+	background-size: cover;
+	background-position: center center;
+	overflow: hidden;
+}
+.project-thumb-img {
+	height: 100%;
+	width: 100%;
+	object-fit: cover;
+}
+
+.project-linkurl {
+	color: var(--secondary-color);
+	font-size: 12px;
+	padding-top: 20px;
+}
+
+.projecct-thumb {
+	padding-top: 10px;
+	height: 160px;
+	width: 225px;
+}
+
+@media (max-width: 600px) {
+	.project-description {
+		display: none;
+	}
+	.full-description.mobile {
+		display: block;
+		min-height: 145px !important;
+		max-height: 750px;
+		height: auto;
+		min-height: 50px;
+		padding-top: 15px;
+	}
+	.project-thumb-section {
+		height: 300px;
+	}
+	.project-thumb {
+		background-size: cover;
+		height: 300px;
+	}
+}

@@ -1,0 +1,127 @@
+.contact-logo-container {
+	display: flex;
+	justify-content: left;
+	padding-top: 25px;
+}
+
+.contact-logo {
+	display: flex;
+	position: fixed;
+	border: 1px solid white;
+	border-radius: 50%;
+	box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+	top: 4vh;
+}
+
+.contact-subtitle {
+	width: 100% !important;
+	color: var(--primary-color);
+}
+
+.contact-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	margin-top: 120px;
+}
+
+.socials-container {
+	display: flex;
+	flex-direction: column;
+	margin-top: 80px;
+}
+
+.contact-socials {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+}
+
+
+/* Get Started */
+
+label {
+	display:block;
+}
+.usdx {
+	margin-top: 0.5em;
+	text-align: center;
+	font-size: 1.1em;
+	color: var(--primary-color);
+	font-weight: 500;
+}
+
+.getstarted-hosting-info-row {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	margin-bottom: 0.5em;
+}
+
+.getstarted-hosting-link {
+	font-size: 1em;
+	color: var(--primary-color);
+}
+
+.getstarted-phone-row {
+	display: flex;
+	align-items: center;
+	gap: 0.5em;
+}
+
+.getstarted-phone-select {
+	max-width: 300px;
+	text-align: right;
+}
+.deadline-quick-selects {
+	display: flex;
+	flex-direction: row;
+	font-size: 12px;
+	justify-content: space-between;
+	margin-bottom: 0.5em;
+}
+.deadline-quick-link {
+	border: 1px solid var(--white);
+	border-radius: 3px;
+	cursor: pointer;
+	padding: 0.15em 0.5em;
+	text-decoration: none;
+	transition: all 0.2s ease-in-out;
+}
+.deadline-quick-link:hover {
+	border: 1px solid var(--blue-dark);
+	background-color: var(--blue-med);
+	color: var(--white);
+	transition: all 0.2s ease-in-out;
+}
+.deadline-quick-link.selected {
+	border: 1px solid var(--blue-dark);
+	background-color: var(--blue-med);
+	color: var(--white);
+	transition: all 0.2s ease-in-out;
+}
+#budgetAmount {
+	max-width: 70%;
+}
+.getstarted-currency-select {
+	max-width: 29%;
+	margin-left:1%
+}
+.getstarted-currency-other {
+	max-width: 70%;
+}
+.getstarted-deadline-row{
+	display:flex;	
+	justify-content: start;
+	gap:1em;
+}
+.getstarted-deadline-row input{
+	max-width: 10%;
+}
+.getstarted-deadline-row span{
+	font-size:2em;
+}
+.getstarted-deadline-row label{
+	display:block;
+}
+

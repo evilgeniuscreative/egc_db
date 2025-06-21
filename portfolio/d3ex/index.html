@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>D3 Chart Examples</title>
+		<script src="https://d3js.org/d3.v6.min.js"></script>
+		<style>
+			body {
+				font-family: Arial, sans-serif;
+			}
+			.dashboard {
+				display: flex;
+				flex-direction: row;
+				flex-wrap: wrap;
+			}
+			fieldset {
+				border: 1px solid #333;
+				padding: 10px;
+				margin: 10px;
+			}
+			#pie-chart {
+				flex-grow: 1;
+			}
+			#bar-chart {
+				display: flex;
+				flex-direction: row-reverse;
+				flex-grow: 51;
+				align-items: center;
+				justify-content: start;
+				gap: 20px;
+				padding: 40px;
+				margin-top: -130px;
+			}
+			.x-axis {
+				fill: black;
+				font-size: 11px;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>D3 Chart Examples</h1>
+		<div class="dashboard">
+			<div id="pie-chart"></div>
+			<div id="arc-chart"></div>
+			<div id="bar-chart">
+				<form>
+					<fieldset>
+						<legend>Sort Data By:</legend>
+
+						<div>
+							<input
+								type="radio"
+								name="sortorder"
+								id="alpha"
+								value="0"
+								checked
+							/>
+							<label for="alpha">Alphabetical (default)</label>
+						</div>
+
+						<div>
+							<input
+								type="radio"
+								name="sortorder"
+								id="salesAsc"
+								value="1"
+							/>
+							<label for="salesAsc">Sales, ascending</label>
+						</div>
+						<div>
+							<input
+								type="radio"
+								name="sortorder"
+								id="salesDesc"
+								value="2"
+							/>
+							<label for="salesDesc">Sales, descending</label>
+						</div>
+					</fieldset>
+				</form>
+			</div>
+		</div>
+
+		<script>
+			const pieData = [
+				{ name: "Rent", value: 72500 },
+				{ name: "Wages", value: 92214 },
+				{ name: "Utilities", value: 64502 },
+				{ name: "Supplies", value: 58234 },
+				{ name: "Misc", value: 62992 },
+			];
+
+			const width = 500;
+			const height = 250; // Adjust height to be half for half-donut
+			const radius = Math.min(width, height * 2) / 2;
+
+			const arc = d3.arc().innerRadius(100).outerRadius(200);
+
+			const pie = d3
+				.pie()
+				.padAngle(1 / radius)
+				.sort(null)
+				.startAngle(-Math.PI / 2) // Start at the top (12 o'clock position)
+				.endAngle(Math.PI / 2) // End at the bottom (6 o'clock position)
+				.value((d) => d.value);
+
+			let color = d3
+				.scaleOrdinal()
+				.domain(pieData.map((d) => d.name))
+				.range(
+					d3
+						.quantize(
+							(t) => d3.interpolateSpectral(t * 0.8 + 0.1),
+							pieData.length
+						)
+						.reverse()
+				);
+
+			const svg = d3
+				.select("#pie-chart")
+				.append("svg")
+				.attr("width", width)
+				.attr("height", height) // Adjust height to fit half-donut
+				.attr("viewBox", [-width / 2, 0, width, height]) // Adjust viewBox for half-donut
+				.attr(
+					"style",
+					"max-width: 100%; height: auto; overflow: visible;"
+				);
+
+			const title = svg
+				.append("text")
+				.attr("x", 0)
+				.attr("y", -height + 20) // Position title above the half-donut
+				.attr("text-anchor", "middle")
+				.attr("font-size", "16px")
+				.attr("font-weight", "bold")
+				.text("Monthly Expenses");
+
+			const g = svg
+				.append("g")
+				.attr("transform", `translate(0, ${height})`); // Center the half-donut in the SVG
+
+			function updateChart(data) {
+				if (!data || data.length === 0) {
+					console.error("Data array is empty or undefined");
+					return;
+				}
+
+				const arcs = pie(data);
+
+				const path = g.selectAll("path").data(arcs);
+
+				// Define the color scale
+				let acolor = d3
+					.scaleOrdinal()
+					.domain(pieData.map((d) => d.name))
+					.range(
+						d3
+							.quantize(
+								(t) => d3.interpolateSpectral(t * 0.8 + 0.1),
+								pieData.length
+							)
+							.reverse()
+					);
+
+				path.join(
+					(enter) => {
+						enter
+							.append("path")
+							.attr("fill", (d) => color(d.index))
+							.each(function (d) {
+								this._current = d;
+							})
+							.attr("d", arc);
+					},
+
+					(update) => {
+						update
+							.transition()
+							.duration(750)
+							.attrTween("d", function (d) {
+								const i = d3.interpolate(this._current, d);
+								this._current = i(0);
+								return (t) => arc(i(t));
+							});
+					},
+
+					(exit) => exit.remove()
+				);
+
+				const text = g.selectAll("text").data(arcs);
+
+				text.join(
+					(enter) => {
+						enter
+							.append("text")
+							.attr(
+								"transform",
+								(d) => `translate(${arc.centroid(d)})`
+							)
+							.call((text) => {
+								text.append("tspan")
+									.attr("y", "-0.4em")
+									.attr("font-weight", "bold")
+									.attr("font-size", "12px")
+									.text((d) => `${d.data.name}`);
+							})
+							.call((text) => {
+								text.filter(
+									(d) => d.endAngle - d.startAngle > 0.25
+								)
+									.append("tspan")
+									.attr("x", 0)
+									.attr("y", "0.7em")
+									.attr("font-size", "12px")
+									.attr("fill-opacity", 0.7)
+									.text(
+										(d) =>
+											`$${d.data.value.toLocaleString()}`
+									);
+							});
+					},
+
+					(update) => {
+						update.selectAll("tspan").remove();
+
+						update
+							.attr(
+								"transform",
+								(d) => `translate(${arc.centroid(d)})`
+							)
+							.call((text) => {
+								text.append("tspan")
+									.attr("y", "-0.4em")
+									.attr("font-weight", "bold")
+									.attr("font-size", "12px")
+									.text((d) => `${d.data.name}`);
+							})
+							.call((text) => {
+								text.append("tspan")
+									.attr("font-weight", "normal")
+									.attr("font-size", "12px")
+									.attr("x", 0)
+									.attr("y", "0.7em")
+									.text(
+										(d) =>
+											`$${d.data.value.toLocaleString()}`
+									);
+							});
+					},
+
+					(exit) => exit.remove()
+				);
+			}
+
+			function generateRandomData() {
+				return pieData.map((d) => {
+					return {
+						name: d.name,
+						value: Math.floor(Math.random() * 300000),
+					};
+				});
+			}
+
+			updateChart(pieData);
+			setInterval(() => {
+				const newData = generateRandomData();
+				updateChart(newData);
+			}, 3000);
+
+			//------- ARC CHART -------//
+
+			// Data
+			let arcData = [
+				{ name: "Rent", value: 72500 },
+				{ name: "Wages", value: 92214 },
+				{ name: "Utilities", value: 64502 },
+				{ name: "Supplies", value: 58234 },
+				{ name: "Misc", value: 62992 },
+			];
+
+			// Set dimensions
+			const awidth = 500;
+			const aheight = 250; // Adjust height to be half of the width for a half-circle
+
+			// Define the arc generator
+			const aarc = d3
+				.arc()
+				.innerRadius(100) // Adjust if you want a donut chart (set to 0 for pie chart)
+				.outerRadius(200)
+				.startAngle((d) => d.startAngle) // Start angle will be calculated by pie
+				.endAngle((d) => d.endAngle); // End angle will be calculated by pie
+
+			// Define the pie generator
+			const apie = d3
+				.pie()
+				.sort(null) // Keep the order of the data as is
+				.value((d) => d.value) // Define the value accessor
+				.startAngle(-Math.PI / 2) // Start the pie at the top (-90 degrees)
+				.endAngle(Math.PI / 2); // End the pie at the bottom (90 degrees)
+
+			// Define the color scale
+			let acolor = d3
+				.scaleOrdinal()
+				.domain(arcData.map((d) => d.name))
+				.range(
+					d3
+						.quantize(
+							(t) => d3.interpolateSpectral(t * 0.8 + 0.1),
+							arcData.length
+						)
+						.reverse()
+				);
+
+			// Create the SVG container
+			const asvg = d3
+				.select("#arc-chart")
+				.append("svg")
+				.attr("width", awidth)
+				.attr("height", aheight)
+				.attr("viewBox", [-awidth / 2, 0, awidth, aheight]) // Adjust viewBox for half-circle
+				.attr(
+					"style",
+					"max-width: 100%; height: auto; overflow: visible;"
+				);
+
+			// Add a title
+			const atitle = asvg
+				.append("text")
+				.attr("x", 0)
+				.attr("y", -aheight / 2 + 20)
+				.attr("text-anchor", "middle")
+				.attr("font-size", "16px")
+				.attr("font-weight", "bold")
+				.text("Monthly Expenses");
+
+			// Append the group that will hold the arcs
+			const ag = asvg
+				.append("g")
+				.attr("transform", `translate(0,${aheight})`); // Translate to the bottom of the SVG
+
+			// Create the arcs and bind data
+			ag.selectAll("path")
+				.data(apie(arcData))
+				.join("path")
+				.attr("d", aarc)
+				.attr("fill", (d) => acolor(d.data.name))
+				.attr("stroke", "white")
+				.style("stroke-width", "2px");
+
+			// Optionally, add labels
+			ag.selectAll("text")
+				.data(apie(arcData))
+				.join("text")
+				.attr("transform", (d) => `translate(${aarc.centroid(d)})`)
+				.attr("text-anchor", "middle")
+				.attr("font-size", "10px")
+				.text((d) => d.data.name);
+
+			//--------------------------------------------------------------------------------//
+			// sortable bar chart
+
+			let barData = [
+				{ company: "Webco", sales: 10234 },
+				{ company: "WidgetMania", sales: 12983 },
+				{ company: "Bookstop", sales: 4876 },
+				{ company: "Chewme", sales: 22211 },
+				{ company: "Club Jedi", sales: 3209 },
+				{ company: "Orange Dev", sales: 6876 },
+				{ company: "Psychedelic Party Shop", sales: 4269 },
+				{ company: "Tin Mountain", sales: 17376 },
+				{ company: "Shibboleth Co.", sales: 11122 },
+				{ company: "Sinking Subs", sales: 9298 },
+			];
+
+			let order = { value: "0" };
+
+			function createBarChart() {
+				const bwidth = 550;
+				const bheight = 550;
+				const marginTop = 20;
+				const marginRight = 0;
+				const marginBottom = 100;
+				const marginLeft = 40;
+
+				// default sort: alphabetical
+				barData = barData.sort((a, b) =>
+					d3.ascending(a.company, b.company)
+				);
+
+				console.log("initial barData", barData);
+
+				// Declare the x (horizontal position) scale and the corresponding axis generator.
+				const x = d3
+					.scaleBand()
+					.domain(barData.map((d) => d.company))
+					.range([marginLeft, bwidth - marginRight])
+					.padding(0.1);
+
+				const xAxis = d3.axisBottom(x).tickSizeOuter(0);
+
+				// Declare the y (vertical position) scale.
+				const y = d3
+					.scaleLinear()
+					.domain([0, d3.max(barData, (d) => d.sales)])
+					.nice()
+					.range([bheight - marginBottom, marginTop]);
+
+				// Create the SVG container.
+				const bsvg = d3
+					.create("svg")
+					.attr("viewBox", [0, 0, bwidth, bheight])
+					.attr("preserveAspectRatio", "xMaxYMin")
+					.attr(
+						"style",
+						`max-width: ${bwidth}px; height: auto; font: 10px sans-serif; overflow: visible;`
+					);
+
+				const title = bsvg
+					.append("text")
+					.attr("x", "120%")
+					.attr("y", height / 3.35)
+					.attr("text-anchor", "middle")
+					.attr("font-size", "16px")
+					.attr("font-weight", "bold")
+					.text("Sales by Company");
+
+				const bar = bsvg
+					.append("g")
+					.attr("fill", "darkgreen")
+					.selectAll("rect")
+					.data(barData)
+					.join("rect")
+					.style("mix-blend-mode", "multiply")
+					.attr("x", (d) => x(d.company))
+					.attr("y", (d) => y(d.sales))
+					.attr("height", (d) => y(0) - y(d.sales))
+					.attr("width", x.bandwidth());
+
+				const gx = bsvg
+					.append("g")
+					.attr("transform", `translate(0,${bheight - marginBottom})`)
+					.call(xAxis)
+					.selectAll("text")
+					.attr("fill", "black")
+					.attr("class", "x-axis")
+					.attr("transform", "rotate(-60)")
+					.style("text-anchor", "end")
+					.attr("dx", "-1.5em")
+					.attr("dy", "-0.5em");
+
+				const gy = bsvg
+					.append("g")
+					.attr("transform", `translate(${marginLeft},0)`)
+					.call(d3.axisLeft(y).ticks(5))
+					.call((g) => g.select(".domain").remove());
+
+				return Object.assign(bsvg.node(), {
+					update(order) {
+						console.log("order:", order.value, "barData", barData);
+						x.domain(barData.sort(orderFn).map((d) => d.company));
+
+						const t = bsvg.transition().duration(750);
+
+						bar.data(barData, (d) => d.company)
+							.order()
+							.transition(t)
+							.delay((d, i) => i * 20)
+							.attr("x", (d) => x(d.company));
+
+						gx.transition(t)
+							.call(xAxis)
+							.selectAll(".tick")
+							.delay((d, i) => i * 20);
+					},
+				});
+			}
+
+			// Now you can call createBarChart() to create the chart and get the update function.
+			const chart = createBarChart();
+
+			// Append the chart to a container in your HTML.
+			document.getElementById("bar-chart").appendChild(chart);
+
+			function orderFn(order) {
+				switch (order.value) {
+					case "0":
+						return (a, b) => d3.ascending(a.company, b.company);
+					case "1":
+						return (a, b) => d3.ascending(a.sales, b.sales);
+					case "2":
+						return (a, b) => d3.descending(a.sales, b.sales);
+				}
+			}
+
+			const update = () => {
+				console.log("order:", order.value);
+				barData.sort(orderFn(order));
+				chart.update(barData);
+				d3.selectAll("text").attr("fill", "black");
+			};
+
+			const alphabetical = document.getElementById("alpha");
+			const salesAsc = document.getElementById("salesAsc");
+			const salesDesc = document.getElementById("salesDesc");
+
+			alphabetical.addEventListener("change", function () {
+				order = { value: "0" };
+				update();
+				console.log("order.value", order.value);
+			});
+
+			salesAsc.addEventListener("change", function () {
+				order = { value: "1" };
+				update();
+				console.log("order.value", order.value);
+			});
+
+			salesDesc.addEventListener("change", function () {
+				order = { value: "2" };
+				update();
+				console.log("order.value", order.value);
+			});
+		</script>
+	</body>
+</html>

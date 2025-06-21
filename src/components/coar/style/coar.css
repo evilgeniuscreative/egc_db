@@ -1,0 +1,24 @@
+.coar table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+.coar th, td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.coar th {
+    cursor: pointer;
+}
+
+.coar th.sort-asc::after {
+    content: " \u25B2"; /* Up arrow */
+}
+
+.coar th.sort-desc::after {
+    content: " \u25BC"; /* Down arrow */
+}
+

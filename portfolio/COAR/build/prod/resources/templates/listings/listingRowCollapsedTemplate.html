@@ -1,0 +1,49 @@
+<td class = "lr-item lr-type">
+    <span class="invisible">{{regItem.type}}</span>
+    <span aria-hidden="true">{{regItem.type | shortenByIdType }}</span>
+</td>
+<td class = "lr-item lr-cecId" aria-label = "C E C I D">
+    {{regItem.owner[0].cecId}}
+</td>
+<td class = "lr-item lr-expires" ng-class="{'expiring':regItem.expiresDays <=14}">
+    <a warn-icon days="{{regItem.expiresDays}}"></a>
+    <span class = "days-num">{{regItem.expiresDays}}</span>
+    <span class = "days-text">{{ regItem.expiresDays | dayOrDays}}</span>
+    <button ng-show="regItem.expiresDays <= 14" aria-hidden="{{regItem.expiresDays > 14}}" ng-click="buttonClick('renew, inline')">Renew</button>
+</td>
+<td class = "lr-item lr-consumer-id" aria-label = "Consumer I D">
+    {{regItem.consumer.emanApplicationName}}
+</td>
+<td class = "lr-item lr-provider-id" aria-label = "Provider I D">
+    {{regItem.provider.emanApplicationName}}
+</td>
+<td class = "lr-item lr-consumer-key">
+    <copy-to-clipboard type="short" title="Consumer Key" fulltext="{{regItem.consumerKey}}"></copy-to-clipboard>
+</td>
+<td class = "lr-item lr-consumer-secret">
+    <copy-to-clipboard type="short" title="Consumer Secret" fulltext="{{regItem.consumerSecret}}"></copy-to-clipboard>
+</td>
+<td class = "lr-item lr-locked">
+    <a class = "icon-wrap">
+        <i role="img" aria-label="Item {{regItem.locked === false ? 'unlocked': 'locked'; }}" class = "fa" ng-class = "{'fa-unlock':regItem.locked === false,'fa-lock':regItem.locked === true }"></i>
+    </a>
+</td>
+<td class = "lr-item lr-approved">
+    <a class = "icon-wrap">
+        <i role="img" aria-label="Item {{regItem.approved === false ? 'not': ''; }} approved" class = "fa" ng-class = "{'fa-close':regItem.approved === false,'fa-check':regItem.approved === true }"></i>
+    </a>
+</td>
+<td class = "lr-item lr-expand" >
+    <!--<span id="exp_{{regItem.consumerKey.substr(0,9)}}" tabindex="-1"></span>-->
+    <a href="" ng-click = "expandedRowTransition($event, regItem)" class = "icon-wrap"
+                 aria-label = "{{ regItem.showExpanded == 'closed' ? 'Click to display full record below' :'Click to collapse'}}"
+                 aria-expanded = "{{regItem.showExpanded == 'closed' ? 'false':'true'}}"
+                 aria-controls = "{{tableCtrl.tableType}}_row{{$parent.$index+1}}_child"
+    >
+        <i aria-hidden="true" class = "fa fa-expand" ng-class = "{
+        'fa-caret-right':!regItem.showExpanded || regItem.showExpanded == 'closed' || regItem.showExpanded == 'closing',
+        'fa-caret-right turned':regItem.showExpanded == 'opening' || regItem.showExpanded == 'open'
+        }"></i>
+    </a>
+
+</td>

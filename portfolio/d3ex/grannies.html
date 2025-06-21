@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="https://d3js.org/d3.v7.min.js"></script>
+		<style>
+			.legend-item,
+			.arc {
+				cursor: pointer;
+			}
+			.arc-text {
+				fill: white;
+				font-family: Arial, Helvetica, sans-serif;
+				font-weight: bold;
+				pointer-events: none;
+			}
+			.chart {
+				align-items: center;
+				display: flex;
+				font-family: Arial, Helvetica, sans-serif;
+				justify-content: center;
+				width: 500px;
+			}
+			.legend-text {
+				fill: white;
+				font-family: Arial, Helvetica, sans-serif;
+				font-family: sans-serif;
+				pointer-events: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="chart"></div>
+
+		<script>
+			// Data
+			const data = [
+				{ breed: "Siamese", percentage: 10, color: "#80CBC4" },
+				{ breed: "Himalayan", percentage: 20, color: "#039BE5" },
+				{ breed: "Tabby", percentage: 30, color: "#66BB6A" },
+				{ breed: "Gray", percentage: 40, color: "#FFA726" },
+			];
+
+			// Set up dimensions
+			const width = 500;
+			const height = 500;
+			const margin = 40;
+			const legendHeight = 50;
+
+			// Calculate cumulative percentages for manual arc creation
+			let cumulative = 0;
+			const arcs = data.map((d) => {
+				const startAngle = -Math.PI / 2 + Math.PI * cumulative;
+				cumulative += d.percentage / 100;
+				return {
+					data: d,
+					startAngle: startAngle,
+					endAngle: -Math.PI / 2 + Math.PI * cumulative,
+				};
+			});
+
+			// Create SVG
+			const svg = d3
+				.select("#chart")
+				.append("svg")
+				.attr("viewBox", `0 0 ${width} ${height}`)
+				.attr("width", "600px")
+				.attr("height", "600px");
+
+			// Create arc chart group
+			const chartGroup = svg
+				.append("g")
+				.attr("class", "chart-group")
+				.attr(
+					"transform",
+					`translate(${width / 2}, ${(height - legendHeight) / 1.5})`
+				);
+
+			// Create arc generator
+			const arc = d3
+				.arc()
+				.innerRadius(width * 0.25)
+				.outerRadius(width * 0.4);
+
+			// Create arcs
+			const arcPaths = chartGroup
+				.selectAll("path")
+				.data(arcs)
+				.join("path")
+				.attr("d", arc)
+				.attr("fill", (d) => d.data.color)
+				.attr("class", "arc");
+
+			// Add percentage labels
+			const arcLabels = chartGroup
+				.selectAll(".label")
+				.data(arcs)
+				.join("text")
+				.attr("transform", (d) => `translate(${arc.centroid(d)})`)
+				.attr("text-anchor", "middle")
+				.attr("dy", ".35em")
+				.attr("class", "arc-text")
+				.style("font-size", `${width * 0.05}px`)
+				.text((d) => `${d.data.percentage}%`);
+
+			// Create legend
+			const legendGroup = svg
+				.append("g")
+				.attr("class", "legend-group")
+				.attr("transform", `translate(0, ${height - legendHeight})`);
+
+			const legendWidth = width / data.length;
+
+			const legendItems = legendGroup
+				.selectAll("g")
+				.data(data)
+				.join("g")
+				.attr("class", "legend-item")
+				.attr(
+					"transform",
+					(d, i) => `translate(${i * legendWidth}, 0)`
+				);
+
+			// Add legend rectangles
+			legendItems
+				.append("rect")
+				.attr("class", "legend-rect")
+				.attr("width", legendWidth)
+				.attr("height", legendHeight)
+				.attr("fill", (d) => d.color);
+
+			// Add legend text
+			legendItems
+				.append("text")
+				.attr("x", legendWidth / 2)
+				.attr("y", legendHeight / 2)
+				.attr("text-anchor", "middle")
+				.attr("dominant-baseline", "middle")
+				.attr("class", "legend-text")
+				.text((d) => d.breed);
+
+			// Handle highlighting
+			function highlight(selectedBreed) {
+				arcPaths.style("opacity", (d) =>
+					d.data.breed === selectedBreed ? 1 : 0.3
+				);
+				legendItems.style("opacity", (d) =>
+					d.breed === selectedBreed ? 1 : 0.3
+				);
+			}
+
+			function resetHighlight() {
+				arcPaths.style("opacity", 1);
+				legendItems.style("opacity", 1);
+			}
+
+			// Add click interactions for both arcs and legend
+			arcPaths.on("click", function (event, d) {
+				const isCurrentlySelected =
+					this.getAttribute("data-selected") === "true";
+
+				// Remove selected state from all elements
+				arcPaths.attr("data-selected", false);
+
+				if (!isCurrentlySelected) {
+					this.setAttribute("data-selected", true);
+					highlight(d.data.breed);
+				} else {
+					resetHighlight();
+				}
+			});
+
+			legendItems.on("click", function (event, d) {
+				const isCurrentlySelected =
+					this.getAttribute("data-selected") === "true";
+
+				// Remove selected state from all elements
+				legendItems.attr("data-selected", false);
+
+				if (!isCurrentlySelected) {
+					this.setAttribute("data-selected", true);
+					highlight(d.breed);
+				} else {
+					resetHighlight();
+				}
+			});
+		</script>
+	</body>
+</html>

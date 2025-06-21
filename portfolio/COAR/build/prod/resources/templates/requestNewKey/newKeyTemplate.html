@@ -1,0 +1,102 @@
+<section class = "request-new-key">
+    <header ng-show = "!newkeyCtrl.submitted">
+        <h1>Request New Registry Key</h1>
+        <p>Request a new authorization key or whatever helpful text we want to put here &amp; such.</p>
+    </header>
+    <header ng-show = "newkeyCtrl.submitted">
+        <h1>Confirm New Registry Key</h1>
+        <p>You have successfully submitted a new registration key request.</p>
+    </header>
+
+    <section ng-show = "!newkeyCtrl.submitted">
+        <form name = "requestKeyForm" ng-submit = "newkeyCtrl.submitForm(requestKeyForm.$valid)" id = "request-key-form" novalidate>
+            <p>All sections are required
+                <a acc-icon m = "Required" ic = "star" s = "3" va = "1"></a>
+            </p>
+            <label for = "registrationType">Registration Type
+                <a acc-icon m = "Required" va = "1" ic = "star" s = "3"></a>
+            </label>
+            <div class = "input-group" ng-class = "{'has-error':requestKeyForm.registrationType.$invalid && requestKeyForm.registrationType.$touched }">
+                <select name = "registrationType" id = "registrationType" ng-model = "key.registration_type" aria-required = "true" required>
+                    <option value = "Individual">Individual</option>
+                    <option value = "Masquerading">Masquerading</option>
+                    <option value = "Provider">Provider</option>
+                </select>
+                <div class = "help-block" ng-messages = "requestKeyForm.registrationType.$error" ng-show = "requestKeyForm.registrationType.$touched">
+                    <div ng-messages-include = "./resources/templates/shared/error/errors.html"></div>
+                </div>
+            </div>
+            <label for = "consumerId">Consumer ID
+                <a acc-icon m = "Required" va = "1" ic = "star" s = "3"></a>
+                <span class = "label-help"><i acc-icon ic = "info-circle" m = "Information"></i> Autocomplete</span>
+            </label>
+            <div class = "input-group wr-link" ng-class = "{'has-error':requestKeyForm.consumerId.$invalid && requestKeyForm.consumerId.$touched}">
+                <input type = "text" id = "consumerId" name = "consumerId" aria-required = "true" ng-model = "key.consumer_id" uib-typeahead = "emanName for emanName in newkeyCtrl.emanNames | filter: $viewValue | limitTo:10" typeahead-no-results = "noResults1" required />
+                <ul class = "no-results-dropdown" ng-if = "noResults1">
+                    <li>
+                        <div>
+                            <a><strong>No Results</strong></a>
+                        </div>
+                    </li>
+                </ul>
+                <a title = "Generate New Consumer ID" class = "input-group-addon button" href = "http://eman-core.cisco.com/OPDATA/Admin/ApplMgmt/" target = "_blank">
+                    New
+                </a>
+                <div class = "help-block" ng-messages = "requestKeyForm.consumerId.$error" ng-show = "requestKeyForm.consumerId.$touched">
+                    <div ng-messages-include = "./resources/templates/shared/error/errors.html"></div>
+                </div>
+            </div>
+
+            <label for = "providerId">Provider ID
+                <a acc-icon m = "Required" va = "1" ic = "star" s = "3"></a>
+                <span class = "label-help"><i acc-icon ic = "info-circle" m = "Information"></i>  Autocomplete</span>
+            </label>
+            <div class = "input-group wr-link" ng-class = "{'has-error':requestKeyForm.providerId.$invalid && requestKeyForm.providerId.$touched }">
+                <input type = "text" id = "providerId" name = "providerId" aria-required = "true" ng-model = "key.provider_id" uib-typeahead = "emanName for emanName in newkeyCtrl.emanNames | filter: $viewValue | limitTo:10" typeahead-no-results = "noResults2" required />
+                <ul class = "no-results-dropdown" ng-if = "noResults2">
+                    <li>
+                        <div>
+                            <a><strong>No Results</strong></a>
+                        </div>
+                    </li>
+                </ul>
+                <a title = "Generate New Provider ID" class = "input-group-addon button" href = "http://eman-core.cisco.com/OPDATA/Admin/ApplMgmt/" target = "_blank">
+                    New
+                </a>
+                <div class = "help-block" ng-messages = "requestKeyForm.providerId.$error" ng-show = "requestKeyForm.providerId.$touched">
+                    <div ng-messages-include = "./resources/templates/shared/error/errors.html"></div>
+                </div>
+            </div>
+            <label for = "businessJustification">Business Justification
+                <a acc-icon m = "Required" va = "1" ic = "star" s = "3"></a>
+            </label>
+            <div class = "input-group" ng-class = "{'has-error':requestKeyForm.businessJustification.$invalid && requestKeyForm.businessJustification.$touched }">
+                <textarea name = "businessJustification" id = "businessJustification" ng-model = "key.business_justification" cols = "30" rows = "5" aria-required = "true" ng-minlength = "10" ng-maxlength = "75" required></textarea>
+                <div class = "help-block" ng-messages = "requestKeyForm.businessJustification.$error" ng-show = "requestKeyForm.businessJustification.$touched">
+                    <p ng-message = "minlength">{{newkeyCtrl.charCount(requestKeyForm.businessJustification)}} more
+                        characters required</p>
+                    <p ng-message = "required">This field is required</p>
+                    <p ng-message = "maxlength">This field exceeds max length of 75</p>
+                </div>
+            </div>
+            <div class = "submit-section">
+                <button type = "reset" class = "cancel">Cancel</button>
+                <button type = "submit" class = "right" ng-disabled = "requestKeyForm.$invalid">Request Registry
+                </button>
+            </div>
+        </form>
+
+    </section>
+    <section ng-show = "newkeyCtrl.submitted">
+        <table class = "confirmed-key" cellspacing = "0">
+            <tr ng-repeat = "(k,v) in key">
+                <td>{{k | cleanupToUpper}}</td>
+                <td>{{v}}</td>
+            </tr>
+        </table>
+        <p>
+            <a href = "#/">Return to My Registrations</a>
+        </p>
+
+    </section>
+</section>

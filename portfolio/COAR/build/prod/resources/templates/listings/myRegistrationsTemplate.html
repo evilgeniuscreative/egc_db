@@ -1,0 +1,23 @@
+<section class = "listings">
+    <header>
+        <h1>My Registrations</h1>
+        <p>All of your COAR registrations are listed here, separated into Active and Expired tabbed sections. These data
+            tables are dynamic and can be sorted by their header columns. Each row is a summary of the most pertinent
+            information, which can be expanded to show the entire registration record via the expand icon-link in the
+            last cell of each row. Click the Consumer Key or Secret links for a popup that will allow you to copy the full key.</p>
+    </header>
+    <tab-set>
+        <one-tab heading = "Active">
+            <div id = "active-panel" role = "tabpanel" aria-labelledby = "active-listings" class = "listing-table">
+                <table tabindex = "0" listing-table id = "active-table" class = "listing-table" tt = "active" role = "grid" aria-readonly = "true" summary = "To sort a column, activate its focusable column header. Each row shows a summary of COAR info, and can be expanded to show more details by clicking the expand link in the last cell of the row."></table>
+            </div>
+        </one-tab>
+        <one-tab heading = "Expired">
+            <div id = "expired-panel" role = "tabpanel" aria-labelledby = "expired-listings" class = "listing-table">
+                <table tabindex = "0" listing-table id = "expired-table" class = "listing-table" tt = "expired" role = "grid" aria-readonly = "true" summary = "To sort a column, activate its focusable column header. Each row shows a summary of COAR info, and can be expanded to show more details by clicking the expand link in the last cell of the row."></table>
+            </div>
+        </one-tab>
+    </tab-set>
+</section>
+
+

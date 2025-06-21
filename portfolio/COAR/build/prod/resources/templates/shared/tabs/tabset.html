@@ -1,0 +1,8 @@
+<div role = "tabpanel" class="tab-widget">
+    <ul class = "tab-menu" role = "tablist">
+        <li tab-tab ng-repeat = "tab in tabsetCtrl.tabs" ng-click = "tabsetCtrl.select(tab)">
+            <span>{{tab.heading}}</span>
+        </li>
+    </ul>
+    <ng-transclude></ng-transclude>
+</div>

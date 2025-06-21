@@ -1,0 +1,123 @@
+<!-- EXPANDED ITEMS -->
+<td colspan = "10">
+    <ul class="ul-expanded clearfix" aria-label="Expanded Row Details">
+        <li>
+            <div class = "ex-title">
+                TYPE
+            </div>
+            <div class = "ex-detail top-row">{{regItem.type }}</div>
+        </li>
+
+        <li>
+            <div class = "ex-title col-two">
+                <span aria-hidden="true">CECID</span>
+               <span class="invisible">C E C I D</span>
+            </div>
+            <div class = "ex-detail col-two top-row">{{regItem.owner[0].cecId}}</div>
+        </li>
+
+        <li>
+            <div class = "ex-title">
+                CONSUMER ID
+            </div>
+            <div class = "ex-detail">{{regItem.consumer.emanApplicationName}}</div>
+        </li>
+
+        <li>
+            <div class = "ex-title col-two">
+                DESCRIPTION
+            </div>
+            <div class = "ex-detail col-two">{{regItem.description}}</div>
+        </li>
+
+        <li>
+            <div class = "ex-title">PROVIDER ID</div>
+            <div class = "ex-detail">{{regItem.provider.emanApplicationName}}</div>
+        </li>
+
+        <li>
+            <div class = "ex-title col-two">LOCKED</div>
+            <div class = "ex-detail icon-div col-two">
+                <i class = "fa" ng-class = "{'fa-unlock':regItem.locked === false,'fa-lock':regItem.locked === true }"></i>
+            </div>
+        </li>
+
+        <li>
+            <div class = "ex-title">
+                CONSUMER KEY
+            </div>
+            <div class = "ex-detail">
+                <copy-to-clipboard type="full" title="Consumer Key" fulltext="{{regItem.consumerKey}}"></copy-to-clipboard>
+            </div>
+        </li>
+
+        <li>
+            <div class = "ex-title col-two">APPROVED</div>
+            <div class = "ex-detail icon-div col-two">
+                <i class = "fa" ng-class = "{'fa-close':regItem.approved === false,'fa-check':regItem.approved === true }"></i>
+            </div>
+        </li>
+
+        <li>
+            <div class = "ex-title">
+                CONSUMER SECRET
+            </div>
+            <div class = "ex-detail">
+                <copy-to-clipboard type="full" title="Consumer Secret" fulltext="{{regItem.consumerSecret}}"></copy-to-clipboard>
+            </div>
+        </li>
+
+        <li>
+            <div class = "ex-title col-two">ADDITIONAL OWNERS</div>
+            <div class = "ex-detail col-two">...</div>
+        </li>
+
+        <li>
+            <div class = "ex-title">PARENT KEY</div>
+            <div class = "ex-detail">
+                <span class = "faded"> {{regItem.parentKey}}</span>
+            </div>
+        </li>
+
+        <li>
+            <div class = "ex-title col-two">PENDING OWNERS</div>
+            <div class = "ex-detail col-two">...</div>
+        </li>
+
+        <li>
+            <div class = "ex-title">
+                CREATED
+            </div>
+            <div class = "ex-detail">
+                {{regItem.created | date}}
+            </div>
+        </li>
+
+        <li>
+            <div class = "ex-title col-two">ACCEPT OWNERSHIP</div>
+            <div class = "ex-detail col-two">{{regItem.hasOwnershipToAccept}}</div>
+        </li>
+
+        <li>
+            <div class = "ex-title">
+                EXPIRES
+            </div>
+            <div class = "ex-detail" ng-class = "listingCtrl.daysNum(regItem.expiresDays)">
+              <a warn-icon days="{{regItem.expiresDays}}"></a>
+                {{regItem.expires | date}}: {{regItem.expiresDays}} {{ regItem.expiresDays | dayOrDays}}
+            </div>
+        </li>
+
+        <li>
+            <div class = "ex-title col-two">APPROVE OWNERSHIP</div>
+            <div class = "ex-detail col-two">{{regItem.hasOwnerToapprove}}</div>
+        </li>
+    </ul>
+
+    <div class = "section-action">
+        <div class = "ex-buttons">
+            <button class = "manage" ng-click="buttonClick('manage')"><i class = "fa fa-wrench"></i> Manage</button>
+            <button class = "renew"  ng-click="buttonClick('renew, expanded')"><i class = "fa fa-refresh"></i> Renew</button>
+        </div>
+    </div>
+</td>

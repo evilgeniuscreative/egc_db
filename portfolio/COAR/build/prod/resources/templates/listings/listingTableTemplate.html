@@ -1,0 +1,24 @@
+<!--<caption class="invisible">{{tableCtrl.tableType}} registrations table</caption>-->
+<thead class = "thead" id="{{tableCtrl.tableType}}_thead">
+   <tr>
+    <th listing-head id="{{tableCtrl.tableType}}_heading_th_{{heading}}" ng-repeat = "heading in listingCtrl.headings"
+        class = "lr-{{heading}} lr-head-item" ng-class = "{'sort-column':listingCtrl.sortType == heading}"></th>
+    <th  id="{{tableCtrl.tableType}}_heading_th_expand" class = "lr-expand lr-head-item">
+        <a href = "">Expand</a>
+    </th>
+   </tr>
+</thead>
+
+<!--<div class = "tbody">-->
+<tbody id="{{tableCtrl.tableType}}_tbody">
+<tr listing-row-collapsed class="listing-row lr-collapsed" ng-class="{'is-expanded':regItem.showExpanded == 'open'}"  id="{{tableCtrl.tableType}}_row{{$index+1}}_parent"
+    ng-repeat-start = "regItem in listingCtrl.regItems[tableCtrl.tableType] | orderBy:listingCtrl.sortType:listingCtrl.sortReverse"></tr>
+<tr listing-row-expanded id="{{tableCtrl.tableType}}_row{{$index+1}}_child" class="lr-expanded fade" ng-hide="regItem.showExpanded == 'closed'"
+    ng-repeat-end ng-class="{
+'open':regItem.showExpanded == 'open',
+'opening':regItem.showExpanded == 'opening',
+'closing':regItem.showExpanded == 'closing',
+'closed':regItem.showExpanded == 'closed'
+}"></tr>
+
+</tbody>

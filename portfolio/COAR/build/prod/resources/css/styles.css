@@ -1,0 +1,1507 @@
+
+/* line 80 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\styles.styl */
+
+/* line 1 : C:\wamp\www\COAR-2.0-DEV-BRANCH\node_modules\stylus\lib\functions\index.styl */
+
+/* line 1 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\styles.styl */
+/***
+ * COAR STYLES
+ *
+ */
+
+/* line 286 : C:\wamp\www\COAR-2.0-DEV-BRANCH\node_modules\stylus\lib\functions\index.styl */
+
+/* line 3 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\colors.styl */
+
+/* line 94 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\colors.styl */
+.faded {
+  color: #858688;
+}
+
+/* line 98 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\colors.styl */
+.alert-red {
+  color: #e31b23;
+}
+
+/* line 102 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\colors.styl */
+.alert-orange {
+  color: #f58025;
+}
+
+/* line 106 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\colors.styl */
+.alert-yellow {
+  color: #ffd24f;
+}
+
+/* line 110 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\colors.styl */
+.all-good {
+  color: #6cc04a;
+}
+
+/* line 112 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\colors.styl */
+
+/* line 1 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\mixins.styl */
+
+/* line 34 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\mixins.styl */
+
+/* line 1 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\font-faces.styl */
+@font-face {
+  font-family: 'ciscosans_bold';
+  src: url("../fonts/cisco/ciscosansbold-webfont.eot");
+  src: url("../fonts/cisco/ciscosansbold-webfont.eot?#iefix") format('embedded-opentype'), url("../fonts/cisco/ciscosansbold-webfont.woff2") format('woff2'), url("../fonts/cisco/ciscosansbold-webfont.woff") format('woff'), url("../fonts/cisco/ciscosansbold-webfont.ttf") format('truetype'), url("../fonts/cisco/ciscosansbold-webfont.svg#ciscosansbold") format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'ciscosans_light';
+  src: url("../fonts/cisco/ciscosanslight-webfont.eot");
+  src: url("../fonts/cisco/ciscosanslight-webfont.eot?#iefix") format('embedded-opentype'), url("../fonts/cisco/ciscosanslight-webfont.woff2") format('woff2'), url("../fonts/cisco/ciscosanslight-webfont.woff") format('woff'), url("../fonts/cisco/ciscosanslight-webfont.ttf") format('truetype'), url("../fonts/cisco/ciscosanslight-webfont.svg#ciscosanslight") format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'ciscosans_regular';
+  src: url("../fonts/cisco/ciscosansregular-webfont.eot");
+  src: url("../fonts/cisco/ciscosansregular-webfont.eot?#iefix") format('embedded-opentype'), url("../fonts/cisco/ciscosansregular-webfont.woff2") format('woff2'), url("../fonts/cisco/ciscosansregular-webfont.woff") format('woff'), url("../fonts/cisco/ciscosansregular-webfont.ttf") format('truetype'), url("../fonts/cisco/ciscosansregular-webfont.svg#ciscosansregular") format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* line 38 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\font-faces.styl */
+
+/* line 1 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\variables.styl */
+
+/* line 10 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\styles.styl */
+html {
+  font-size: 62.5%;
+  min-height: 100%;
+  height: 100%;
+}
+
+/* line 17 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\styles.styl */
+body {
+  background: #fff;
+  font-family: 'ciscosans_light', sans-serif;
+  color: #39393b;
+  font-size: 1.4rem;
+  padding: 0;
+  margin: 0;
+  min-height: 100%;
+  height: 100%;
+}
+
+/* line 29 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\styles.styl */
+#header-line {
+  width: 100%;
+  height: 4px;
+  background-color: #049fd9;
+}
+
+/* line 35 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\styles.styl */
+#wrap {
+  width: 90%;
+  min-height: 100%;
+  height: auto;
+  position: relative;
+  max-width: 1200px;
+  background: #fff;
+  margin: 0 auto;
+  padding: 0 2em;
+}
+
+/* line 46 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\styles.styl */
+header {
+  margin-bottom: 3rem;
+}
+
+/* line 50 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\styles.styl */
+.clearfix:after {
+  content: " "; /* Older browser do not support empty content */
+  visibility: hidden;
+  display: block;
+  height: 0;
+  clear: both;
+}
+
+/* line 58 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\styles.styl */
+#modal-background {
+  position: absolute;
+  z-index: 500;
+  background-color: rgba(0,0,0,0.5);
+  width: 0;
+  height: 0;
+}
+
+/* line 66 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\styles.styl */
+/* Shared */
+
+/* line 3 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\variables.styl */
+
+/* line 3 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\typography.styl */
+
+/* line 1 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\typography.styl */
+p {
+  font-size: 1.1em;
+  line-height: 1.3;
+  margin-top: 0;
+}
+
+/* line 5 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\typography.styl */
+
+/* line 5 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\accessibility.styl */
+
+/* line 1 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\accessibility.styl */
+
+/* line 5 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\accessibility.styl */
+.invisible {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+/* line 16 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\accessibility.styl */
+.silent {
+  speak: none;
+}
+
+/* line 20 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\accessibility.styl */
+#skip-to-main-content a {
+  font-size: 1.75rem;
+  padding: 1rem;
+  position: absolute;
+  top: 5px;
+  left: -100px;
+  color: #fff;
+  -webkit-transition: all 0.3s ease-out;
+  -moz-transition: all 0.3s ease-out;
+  -ms-transition: all 0.3s ease-out;
+  -o-transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out;
+  z-index: 100;
+  border-bottom-right-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+
+/* line 33 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\accessibility.styl */
+#skip-to-main-content a:focus {
+  position: absolute;
+  left: 0;
+  top: 5px;
+  background: #e31b23;
+  outline-color: #f58025;
+  -webkit-transition: all 0.3s ease-in;
+  -moz-transition: all 0.3s ease-in;
+  -ms-transition: all 0.3s ease-in;
+  -o-transition: all 0.3s ease-in;
+  transition: all 0.3s ease-in;
+}
+
+/* line 42 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\accessibility.styl */
+.icon-wrap {
+  min-width: 1.5em;
+}
+
+/* line 47 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\accessibility.styl */
+.icon-wrap:focus {
+  -webkit-outline: -webkit-focus-ring-color auto 5px;
+  -moz-outline: 1px dotted #212121;
+  -ms-outline: 1px dotted #212121;
+  -o-outline: 1px dotted #212121;
+}
+
+/* line 54 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\accessibility.styl */
+.webkit .listing-table th a:focus {
+  outline-color: #fff;
+}
+
+/* line 56 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\accessibility.styl */
+
+/* line 56 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\buttons.styl */
+
+/* line 1 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\buttons.styl */
+button,
+.button {
+  padding: 1rem;
+  margin: 0 1rem;
+  font-size: 1.6rem;
+  background: #049fd9;
+  color: #fff;
+  border: 0;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-transition: background-color 0.3s, color 0.3s;
+  -moz-transition: background-color 0.3s, color 0.3s;
+  -ms-transition: background-color 0.3s, color 0.3s;
+  -o-transition: background-color 0.3s, color 0.3s;
+  transition: background-color 0.3s, color 0.3s;
+  cursor: pointer;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  -ms-box-shadow: none;
+  -o-box-shadow: none;
+  box-shadow: none;
+  text-decoration: none;
+}
+
+/* line 14 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\buttons.styl */
+button::-moz-focus-inner,
+.button::-moz-focus-inner {
+  border: 0;
+}
+
+/* line 17 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\buttons.styl */
+button i,
+.button i,
+button .fa,
+.button .fa {
+  color: #fff;
+  margin-right: 0.5rem;
+}
+
+/* line 21 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\buttons.styl */
+button:hover,
+.button:hover {
+  background-color: #6cc04a;
+}
+
+/* line 23 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\buttons.styl */
+button:hover[disabled],
+.button:hover[disabled] {
+  cursor: not-allowed;
+  background: #ccc;
+}
+
+/* line 28 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\buttons.styl */
+button:focus,
+.button:focus {
+  background-color: #6cc04a;
+}
+
+/* line 31 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\buttons.styl */
+button:active,
+.button:active {
+  outline: 0;
+  -webkit-box-shadow: inset 0 0 20px 0 #559f38;
+  -moz-box-shadow: inset 0 0 20px 0 #559f38;
+  -ms-box-shadow: inset 0 0 20px 0 #559f38;
+  -o-box-shadow: inset 0 0 20px 0 #559f38;
+  box-shadow: inset 0 0 20px 0 #559f38;
+}
+
+/* line 36 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\buttons.styl */
+button.cancel,
+.button.cancel {
+  background: transparent;
+  color: #049fd9;
+  text-decoration: underline;
+  margin-left: 0;
+  margin-right: 2rem;
+}
+
+/* line 43 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\buttons.styl */
+button.right,
+.button.right {
+  float: right;
+}
+
+/* line 47 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\buttons.styl */
+button[disabled],
+.button[disabled] {
+  background: #ccc;
+}
+
+/* line 50 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\buttons.styl */
+
+/* line 50 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\tabs.styl */
+
+/* line 1 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\tabs.styl */
+.tab-menu {
+  padding: 0;
+  margin: 0;
+  border-bottom: 1px solid #bfbfbf;
+  display: block;
+}
+
+/* line 7 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\tabs.styl */
+.tab-menu:before {
+  content: " ";
+  box-sizing: border-box;
+  display: table;
+}
+
+/* line 12 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\tabs.styl */
+.tab-menu:after {
+  clear: both;
+  content: " ";
+  box-sizing: border-box;
+  display: table;
+}
+
+/* line 18 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\tabs.styl */
+.tab-menu .tab {
+  display: block;
+  float: left;
+  min-width: 8em;
+  font-size: 1.6rem;
+  cursor: pointer;
+  background-color: 0;
+  margin-bottom: -1px;
+  text-align: center;
+  vertical-align: top;
+  margin-left: 0.25em;
+}
+
+/* line 29 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\tabs.styl */
+.tab-menu .tab:first-of-type {
+  margin-left: 0;
+}
+
+/* line 33 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\tabs.styl */
+.tab-menu .tab span {
+  background-color: #ededed;
+  color: #bfbfbf;
+  display: block;
+  border: 1px solid transparent;
+  border-bottom-color: #bfbfbf;
+  border-top-right-radius: 4px;
+  border-top-left-radius: 4px;
+  padding: 0.75em 0.5em 0.5em 0.5em;
+  -webkit-transition: border-color 0.3s, background-color 0.3s, color 0.3s;
+  -moz-transition: border-color 0.3s, background-color 0.3s, color 0.3s;
+  -ms-transition: border-color 0.3s, background-color 0.3s, color 0.3s;
+  -o-transition: border-color 0.3s, background-color 0.3s, color 0.3s;
+  transition: border-color 0.3s, background-color 0.3s, color 0.3s;
+}
+
+/* line 44 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\tabs.styl */
+.tab-menu .tab span:hover {
+  background-color: #d9d9d9;
+  color: #333;
+  border-bottom-color: #ccc;
+  -webkit-transition: border-color 0.3s, background-color 0.3s, color 0.3s;
+  -moz-transition: border-color 0.3s, background-color 0.3s, color 0.3s;
+  -ms-transition: border-color 0.3s, background-color 0.3s, color 0.3s;
+  -o-transition: border-color 0.3s, background-color 0.3s, color 0.3s;
+  transition: border-color 0.3s, background-color 0.3s, color 0.3s;
+}
+
+/* line 52 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\tabs.styl */
+.tab-menu .tab.active span {
+  background: #fff;
+  border-color: #ccc;
+  border-bottom-color: #fff;
+  color: #39393b;
+}
+
+/* line 58 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\tabs.styl */
+.tab-menu .tab.active span:hover {
+  background-color: #fff;
+  color: #39393b;
+}
+
+/* line 67 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\tabs.styl */
+.tabpanel {
+  padding: 3rem 2rem 2rem 2rem;
+  border: 1px solid #bfbfbf;
+  border-top: none;
+}
+
+/* line 71 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\tabs.styl */
+
+/* line 71 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\iconography.styl */
+
+/* line 1 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\iconography.styl */
+.fa {
+/**
+  * OK / NOT OK ICONS
+  *
+  */
+  color: #39393b;
+  -webkit-transition: color 0.3s;
+  -moz-transition: color 0.3s;
+  -ms-transition: color 0.3s;
+  -o-transition: color 0.3s;
+  transition: color 0.3s;
+/**
+  * LOCK ICONS
+  *
+  */
+/**
+  * ALERT ICONS
+  *
+  */
+/**
+  * COLORS ADDED via CLASS
+  *
+  */
+}
+
+/* line 8 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\iconography.styl */
+.fa.fa-check {
+  color: #858688;
+}
+
+/* line 10 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\iconography.styl */
+.fa.fa-check.all-good {
+  color: #6cc04a;
+}
+
+/* line 15 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\iconography.styl */
+.fa.fa-remove,
+.fa.fa-close {
+  color: #ff5252;
+}
+
+/* line 23 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\iconography.styl */
+.fa.fa-lock {
+  color: #ff5252;
+}
+
+/* line 27 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\iconography.styl */
+.fa.fa-unlock {
+  color: #858688;
+}
+
+/* line 35 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\iconography.styl */
+.fa.fa-exclamation-triangle {
+  color: #ffd24f;
+}
+
+/* line 39 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\iconography.styl */
+.fa.fa-exclamation-triangle.warning {
+  color: #f58025;
+}
+
+/* line 43 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\iconography.styl */
+.fa.fa-exclamation-circle {
+  color: #ff5252;
+}
+
+/* line 47 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\iconography.styl */
+.fa.superscript {
+  vertical-align: super;
+  font-size: 60%;
+}
+
+/* line 51 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\iconography.styl */
+.fa.subscript {
+  vertical-align: sub;
+  font-size: 60%;
+}
+
+/* line 60 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\iconography.styl */
+.fa.alert-green {
+  color: #6cc04a;
+}
+
+/* line 63 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\iconography.styl */
+.fa.alert-yellow {
+  color: #ffd24f;
+}
+
+/* line 66 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\iconography.styl */
+.fa.alert-orange {
+  color: #f58025;
+}
+
+/* line 69 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\iconography.styl */
+.fa.alert-red {
+  color: #ff5252;
+}
+
+/* line 73 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\iconography.styl */
+
+/* line 1 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\tables.styl */
+
+/* line 6 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\tables.styl */
+
+/* line 6 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\forms.styl */
+
+/* line 1 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\forms.styl */
+
+/* line 2 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\forms.styl */
+form label {
+  display: inline-block;
+  font-size: 1.2rem;
+  margin: 0 0 0.5rem 5px;
+  text-transform: uppercase;
+  width: 100%;
+}
+
+/* line 9 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\forms.styl */
+form label .label-help {
+  color: #808080;
+  float: right;
+  padding-right: 1em;
+  padding-top: 5px;
+  text-transform: none;
+}
+
+/* line 15 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\forms.styl */
+form label .label-help i.fa {
+  color: #808080;
+}
+
+/* line 20 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\forms.styl */
+form .input-group {
+  display: table;
+  margin-bottom: 3.5rem;
+  position: relative;
+}
+
+/* line 24 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\forms.styl */
+form .input-group input,
+form .input-group select,
+form .input-group textarea {
+  font-family: inherit;
+  font-size: 1.6rem;
+}
+
+/* line 28 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\forms.styl */
+form .input-group input,
+form .input-group select,
+form .input-group textarea {
+  border: 1px solid #a6a6a6;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  border-top-left-radius: 0;
+  box-sizing: border-box;
+  display: table-cell;
+  padding: 0.75rem;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+/* line 38 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\forms.styl */
+
+/* line 39 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\forms.styl */
+form .input-group.has-error input,
+form .input-group.has-error select,
+form .input-group.has-error textarea {
+  background-color: #ffebeb;
+  border: 1px dashed #e31b23;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+/* line 45 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\forms.styl */
+
+/* line 46 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\forms.styl */
+form .input-group.wr-link input,
+form .input-group.wr-link select,
+form .input-group.wr-link textarea {
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+  margin-right: 0.5rem;
+}
+
+/* line 52 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\forms.styl */
+form .input-group.wr-link .button {
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+}
+
+/* line 58 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\forms.styl */
+form .input-group .input-group-addon {
+  display: table-cell;
+  font-size: 85%;
+  vertical-align: middle;
+}
+
+/* line 63 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\forms.styl */
+
+/* line 66 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\forms.styl */
+
+/* line 67 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\forms.styl */
+
+/* line 73 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\forms.styl */
+
+/* line 76 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\forms.styl */
+form .input-group .help-block {
+  bottom: -1.2em;
+  color: #e31b23;
+  left: 0;
+  position: absolute;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+/* line 82 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\forms.styl */
+form .input-group .help-block p {
+  font-size: 90%;
+  margin: 0;
+  padding: 0;
+}
+
+/* line 89 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\forms.styl */
+form .submit-section {
+  margin-top: 3rem;
+}
+
+/* line 93 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\forms.styl */
+
+/* line 1 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\ui.typeahead.styl */
+
+/* line 3 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\ui.typeahead.styl */
+.uib-typeahead-popup.dropdown-menu,
+.no-results-dropdown {
+  background-color: #fff;
+  border: 1px solid #a6a6a6;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  border-top-right-radius: 0;
+  display: block;
+  list-style-type: none;
+  margin-top: -1px;
+  width: 85%;
+  padding: 0 0 1rem 0;
+  position: absolute;
+  z-index: 99;
+}
+
+/* line 16 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\ui.typeahead.styl */
+.uib-typeahead-popup.dropdown-menu li,
+.no-results-dropdown li {
+  font-size: inherit;
+}
+
+/* line 18 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\ui.typeahead.styl */
+.uib-typeahead-popup.dropdown-menu li a,
+.no-results-dropdown li a,
+.uib-typeahead-popup.dropdown-menu li a:link,
+.no-results-dropdown li a:link,
+.uib-typeahead-popup.dropdown-menu li a:visited,
+.no-results-dropdown li a:visited {
+  color: #39393b;
+  display: block;
+  padding: 1rem 1.5rem;
+  text-decoration: none;
+}
+
+/* line 24 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\ui.typeahead.styl */
+.uib-typeahead-popup.dropdown-menu li.active,
+.no-results-dropdown li.active {
+  background: #049fd9;
+}
+
+/* line 26 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\ui.typeahead.styl */
+.uib-typeahead-popup.dropdown-menu li.active a,
+.no-results-dropdown li.active a {
+  color: #fff;
+}
+
+/* line 34 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\ui.typeahead.styl */
+.uib-position-measure {
+  display: block !important;
+  left: -9999px !important;
+  position: absolute !important;
+  top: -9999px !important;
+  visibility: hidden !important;
+}
+
+/* line 42 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\ui.typeahead.styl */
+.uib-position-scrollbar-measure {
+  height: 50px;
+  overflow: scroll;
+  position: absolute;
+  top: -9999px;
+  width: 50px;
+}
+
+/* line 76 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\styles.styl */
+/* Specific sections */
+
+/* line 48 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\ui.typeahead.styl */
+
+/* line 62 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\pagehead.styl */
+
+/* line 1 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\pagehead.styl */
+
+/* line 2 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\pagehead.styl */
+#pagehead {
+  height: 120px;
+  margin-bottom: 3rem;
+}
+
+/* line 7 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\pagehead.styl */
+#logo {
+  position: absolute;
+  top: 0.25rem;
+  left: 0.25rem;
+  height: 90px;
+  width: 150px;
+  background: url("../images/COAR-logo.png") no-repeat;
+  background-size: contain;
+}
+
+/* line 17 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\pagehead.styl */
+#toptext {
+  margin: 2rem 1rem 2rem 20%;
+}
+
+/* line 21 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\pagehead.styl */
+ul#topnav {
+  width: auto;
+  padding: 4.5rem 0 0 0;
+  margin: 0;
+  background: 0;
+  text-align: right;
+}
+
+/* line 27 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\pagehead.styl */
+ul#topnav li {
+  display: inline-block;
+  box-sizing: border-box;
+  font-size: 1.6rem;
+}
+
+/* line 32 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\pagehead.styl */
+ul#topnav li a {
+  text-decoration: none;
+  color: #fff;
+  padding: 0.75em 2rem;
+  -webkit-transition: background-color 0.3s, color 0.3s;
+  -moz-transition: background-color 0.3s, color 0.3s;
+  -ms-transition: background-color 0.3s, color 0.3s;
+  -o-transition: background-color 0.3s, color 0.3s;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* line 38 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\pagehead.styl */
+ul#topnav li a i {
+  margin-right: 0.5rem;
+  color: #fff;
+}
+
+/* line 50 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\pagehead.styl */
+ul#topnav li a.selected-page {
+  background: #6cc04a;
+  color: #fff;
+}
+
+/* line 53 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\pagehead.styl */
+ul#topnav li a.selected-page i {
+  color: #fff;
+}
+
+/* line 59 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\pagehead.styl */
+ul#topnav .separator {
+  opacity: 0.35;
+}
+
+/* line 62 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\pagehead.styl */
+
+/* line 1 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\request-key-form.styl */
+
+/* line 3 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\request-key-form.styl */
+#request-key-form {
+  width: 400px;
+}
+
+/* line 5 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\request-key-form.styl */
+#request-key-form .input-group {
+  width: 100%;
+}
+
+/* line 8 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\request-key-form.styl */
+#request-key-form input,
+#request-key-form select,
+#request-key-form textarea {
+  width: 350px;
+}
+
+/* line 11 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\request-key-form.styl */
+#request-key-form button.right,
+#request-key-form .label-help {
+  margin-right: 50px;
+}
+
+/* line 16 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\request-key-form.styl */
+.confirmed-key {
+  margin-bottom: 5rem;
+}
+
+/* line 18 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\request-key-form.styl */
+.confirmed-key td {
+  padding: 1em;
+}
+
+/* line 20 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\request-key-form.styl */
+.confirmed-key td:first-child {
+  background-color: #049fd9;
+  color: #fff;
+  width: 10em;
+  border-bottom: 1px solid #fff;
+}
+
+/* line 26 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\request-key-form.styl */
+.confirmed-key td:last-child {
+  border-bottom: 1px solid #ffebeb;
+}
+
+/* line 30 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\request-key-form.styl */
+
+/* line 101 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings.styl */
+
+/* line 1 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings.styl */
+
+/* line 1 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings.styl */
+
+/* line 4 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings.styl */
+.listings {
+  width: 100%;
+/**
+  * WIDTHS of COLS
+  *
+  */
+}
+
+/* line 7 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings.styl */
+.listings .table-wrap {
+  border: 1px solid #ccc;
+  border-top-right-radius: 4px;
+  margin-top: 4rem;
+  padding: 1.5em 1em 1em 1em;
+  position: relative;
+}
+
+/* line 13 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings.styl */
+.listings .table-wrap .tab-menu {
+  left: -1px;
+  position: absolute;
+  top: -3.4rem;
+}
+
+/* line 20 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings.styl */
+.listings .listing-table {
+  border-spacing: 1px 0;
+  width: 100%;
+}
+
+/* line 101 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings.styl */
+
+/* line 2 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-heading.styl */
+
+/* line 6 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-heading.styl */
+
+/* line 8 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-heading.styl */
+.listings .listing-table .thead .lr-head-item {
+  background-color: #049fd9;
+  -webkit-transition: background-color 0.3s;
+  -moz-transition: background-color 0.3s;
+  -ms-transition: background-color 0.3s;
+  -o-transition: background-color 0.3s;
+  transition: background-color 0.3s;
+  text-align: center;
+  border-right: 1px solid #fff;
+  text-decoration: none;
+  color: #fff;
+  font-weight: normal;
+  padding: 0.5rem 0;
+}
+
+/* line 18 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-heading.styl */
+.listings .listing-table .thead .lr-head-item:hover {
+  background-color: #097dbc;
+}
+
+/* line 21 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-heading.styl */
+.listings .listing-table .thead .lr-head-item.sort-column {
+  background-color: #6cc04a;
+}
+
+/* line 23 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-heading.styl */
+.listings .listing-table .thead .lr-head-item.sort-column:hover {
+  background-color: #00ad0b;
+}
+
+/* line 28 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-heading.styl */
+.listings .listing-table .thead .lr-head-item a {
+  color: #fff;
+  display: block;
+  padding: 1rem 0;
+  width: 90%;
+  margin: 0 auto;
+}
+
+/* line 34 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-heading.styl */
+.listings .listing-table .thead .lr-head-item a:link,
+.listings .listing-table .thead .lr-head-item a :hover,
+.listings .listing-table .thead .lr-head-item a :visited,
+.listings .listing-table .thead .lr-head-item a :active {
+  text-decoration: none;
+  color: #fff;
+}
+
+/* line 39 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-heading.styl */
+.listings .listing-table .thead .lr-head-item i {
+  float: right;
+  margin-right: 0.5em;
+  color: #fff;
+}
+
+/* line 44 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-heading.styl */
+.listings .listing-table .thead .lr-head-item:first-of-type {
+  border-top-left-radius: 4px;
+}
+
+/* line 47 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-heading.styl */
+.listings .listing-table .thead .lr-head-item:last-of-type {
+  border-top-right-radius: 4px;
+  background-color: #858688;
+  cursor: default;
+  border: 0;
+}
+
+/* line 52 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-heading.styl */
+.listings .listing-table .thead .lr-head-item:last-of-type a {
+  cursor: default;
+}
+
+/* line 56 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-heading.styl */
+.listings .listing-table .thead .lr-head-item.lr-expand {
+  margin-left: -4px;
+}
+
+/* line 60 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-heading.styl */
+
+/* line 1 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-collapsed.styl */
+
+/* line 5 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-collapsed.styl */
+.listings .listing-table .listing-row {
+  cursor: default;
+  -webkit-transition: background-color 0.4s;
+  -moz-transition: background-color 0.4s;
+  -ms-transition: background-color 0.4s;
+  -o-transition: background-color 0.4s;
+  transition: background-color 0.4s;
+}
+
+/* line 9 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-collapsed.styl */
+.listings .listing-table .listing-row:hover {
+  background-color: #f7f7f7;
+}
+
+/* line 13 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-collapsed.styl */
+.listings .listing-table .listing-row .lr-item {
+  border-bottom: 1px dotted #ccc;
+  border-right: 1px solid transparent;
+  margin-right: -4px;
+  padding: 1.75rem 0;
+/* ok, this is weird, but inline blocks actually display the whitespace in html */
+/* so the right margin needs to deal with this space by the -4px */
+/* https://css-tricks.com/fighting-the-space-between-inline-block-elements/ */
+  position: relative;
+  text-align: center;
+}
+
+/* line 24 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-collapsed.styl */
+.listings .listing-table .listing-row .lr-item.lr-item > .icon-wrap {
+  display: inline-block;
+}
+
+/* line 28 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-collapsed.styl */
+.listings .listing-table .listing-row .lr-item.lr-item > a > i {
+  font-size: 2rem;
+  left: 40%;
+  position: absolute;
+  top: 30%;
+}
+
+/* line 34 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-collapsed.styl */
+
+/* line 35 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-collapsed.styl */
+.listings .listing-table .listing-row .lr-item.lr-item.lr-expires.expiring {
+  text-align: left;
+}
+
+/* line 38 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-collapsed.styl */
+.listings .listing-table .listing-row .lr-item.lr-item.lr-expires > a > i {
+  left: 7%;
+}
+
+/* line 41 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-collapsed.styl */
+.listings .listing-table .listing-row .lr-item.lr-item.lr-expires .days-num {
+  display: inline-block;
+  margin-left: 10%;
+}
+
+/* line 44 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-collapsed.styl */
+
+/* line 47 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-collapsed.styl */
+
+/* line 50 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-collapsed.styl */
+
+/* line 53 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-collapsed.styl */
+
+/* line 56 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-collapsed.styl */
+
+/* line 60 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-collapsed.styl */
+.listings .listing-table .listing-row .lr-item.lr-item.lr-expires .days-text {
+  display: inline-block;
+  font-size: 80%;
+}
+
+/* line 64 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-collapsed.styl */
+.listings .listing-table .listing-row .lr-item.lr-item.lr-expires button {
+  background-color: #6cc04a;
+  font-size: 0.85em;
+  margin-right: 0;
+  padding: 0.4em 0.5em;
+  position: absolute;
+  right: 1rem;
+  top: 1.1rem;
+}
+
+/* line 73 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-collapsed.styl */
+.listings .listing-table .listing-row .lr-item.lr-item.lr-expires button:hover,
+.listings .listing-table .listing-row .lr-item.lr-item.lr-expires button:focus {
+  background-color: #049fd9;
+}
+
+/* line 79 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-collapsed.styl */
+.listings .listing-table .listing-row .lr-item.lr-item .fa-caret-right {
+  font-size: 2.5rem;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+/* line 83 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-collapsed.styl */
+.listings .listing-table .listing-row .lr-item.lr-item .fa-caret-right.turned {
+  -webkit-transform: rotate(90deg) translate(-3px);
+  -moz-transform: rotate(90deg) translate(-3px);
+  -ms-transform: rotate(90deg) translate(-3px);
+  -o-transform: rotate(90deg) translate(-3px);
+  transform: rotate(90deg) translate(-3px);
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+/* line 88 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-collapsed.styl */
+.listings .listing-table .listing-row:last-of-type {
+  border-bottom: 0;
+}
+
+/* line 92 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-collapsed.styl */
+
+/* line 93 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-collapsed.styl */
+.listings .listing-table .listing-row.is-expanded .lr-item {
+  border-bottom: none;
+  border-top: 1px solid #a6a6a6;
+}
+
+/* line 96 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-collapsed.styl */
+.listings .listing-table .listing-row.is-expanded .lr-item:first-of-type {
+  border-left: 1px solid #a6a6a6;
+}
+
+/* line 99 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-collapsed.styl */
+.listings .listing-table .listing-row.is-expanded .lr-item:last-of-type {
+  border-right: 1px solid #a6a6a6;
+}
+
+/* line 104 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-collapsed.styl */
+
+/* line 1 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-expanded.styl */
+
+/* line 5 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-expanded.styl */
+.listings .listing-table .lr-expanded {
+  height: 0;
+  min-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  padding-bottom: 3px;
+  padding-top: 3px;
+  -webkit-transition: min-height 0.5s ease, opacity 0.5s;
+  -moz-transition: min-height 0.5s ease, opacity 0.5s;
+  -ms-transition: min-height 0.5s ease, opacity 0.5s;
+  -o-transition: min-height 0.5s ease, opacity 0.5s;
+  transition: min-height 0.5s ease, opacity 0.5s;
+  width: 100%;
+}
+
+/* line 14 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-expanded.styl */
+.listings .listing-table .lr-expanded.closed {
+  position: absolute;
+}
+
+/* line 17 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-expanded.styl */
+.listings .listing-table .lr-expanded.closing {
+  border-bottom: 1px dotted #ccc;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  border-left: 1px dotted #ccc;
+  border-right: 1px dotted #ccc;
+  position: relative;
+}
+
+/* line 25 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-expanded.styl */
+.listings .listing-table .lr-expanded.opening {
+  position: relative;
+}
+
+/* line 29 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-expanded.styl */
+.listings .listing-table .lr-expanded.open {
+  min-height: 418px;
+  opacity: 1;
+  position: relative;
+  -webkit-transition: min-height 0.5s ease, opacity 0.5s;
+  -moz-transition: min-height 0.5s ease, opacity 0.5s;
+  -ms-transition: min-height 0.5s ease, opacity 0.5s;
+  -o-transition: min-height 0.5s ease, opacity 0.5s;
+  transition: min-height 0.5s ease, opacity 0.5s;
+}
+
+/* line 34 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-expanded.styl */
+.listings .listing-table .lr-expanded.open td {
+  border: 1px solid #a6a6a6;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  border-top: none;
+}
+
+/* line 40 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-expanded.styl */
+.listings .listing-table .lr-expanded.open + tr {
+  margin-top: 50px;
+}
+
+/* line 47 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-expanded.styl */
+.listings .listing-table .lr-expanded .lr-expanded-half {
+  float: left;
+  margin-bottom: 3px;
+  width: 45%;
+}
+
+/* line 51 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-expanded.styl */
+.listings .listing-table .lr-expanded .lr-expanded-half:first-of-type {
+  margin-right: 7%;
+}
+
+/* line 54 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-expanded.styl */
+.listings .listing-table .lr-expanded .lr-expanded-half:last-of-type {
+  float: right;
+}
+
+/* line 60 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-expanded.styl */
+.listings .listing-table .lr-expanded .ul-expanded {
+  list-style-type: none;
+  margin: 2rem 4rem 0 4rem;
+  padding: 0;
+}
+
+/* line 64 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-expanded.styl */
+.listings .listing-table .lr-expanded .ul-expanded li {
+  float: left;
+  width: 50%;
+}
+
+/* line 69 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-expanded.styl */
+.listings .listing-table .lr-expanded .ex-title {
+  background: #ebebeb;
+  box-sizing: border-box;
+  float: left;
+  margin-top: 1px;
+  padding: 1.25rem 0.5rem;
+  text-align: center;
+  width: 33%;
+}
+
+/* line 78 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-expanded.styl */
+.listings .listing-table .lr-expanded .ex-detail {
+  border-bottom: 1px dotted #ccc;
+  box-sizing: border-box;
+  float: left;
+  height: 39px;
+  margin-top: 1px;
+  padding: 1.25rem 0.5rem 1.25rem 1rem;
+  position: relative;
+  vertical-align: middle;
+  width: 67%;
+}
+
+/* line 89 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-expanded.styl */
+.listings .listing-table .lr-expanded .ex-detail.top-row {
+  border-top: 1px dotted #ccc;
+}
+
+/* line 93 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-expanded.styl */
+.listings .listing-table .lr-expanded .ex-detail.icon-div {
+  padding: 0.75rem 0.5rem 1.75rem 2rem;
+}
+
+/* line 96 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-expanded.styl */
+.listings .listing-table .lr-expanded .ex-detail.lt-2weeks,
+.listings .listing-table .lr-expanded .ex-detail.lt-week,
+.listings .listing-table .lr-expanded .ex-detail.lt-three,
+.listings .listing-table .lr-expanded .ex-detail.lt-zero {
+  color: #fff;
+  font-weight: bold;
+  padding: 1rem 0.5rem 1.5rem 0.5rem;
+  border-bottom: none;
+}
+
+/* line 101 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-expanded.styl */
+.listings .listing-table .lr-expanded .ex-detail.lt-2weeks i,
+.listings .listing-table .lr-expanded .ex-detail.lt-week i,
+.listings .listing-table .lr-expanded .ex-detail.lt-three i,
+.listings .listing-table .lr-expanded .ex-detail.lt-zero i {
+  color: #fff;
+}
+
+/* line 106 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-expanded.styl */
+.listings .listing-table .lr-expanded .ex-detail.lt-week {
+  background-color: #f58025;
+}
+
+/* line 109 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-expanded.styl */
+.listings .listing-table .lr-expanded .ex-detail.lt-zero,
+.listings .listing-table .lr-expanded .ex-detail.lt-three {
+  background-color: #e31b23;
+}
+
+/* line 112 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-expanded.styl */
+.listings .listing-table .lr-expanded .ex-detail.lt-2weeks {
+  background-color: #ffd24f;
+}
+
+/* line 115 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-expanded.styl */
+.listings .listing-table .lr-expanded .ex-detail .fa {
+  font-size: 1.5em;
+  margin-right: 0.5rem;
+  vertical-align: sub;
+}
+
+/* line 122 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-expanded.styl */
+
+/* line 123 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-expanded.styl */
+.listings .listing-table .lr-expanded .section-enabled .ex-detail i {
+  margin-left: 1rem;
+}
+
+/* line 127 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-expanded.styl */
+
+/* line 130 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-expanded.styl */
+
+/* line 133 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-expanded.styl */
+.listings .listing-table .lr-expanded .section-action {
+  clear: both;
+  margin: 1rem 4rem;
+  padding: 2.5rem 0;
+  width: auto;
+}
+
+/* line 139 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-expanded.styl */
+.listings .listing-table .lr-expanded .section-action .ex-buttons {
+  padding: 0;
+  text-align: center;
+}
+
+/* line 142 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-expanded.styl */
+.listings .listing-table .lr-expanded .section-action .ex-buttons button {
+  margin: 0 1rem;
+  width: 25%;
+}
+
+/* line 146 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-expanded.styl */
+
+/* line 148 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-expanded.styl */
+
+/* line 34 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings.styl */
+.listings .lr-approved {
+  width: 8%;
+}
+
+/* line 38 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings.styl */
+.listings .lr-cecId {
+  width: 7%;
+}
+
+/* line 43 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings.styl */
+.listings .lr-consumer-id {
+  width: 13%;
+}
+
+/* line 47 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings.styl */
+.listings .lr-consumer-key {
+  width: 9%;
+}
+
+/* line 49 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings.styl */
+.listings .lr-consumer-key a {
+  padding: 0.5em;
+}
+
+/* line 54 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings.styl */
+.listings .lr-consumer-secret {
+  width: 10%;
+}
+
+/* line 56 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings.styl */
+.listings .lr-consumer-secret a {
+  padding: 0.5em;
+}
+
+/* line 61 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings.styl */
+.listings .lr-expand {
+  position: relative;
+  text-align: right;
+  width: 6%;
+}
+
+/* line 65 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings.styl */
+.listings .lr-expand a:link,
+.listings .lr-expand a:visited,
+.listings .lr-expand a:focus {
+  text-decoration: none;
+}
+
+/* line 68 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings.styl */
+
+/* line 69 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings.styl */
+.listings .lr-expand a:hover i {
+  font-size: 3.5rem;
+}
+
+/* line 73 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings.styl */
+.listings .lr-expand.lr-item {
+  cursor: pointer;
+  padding: 0 !important;
+}
+
+/* line 76 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings.styl */
+.listings .lr-expand.lr-item .icon-wrap {
+  display: block !important;
+  height: 2em;
+  margin: 0 auto;
+  width: 2em;
+}
+
+/* line 85 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings.styl */
+.listings .lr-expires {
+  width: 15%;
+}
+
+/* line 89 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings.styl */
+.listings .lr-locked {
+  width: 8%;
+}
+
+/* line 93 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings.styl */
+.listings .lr-provider-id {
+  width: 15%;
+}
+
+/* line 97 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings.styl */
+.listings .lr-type {
+  width: 7%;
+}
+
+/* line 154 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\listings-expanded.styl */
+
+/* line 154 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\copy-to-clipboard.styl */
+
+/* line 1 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\copy-to-clipboard.styl */
+.copy-this-balloon {
+  position: absolute;
+  top: -60%;
+  left: 40%;
+  z-index: 200;
+  background: #fff;
+  border: 1px solid #a7a9ab;
+  padding: 1rem 1.5rem;
+  font-size: 1.2rem;
+  -webkit-box-shadow: 4px 4px 5px 1px rgba(0,0,0,0.5);
+  -moz-box-shadow: 4px 4px 5px 1px rgba(0,0,0,0.5);
+  -ms-box-shadow: 4px 4px 5px 1px rgba(0,0,0,0.5);
+  -o-box-shadow: 4px 4px 5px 1px rgba(0,0,0,0.5);
+  box-shadow: 4px 4px 5px 1px rgba(0,0,0,0.5);
+  -webkit-border-radius: 4px 4px 4px 0;
+  -moz-border-radius: 4px 4px 4px 0;
+  -ms-border-radius: 4px 4px 4px 0;
+  -o-border-radius: 4px 4px 4px 0;
+  border-radius: 4px 4px 4px 0;
+}
+
+/* line 13 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\copy-to-clipboard.styl */
+.copy-this-balloon p {
+  font-weight: bold;
+  text-align: left;
+  margin: 0 0 1rem 0;
+}
+
+/* line 18 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\copy-to-clipboard.styl */
+.copy-this-balloon input {
+  width: auto;
+  border: 0;
+  outline: 0;
+  color: #858688;
+}
+
+/* line 23 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\copy-to-clipboard.styl */
+
+/* line 27 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\copy-to-clipboard.styl */
+.copy-this-balloon button {
+  padding: 1px 3px;
+  margin: 0;
+  top: 0;
+  right: 0;
+  position: absolute;
+  z-index: 1000;
+  background: transparent;
+}
+
+/* line 35 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\copy-to-clipboard.styl */
+.copy-this-balloon button i {
+  margin: 0;
+}
+
+/* line 38 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\copy-to-clipboard.styl */
+.copy-this-balloon button:hover,
+.copy-this-balloon button:active,
+.copy-this-balloon button:focus {
+  background-color: #4d4d4d;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  -ms-box-shadow: none;
+  -o-box-shadow: none;
+  box-shadow: none;
+}
+
+/* line 41 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\copy-to-clipboard.styl */
+.copy-this-balloon button:hover i,
+.copy-this-balloon button:active i,
+.copy-this-balloon button:focus i {
+  color: #fff;
+}
+
+/* line 49 : C:\wamp\www\COAR-2.0-DEV-BRANCH\src\resources\css\includes\copy-to-clipboard.styl */
+.ex-detail .copy-this-balloon {
+  top: -100%;
+  left: 30%;
+}
