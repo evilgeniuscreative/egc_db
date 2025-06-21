@@ -12,11 +12,13 @@
 	--blue-dark: #2b6023;
 	--green-lt: #a4eca1;
 	--green-med: #389e35;
+	--success: #389e35;
 	--green-neon: #80f71e;
 	--green-dark: #2b6023;
 	--orange: #ff9940;
 	--yellow-med: #ffef40;
 	--red: #e73a3a;
+	--warning: #e73a3a;
 	--red-med: #ab3e5b;
 	--indigo: #3f2196;
 	--white: #ffffff;
@@ -42,6 +44,7 @@
 	color: var(--red);
 	font-size: 0.85em;
 	text-align: right;
+	float:right;
 	margin-top: 2px;
 	margin-bottom: 10px;
 }

@@ -24,7 +24,7 @@ function USDXConverter({ amount, currency, setUsdEquivalent }) {
 		if (!amount || !currency || currency === "USD" || currency === "") {
 			return;
 		}
-		
+
 		// Use a ref to track if this effect has already run with these values
 		const sanitizedAmount = parseFloat((amount + "").replace(/,/g, ""));
 		if (isNaN(sanitizedAmount)) {
@@ -34,7 +34,7 @@ function USDXConverter({ amount, currency, setUsdEquivalent }) {
 
 		setLoading(true);
 		setError("");
-		
+
 		fetch(
 			`https://api.freecurrencyapi.com/v1/latest?apikey=fca_live_W9VpzqNqveR6psCl6ooVwJAS3V0Rm48cvUIXTFKF&currencies=${currency}`
 		)
@@ -45,13 +45,10 @@ function USDXConverter({ amount, currency, setUsdEquivalent }) {
 					const rate = data.data[currency];
 					const usdValue = sanitizedAmount / rate;
 					setUsdEquivalent(
-						usdValue.toLocaleString(
-							"en-US",
-							{
-								style: "currency",
-								currency: "USD",
-							}
-						)
+						usdValue.toLocaleString("en-US", {
+							style: "currency",
+							currency: "USD",
+						})
 					);
 					setError("");
 				} else {
@@ -85,7 +82,7 @@ function USDXConverter({ amount, currency, setUsdEquivalent }) {
 function GetStarted() {
 	// Get current year for the deadline dropdown
 	const thisYear = useMemo(() => new Date().getFullYear(), []);
-	
+
 	useEffect(() => {
 		window.scrollTo(0, 0);
 	}, []);
@@ -154,10 +151,12 @@ function GetStarted() {
 	const [success, setSuccess] = useState(false);
 	// thisYear is already declared at the top of the component
 	// Validation helpers
-	const validateEmail = (email) => /.+@.+\..+/.test(email);
+	const validateEmail = (email) =>
+		/.+@.+\..+/.test(email) && email.trim().length > 5;
 	const validatePhone = (phone) => /^[0-9\-\s()]{7,}$/.test(phone);
 	const validateUrl = (url) =>
-		/^(https?:\/\/)?(www\.)?[^\s]+\.[^\s]+/.test(url);
+		/^(https?:\/\/)?(www\.)?[^\s]+\.[^\s]+/.test(url) ||
+		url.trim().length > 5;
 	const validateNumber = (val) => !isNaN(Number(val)) && val.trim() !== "";
 	const validateMonth = (m) => /^[1-9]$|^1[0-2]$/.test(m);
 	const validateDay = (d, m, y) => {
@@ -173,16 +172,20 @@ function GetStarted() {
 
 	const validate = () => {
 		let errs = {};
-		if (!form.fullname.trim()) errs.fullname = true;
+		if (!form.fullname.trim() || form.fullname.trim().length < 5)
+			errs.fullname = true;
 		if (!validatePhone(form.telephone)) errs.telephone = true;
-		if (!validateEmail(form.email)) errs.email = true;
+		if (!validateEmail(form.email))
+			form.email.trim().length > 5
+				? (errs.email = true)
+				: (errs.email = true);
 		if (!validateUrl(form.siteurl)) errs.siteurl = true;
 		if (!form.location) errs.location = true;
 		if (!form.description.trim() || form.description.trim().length < 50)
 			errs.description = true;
-		if (!form.goals.trim() || form.goals.trim().length < 30)
+		if (!form.goals.trim() || form.goals.trim().length < 50)
 			errs.goals = true;
-		if (!form.business.trim() || form.business.trim().length < 30)
+		if (!form.business.trim() || form.business.trim().length < 50)
 			errs.business = true;
 		if (!validateNumber(form.budgetAmount)) errs.budgetAmount = true;
 		if (!validateMonth(form.deadlineMonth)) errs.deadlineMonth = true;
@@ -198,6 +201,14 @@ function GetStarted() {
 		return errs;
 	};
 
+	const countCharacters = (name, length) => {
+		return {
+			className: form[name].length < length ? "not-met" : "met",
+			countText: `${form[name].length > length ? "OK: " : ""}${
+				form[name].length
+			} of ${length} characters minimum`,
+		};
+	};
 	const handleChange = (e) => {
 		const { name, value, type, checked } = e.target;
 		if (name === "location") {
@@ -230,6 +241,7 @@ function GetStarted() {
 				budgetOtherCurrency: "",
 				usdEquivalent: "",
 			}));
+			countCharacters();
 		} else if (name === "budgetOtherCurrency") {
 			setForm((prev) => ({
 				...prev,
@@ -262,22 +274,23 @@ function GetStarted() {
 	const validateField = (name, value) => {
 		switch (name) {
 			case "fullname":
-				return !value.trim();
+				return !value.trim() || value.trim().length < 8;
 			case "telephone":
 				return !validatePhone(value);
 			case "email":
-				return !validateEmail(value);
+				return !validateEmail(value) || value.trim().length < 5;
 			case "siteurl":
-				return !validateUrl(value);
+				return !validateUrl(value) || value.trim().length < 15;
 			case "location":
 				return !value;
 			case "description":
 				return !value.trim() || value.trim().length < 50;
 			case "goals":
-				return !value.trim() || value.trim().length < 30;
+				return !value.trim() || value.trim().length < 50;
 			case "business":
-				return !value.trim() || value.trim().length < 30;
+				return !value.trim() || value.trim().length < 50;
 			case "budgetAmount":
+				ß;
 				return !validateNumber(value);
 			case "budgetCurrency":
 				return !value;
@@ -368,7 +381,8 @@ function GetStarted() {
 						build something amazing and unique, reliable, on time,
 						and cost effective.
 						<br />
-						<br />I make an effort to respond to all messages within 24 hours during weekdays.
+						<br />I make an effort to respond to all messages within
+						24 hours during weekdays.
 					</div>
 					<div className="getstarted-hosting-info-row">
 						<a name="hosting" className="getstarted-hosting-link">
@@ -386,7 +400,7 @@ function GetStarted() {
 							onSubmit={handleSubmit}
 							noValidate
 						>
-							<div>
+							<div className="getstarted-fullname-row field-row">
 								<label htmlFor="fullname">Full Name</label>
 								<input
 									type="text"
@@ -398,13 +412,21 @@ function GetStarted() {
 										errors.fullname ? "field-error" : ""
 									}
 								/>
+								<div
+									id="get-started-fullname-count"
+									className={
+										countCharacters("fullname", 8).className
+									}
+								>
+									{countCharacters("fullname", 8).countText}
+								</div>
 								{errors.fullname && (
 									<div className="form-error">
 										This field is required
 									</div>
 								)}
 							</div>
-							<div>
+							<div className="field-row">
 								<label htmlFor="telephone">Telephone</label>
 								<div className="getstarted-phone-row">
 									<select
@@ -441,7 +463,7 @@ function GetStarted() {
 									</div>
 								)}
 							</div>
-							<div>
+							<div className="field-row" id="get-started-email">
 								<label htmlFor="email">Email</label>
 								<input
 									type="email"
@@ -450,16 +472,24 @@ function GetStarted() {
 									value={form.email}
 									onChange={handleChange}
 									className={
-										errors.email ? "field-error" : ""
+										-+errors.email ? "field-error" : ""
 									}
 								/>
+								<div
+									id="get-started-email-count"
+									className={
+										countCharacters("email", 6).className
+									}
+								>
+									{countCharacters("email", 6).countText}
+								</div>
 								{errors.email && (
 									<div className="form-error">
 										Please enter a valid email address
 									</div>
 								)}
 							</div>
-							<div>
+							<div className="field-row">
 								<label htmlFor="siteurl">Site URL</label>
 								<input
 									type="text"
@@ -472,15 +502,23 @@ function GetStarted() {
 									}
 									placeholder="https://yourdomain.com"
 								/>
+								<div
+									id="get-started-siteurl-count"
+									className={
+										countCharacters("siteurl", 15).className
+									}
+								>
+									{countCharacters("siteurl", 15).countText}
+								</div>
 								{errors.siteurl && (
 									<div className="form-error">
 										Please enter a valid URL starting with
 										http://, https://, or www.
 									</div>
 								)}
-								<div className="checkbox-container">
+								<div className="checkbox-container field-row">
 									<label className="checkbox-label-row">
-									<div className="checkbox-label">
+										<div className="checkbox-label">
 											I already own this url
 										</div>
 										<input
@@ -489,10 +527,9 @@ function GetStarted() {
 											checked={form.ownurl}
 											onChange={handleChange}
 										/>
-									
 									</label>
 									<label className="checkbox-label-row">
-									<div className="checkbox-label">
+										<div className="checkbox-label">
 											I will need hosting
 										</div>
 										<input
@@ -501,11 +538,10 @@ function GetStarted() {
 											checked={form.hosting}
 											onChange={handleChange}
 										/>
-									
 									</label>
 								</div>
 							</div>
-							<div>
+							<div className="field-row">
 								<label htmlFor="location">Location</label>
 								<select
 									id="location"
@@ -531,7 +567,7 @@ function GetStarted() {
 									</div>
 								)}
 							</div>
-							<div>
+							<div id="description-row" className="field-row">
 								<label htmlFor="description">
 									Site General Description
 								</label>
@@ -545,13 +581,25 @@ function GetStarted() {
 										errors.description ? "field-error" : ""
 									}
 								/>
+								<div
+									id="get-started-description-count"
+									className={
+										countCharacters("description", 50)
+											.className
+									}
+								>
+									{
+										countCharacters("description", 50)
+											.countText
+									}
+								</div>
 								{errors.description && (
 									<div className="form-error">
 										Must be at least 50 characters
 									</div>
 								)}
 							</div>
-							<div>
+							<div id="goals-row" className="field-row">
 								<label htmlFor="goals">Site Goals</label>
 								<textarea
 									id="goals"
@@ -563,13 +611,21 @@ function GetStarted() {
 										errors.goals ? "field-error" : ""
 									}
 								/>
+								<div
+									id="get-started-goals-count"
+									className={
+										countCharacters("goals", 50).className
+									}
+								>
+									{countCharacters("goals", 50).countText}
+								</div>
 								{errors.goals && (
 									<div className="form-error">
-										Must be at least 30 characters
+										Must be at least 50 characters
 									</div>
 								)}
 							</div>
-							<div>
+							<div id="business-row" className="field-row">
 								<label htmlFor="business">
 									Short Business Explanation
 								</label>
@@ -583,13 +639,22 @@ function GetStarted() {
 										errors.business ? "field-error" : ""
 									}
 								/>
+								<div
+									id="get-started-business-count"
+									className={
+										countCharacters("business", 50)
+											.className
+									}
+								>
+									{countCharacters("business", 50).countText}
+								</div>
 								{errors.business && (
 									<div className="form-error">
-										Must be at least 30 characters
+										Must be at least 50 characters
 									</div>
 								)}
 							</div>
-							<div>
+							<div id="budget-row" className="field-row">
 								<label htmlFor="budgetAmount">
 									Approximate Budget
 								</label>
@@ -604,6 +669,7 @@ function GetStarted() {
 									}
 									placeholder="e.g. 5000"
 								/>
+
 								<select
 									name="budgetCurrency"
 									value={form.budgetCurrency}
@@ -630,6 +696,18 @@ function GetStarted() {
 										className="getstarted-currency-other"
 									/>
 								)}
+								<div
+									id="get-started-budget-count"
+									className={
+										countCharacters("budgetAmount", 3)
+											.className
+									}
+								>
+									{
+										countCharacters("budgetAmount", 3)
+											.countText
+									}
+								</div>
 								{errors.budgetAmount && (
 									<div className="form-error">
 										Please enter a valid budget amount
@@ -657,12 +735,16 @@ function GetStarted() {
 										className="usdx"
 										style={{ textAlign: "center" }}
 									>
-										USD Equivalent: <strong>{form.usdEquivalent}</strong>
+										USD Equivalent:{" "}
+										<strong>{form.usdEquivalent}</strong>
 									</div>
 								)}
 							</div>
-							<div>
-								<label>Approximate Deadline [ USA Style date: MM/DD/YYYY ]</label>
+							<div className="field-row">
+								<label>
+									Approximate Deadline [ USA Style date:
+									MM/DD/YYYY ]
+								</label>
 								<div className="getstarted-deadline-row">
 									{/* Month dropdown */}
 									<select
@@ -687,12 +769,16 @@ function GetStarted() {
 										<option value="8">August (8)</option>
 										<option value="9">September (9)</option>
 										<option value="10">October (10)</option>
-										<option value="11">November (11)</option>
-										<option value="12">December (12)</option>
+										<option value="11">
+											November (11)
+										</option>
+										<option value="12">
+											December (12)
+										</option>
 									</select>
-									
+
 									<span>/</span>
-								
+
 									{/* Day dropdown */}
 									<select
 										name="deadlineDay"
@@ -708,33 +794,55 @@ function GetStarted() {
 										<option value="">Day</option>
 										{/* Generate days based on selected month */}
 										{(() => {
-											const month = parseInt(form.deadlineMonth, 10);
-											const year = parseInt(form.deadlineYear, 10);
-											
+											const month = parseInt(
+												form.deadlineMonth,
+												10
+											);
+											const year = parseInt(
+												form.deadlineYear,
+												10
+											);
+
 											// Default to 31 days
 											let daysInMonth = 31;
-											
+
 											// Adjust days based on month
 											if (month && !isNaN(month)) {
 												if (month === 2) {
 													// February - check for leap year
-													if (year && !isNaN(year) && 
-														((year % 4 === 0 && year % 100 !== 0) || year % 400 === 0)) {
+													if (
+														year &&
+														!isNaN(year) &&
+														((year % 4 === 0 &&
+															year % 100 !== 0) ||
+															year % 400 === 0)
+													) {
 														daysInMonth = 29;
 													} else {
 														daysInMonth = 28;
 													}
-												} else if ([4, 6, 9, 11].includes(month)) {
+												} else if (
+													[4, 6, 9, 11].includes(
+														month
+													)
+												) {
 													// April, June, September, November have 30 days
 													daysInMonth = 30;
 												}
 											}
-											
+
 											// Generate options for days
 											const dayOptions = [];
-											for (let i = 1; i <= daysInMonth; i++) {
+											for (
+												let i = 1;
+												i <= daysInMonth;
+												i++
+											) {
 												dayOptions.push(
-													<option key={`day-${i}`} value={i.toString()}>
+													<option
+														key={`day-${i}`}
+														value={i.toString()}
+													>
 														{i}
 													</option>
 												);
@@ -743,7 +851,7 @@ function GetStarted() {
 										})()}
 									</select>
 									<span>/</span>
-								
+
 									{/* Year dropdown */}
 									<select
 										name="deadlineYear"
@@ -757,9 +865,19 @@ function GetStarted() {
 										}
 									>
 										<option value="">Year</option>
-										<option value={thisYear.toString()}>{thisYear}</option>
-										<option value={(thisYear + 1).toString()}>{thisYear + 1}</option>
-										<option value={(thisYear + 2).toString()}>{thisYear + 2}</option>
+										<option value={thisYear.toString()}>
+											{thisYear}
+										</option>
+										<option
+											value={(thisYear + 1).toString()}
+										>
+											{thisYear + 1}
+										</option>
+										<option
+											value={(thisYear + 2).toString()}
+										>
+											{thisYear + 2}
+										</option>
 									</select>
 								</div>
 								{(errors.deadlineMonth ||
@@ -771,7 +889,7 @@ function GetStarted() {
 									</div>
 								)}
 							</div>
-							<div>
+							<div className="field-row">
 								<label htmlFor="notes">Additional Notes</label>
 								<textarea
 									id="notes"
