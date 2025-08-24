@@ -19,6 +19,17 @@ const Articles = () => {
 
 	const currentSEO = SEO.find((item) => item.page === "articles");
 
+	// Helper function to create URL-friendly slug from title
+	const createSlug = (title) => {
+		return title
+			.toLowerCase()
+			.replace(/[^\w\s-]/g, "") // Remove special characters
+			.replace(/\s+/g, "-") // Replace spaces with hyphens
+			.replace(/-+/g, "-") // Replace multiple hyphens with single
+			.trim()
+			.substring(0, 70); // Limit to 70 characters
+	};
+
 	return (
 		<React.Fragment>
 			<Helmet>
@@ -35,7 +46,7 @@ const Articles = () => {
 				<div className="content-wrapper">
 					<div className="articles-logo-container">
 						<div className="articles-logo">
-							<Logo width={46} />
+							<Logo width={99} />
 						</div>
 					</div>
 
@@ -50,20 +61,29 @@ const Articles = () => {
 
 						<div className="articles-container">
 							<div className="articles-wrapper">
-								{myArticles.map((article, index) => (
-									<div
-										className="articles-article"
-										key={(index + 1).toString()}
-									>
-										<Article
+								{myArticles.map((article, index) => {
+									const articleData = article();
+									// Use custom url if provided, otherwise generate slug from title
+									const urlSlug =
+										articleData.url ||
+										createSlug(articleData.title);
+									return (
+										<div
+											className="articles-article"
 											key={(index + 1).toString()}
-											date={article().date}
-											title={article().title}
-											description={article().description}
-											link={"/article/" + (index + 1)}
-										/>
-									</div>
-								))}
+										>
+											<Article
+												key={(index + 1).toString()}
+												date={articleData.date}
+												title={articleData.title}
+												description={
+													articleData.description
+												}
+												link={"/article/" + urlSlug}
+											/>
+										</div>
+									);
+								})}
 							</div>
 						</div>
 					</div>

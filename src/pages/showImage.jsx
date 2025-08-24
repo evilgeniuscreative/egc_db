@@ -19,7 +19,9 @@ const ShowImage = () => {
 	return (
 		<React.Fragment>
 			<Helmet>
-				<title>{`Image of | ${project ? project.title : "Image not found"}`}</title>
+				<title>{`Image of | ${
+					project ? project.title : "Image not found"
+				}`}</title>
 				<meta name="description" content={currentSEO.description} />
 				<meta
 					name="keywords"
@@ -31,18 +33,22 @@ const ShowImage = () => {
 				<div className="content-wrapper">
 					<div className="about-logo-container">
 						<div className="about-logo">
-							<Logo width={46} />
+							<Logo width={99} />
 						</div>
 					</div>
 
 					<div className="showimage-container">
 						<div className="showimage-title">
-							<h1>{project ? project.title : "Image not found"}</h1>
+							<h1>
+								{project ? project.title : "Image not found"}
+							</h1>
 						</div>
 						{project ? (
 							<ShowTheImage project={project} />
 						) : (
-							<div className="showimage-error">Project not found</div>
+							<div className="showimage-error">
+								Project not found
+							</div>
 						)}
 					</div>
 					<div className="page-footer">

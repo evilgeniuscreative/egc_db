@@ -27,7 +27,7 @@ const Animations = () => {
 				<div className="content-wrapper">
 					<div className="about-logo-container">
 						<div className="about-logo">
-							<Logo width={46} />
+							<Logo width={99} />
 						</div>
 					</div>
 
@@ -39,15 +39,16 @@ const Animations = () => {
 							{INFO.animations.description}
 						</div>
 						<div className="animation-items-container">
-							{INFO.animation && INFO.animation.map((animation, index) => (
-								<Animation
-									key={index}
-									title={animation.title}
-									description={animation.description}
-									link={animation.link}
-									thumb={animation.thumb}
-								/>
-							))}
+							{INFO.animation &&
+								INFO.animation.map((animation, index) => (
+									<Animation
+										key={index}
+										title={animation.title}
+										description={animation.description}
+										link={animation.link}
+										thumb={animation.thumb}
+									/>
+								))}
 						</div>
 					</div>
 					<div className="page-footer">

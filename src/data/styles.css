@@ -26,14 +26,101 @@
 	/* ---------------------- */
 
 	/* ------- fonts ------- */
-	--primary-font: "Heebo", sans-serif;
-	--secondary-font: "Roboto", sans-serif;
+	--primary-font: "Ubuntu", sans-serif;
+	--ubuntu-font: "Ubuntu", sans-serif;
+	--neuton-font: "Neuton", serif;
+	--heebo-font: "Heebo", sans-serif;
+
+	/* --secondary-font: "Heebo", sans-serif; */
 	/* --------------------- */
 
 	/* ------- general ------- */
 	--border-color: var(--tertiary-color);
 	--radius: 3px;
 	--radius-large: 5px;
+}
+.neuton-extralight {
+	font-family: "Neuton", serif;
+	font-weight: 200;
+	font-style: normal;
+}
+
+.neuton-light {
+	font-family: "Neuton", serif;
+	font-weight: 300;
+	font-style: normal;
+}
+
+.neuton-regular {
+	font-family: "Neuton", serif;
+	font-weight: 400;
+	font-style: normal;
+}
+
+.neuton-bold {
+	font-family: "Neuton", serif;
+	font-weight: 700;
+	font-style: normal;
+}
+
+.neuton-extrabold {
+	font-family: "Neuton", serif;
+	font-weight: 800;
+	font-style: normal;
+}
+
+.neuton-regular-italic {
+	font-family: "Neuton", serif;
+	font-weight: 400;
+	font-style: italic;
+}
+
+.ubuntu-light {
+	font-family: "Ubuntu", sans-serif;
+	font-weight: 300;
+	font-style: normal;
+}
+
+.ubuntu-regular {
+	font-family: "Ubuntu", sans-serif;
+	font-weight: 400;
+	font-style: normal;
+}
+
+.ubuntu-medium {
+	font-family: "Ubuntu", sans-serif;
+	font-weight: 500;
+	font-style: normal;
+}
+
+.ubuntu-bold {
+	font-family: "Ubuntu", sans-serif;
+	font-weight: 700;
+	font-style: normal;
+}
+
+.ubuntu-light-italic {
+	font-family: "Ubuntu", sans-serif;
+	font-weight: 300;
+	font-style: italic;
+}
+
+.ubuntu-regular-italic {
+	font-family: "Ubuntu", sans-serif;
+	font-weight: 400;
+	font-style: italic;
+}
+
+.ubuntu-medium-italic {
+	font-family: "Ubuntu", sans-serif;
+	font-weight: 500;
+	font-style: italic;
+}
+
+.ubuntu-bold-italic {
+	font-family: "Ubuntu", sans-serif;
+	font-weight: 700;
+	font-style: italic;
 }
 
 .field-error {
@@ -44,7 +131,7 @@
 	color: var(--red);
 	font-size: 0.85em;
 	text-align: right;
-	float:right;
+	float: right;
 	margin-top: 2px;
 	margin-bottom: 10px;
 }
@@ -182,7 +269,6 @@ input[type="radio"] {
 	display: flex;
 	direction: column;
 	gap: 2em;
-
 }
 input[type="checkbox"] {
 	height: 25px;
@@ -193,9 +279,9 @@ input[type="checkbox"] {
 	font-size: 16px;
 	width: auto;
 }
-.checkbox-label-row{
+.checkbox-label-row {
 	align-items: center;
-	display:flex;
+	display: flex;
 	justify-content: start;
-	gap:1em;
+	gap: 1em;
 }

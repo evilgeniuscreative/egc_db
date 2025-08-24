@@ -22,7 +22,7 @@ const Notfound = () => {
 				<div className="content-wrapper">
 					<div className="notfound-logo-container">
 						<div className="projects-logo">
-							<Logo width={46} />
+							<Logo width={99} />
 						</div>
 					</div>
 					<div className="notfound-container">
@@ -31,19 +31,20 @@ const Notfound = () => {
 								Oops! <FontAwesomeIcon icon={faFaceSadTear} />
 							</div>
 							<div className="not-found-message">
-								We can&apos;t seem to find the page you&apos;re looking
-								for. Please try
+								We can&apos;t seem to find the page you&apos;re
+								looking for. Please try
 								<ol>
 									<li>
 										<strong>refreshing the page</strong>
 									</li>
 									<li>
-										or <a href="/">go back to the home page</a>
+										or{" "}
+										<a href="/">go back to the home page</a>
 									</li>
 								</ol>
 								<br />
-								The requested URL &quot;{window.location.href}&quot; was
-								not found on this server.
+								The requested URL &quot;{window.location.href}
+								&quot; was not found on this server.
 							</div>
 						</div>
 					</div>

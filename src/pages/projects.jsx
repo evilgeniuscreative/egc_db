@@ -34,7 +34,7 @@ const Projects = () => {
 				<div className="content-wrapper">
 					<div className="projects-logo-container">
 						<div className="projects-logo">
-							<Logo width={46} />
+							<Logo width={99} />
 						</div>
 					</div>
 					<div className="projects-container">
@@ -44,10 +44,11 @@ const Projects = () => {
 						</div>
 
 						<div className="subtitle projects-subtitle">
-							I&rsquo;ve worked on a variety of projects over the years
-							and I&rsquo;m proud of the progress I&rsquo;ve made. If you&rsquo;re
-							interested in any of the projects I&rsquo;ve worked on,
-							please feel free to check out the code.
+							I&rsquo;ve worked on a variety of projects over the
+							years and I&rsquo;m proud of the progress I&rsquo;ve
+							made. If you&rsquo;re interested in any of the
+							projects I&rsquo;ve worked on, please feel free to
+							check out the code.
 						</div>
 
 						<div className="projects-list">

@@ -36,23 +36,66 @@
 
 .article-title {
 	color: #000000;
-	font-size: 16px;
-	font-weight: 600;
+	font-size: 18px;
+	font-weight: 900;
+}
+
+.article-subtitle {
+	font-family: "Neuton", serif;
+	font-weight: 300;
+	font-style: italic;
+	font-size: 24px;
 }
 
 .article-description {
 	padding-top: 10px;
-	font-size: 12px;
-	color: var(--secondary-color);
+	font-size: 16px;
+	color: #000000;
 	font-weight: 480;
-	line-height: 25px;
+	line-height: 1.4;
+}
+.article-image-container {
+	width: 30%;
+	height: auto;
+	float: left;
+	padding-right: 20px;
+	padding-bottom: 5px;
+	margin: 10px 0 0 0;
+	transition: all 0.3s ease-in-out, transform 0.3s ease-in-out;
+	background: white;
+}
+.article-image-container figcaption {
+	margin: 0 auto;
+	line-height: 1.5;
+	font-size: 13px;
+	font-style: italic;
+	text-align: left;
+	color: var(--primary-color);
+	width: 90%;
+}
+.article-image-container:hover {
+	transform: scale(2);
+	transition: all 0.3s ease-in-out, transform 0.3s ease-in-out;
+	box-shadow: 0px 0px 10px rgba(10, 10, 0, 0.3);
+	padding: 5px;
+	border-radius: var(--radius-large);
+}
+.article-image {
+	width: 100%;
+	height: auto;
+	object-fit: cover;
+	object-position: center;
+	border: 1px solid #111;
+	border-radius: var(--radius);
 }
 
 .article-link {
 	padding-top: 10px;
-	font-size: 14px;
+	font-size: 16px;
 	color: var(--link-color);
 	font-weight: 700;
+	text-align: right;
+	padding-right: 10px;
 }
 
 @media (max-width: 1024px) {

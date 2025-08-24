@@ -34,21 +34,22 @@ const Designs = () => {
 				<div className="content-wrapper">
 					<div className="designs-logo-container">
 						<div className="designs-logo">
-							<Logo width={46} />
+							<Logo width={99} />
 						</div>
 					</div>
 					<div className="designs-container">
 						<div className="title designs-title">
-							Things I&apos;ve made over the years, from modern React
-							and Vue to ancient Angular 1.x to Khoros CMS
+							Things I&apos;ve made over the years, from modern
+							React and Vue to ancient Angular 1.x to Khoros CMS
 							Communities.
 						</div>
 
 						<div className="subtitle designs-subtitle">
 							Below I&apos;ve shared a myriad of design and dev
-							projects I&apos;ve worked on. Some are personal projects,
-							some are client projects, and most of them I have
-							done both design and development on at some point.
+							projects I&apos;ve worked on. Some are personal
+							projects, some are client projects, and most of them
+							I have done both design and development on at some
+							point.
 						</div>
 
 						<div className="designs-list">

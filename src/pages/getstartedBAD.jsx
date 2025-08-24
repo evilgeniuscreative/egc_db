@@ -133,7 +133,7 @@ function GetStarted() {
       <div className="content-wrapper">
         <div className="contact-logo-container">
           <div className="contact-logo">
-            <Logo width={46} />
+            <Logo width={99} />
           </div>
         </div>
         <div className="contact-container">
@@ -399,7 +399,7 @@ export default GetStarted;
 			<div className="content-wrapper">
 				<div className="contact-logo-container">
 					<div className="contact-logo">
-						<Logo width={46} />
+						<Logo width={99} />
 					</div>
 				</div>
 				<div className="contact-container">

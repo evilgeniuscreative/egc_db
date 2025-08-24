@@ -4,6 +4,9 @@ let INFO = {
 		name: "Ian Kleinfeld",
 		email: "mydesignguy@gmail.com",
 		logo: "logo.jpg",
+		hero1: "hero1.jpg",
+		hero2: "hero2.jpg",
+		herolink: "/getstarted",
 	},
 
 	socials: {
@@ -37,6 +40,12 @@ let INFO = {
 		description:
 			"A series of animations explaining agile metrics for rally software, to give an idea of how each major agile metric is explaining measured and relates to team performance.",
 	},
+	articles: {
+		title: "Articles",
+		description:
+			"Chronological collection of my long-form thoughts on programming, leadership, product design, and more.",
+	},
+
 	narration_videos: {
 		title: "A series of video tutorials on how best to series of video tutorials on how best to use the community.",
 		description:

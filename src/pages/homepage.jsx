@@ -17,6 +17,7 @@ import NavBar from "../components/common/navBar";
 // import Article from "../components/homepage/article";
 // import Works from "../components/homepage/works";
 import AllProjects from "../components/projects/allProjects";
+import HomepageRolloverImage from "../components/homepage/homepageRolloverImage";
 
 import INFO from "../data/user";
 import SEO from "../data/seo";
@@ -26,8 +27,8 @@ import "./styles/homepage.css";
 
 const Homepage = () => {
 	const [stayLogo, setStayLogo] = useState(false);
-	const [logoSize, setLogoSize] = useState(80);
-	const [oldLogoSize, setOldLogoSize] = useState(80);
+	const [logoSize, setLogoSize] = useState(99);
+	const [oldLogoSize, setOldLogoSize] = useState(99);
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
@@ -103,13 +104,7 @@ const Homepage = () => {
 
 							<div className="homepage-first-area-right-side">
 								<div className="homepage-image-container">
-									<div className="homepage-image-wrapper">
-										<img
-											src="homepage.webp"
-											alt="about"
-											className="homepage-image"
-										/>
-									</div>
+									<HomepageRolloverImage />
 								</div>
 							</div>
 						</div>

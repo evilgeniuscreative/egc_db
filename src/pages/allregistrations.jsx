@@ -32,7 +32,7 @@ const AllRegistrations = () => {
 				<div className="content-wrapper">
 					<div className="projects-logo-container">
 						<div className="projects-logo">
-							<Logo width={46} />
+							<Logo width={99} />
 						</div>
 					</div>
 					<div className="coar-container">

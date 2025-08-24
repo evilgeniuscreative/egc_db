@@ -18,22 +18,66 @@ const ReadArticle = () => {
 	const navigate = useNavigate();
 	let { slug } = useParams();
 
-	const article = myArticles[slug - 1];
+	// Helper function to create URL-friendly slug from title (same as in articles.jsx)
+	const createSlug = (title) => {
+		return title
+			.toLowerCase()
+			.replace(/[^\w\s-]/g, "") // Remove special characters
+			.replace(/\s+/g, "-") // Replace spaces with hyphens
+			.replace(/-+/g, "-") // Replace multiple hyphens with single
+			.trim()
+			.substring(0, 70); // Limit to 70 characters
+	};
+
+	// Find article by matching slug to custom url or auto-generated slug
+	const article = myArticles.find((articleFunc) => {
+		const articleData = articleFunc();
+		const urlSlug = articleData.url || createSlug(articleData.title);
+		return urlSlug === slug;
+	});
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
 	}, [article]);
 
+	// If article not found, redirect to 404 or articles page
+	if (!article) {
+		return (
+			<React.Fragment>
+				<Helmet>
+					<title>{`Article Not Found | ${INFO.main.title}`}</title>
+				</Helmet>
+				<div className="page-content">
+					<NavBar />
+					<div className="content-wrapper">
+						<div className="read-article-container">
+							<h1>Article Not Found</h1>
+							<p>The article you're looking for doesn't exist.</p>
+							<button onClick={() => navigate("/articles")}>
+								Back to Articles
+							</button>
+						</div>
+					</div>
+				</div>
+			</React.Fragment>
+		);
+	}
+
+	const articleData = article();
+
 	ArticleStyle = styled.div`
-		${article().style}
+		${articleData.style}
 	`;
 
 	return (
 		<React.Fragment>
 			<Helmet>
-				<title>{`${article().title} | ${INFO.main.title}`}</title>
-				<meta name="description" content={article().description} />
-				<meta name="keywords" content={article().keywords.join(", ")} />
+				<title>{`${articleData.title} | ${INFO.main.title}`}</title>
+				<meta name="description" content={articleData.description} />
+				<meta
+					name="keywords"
+					content={articleData.keywords.join(", ")}
+				/>
 			</Helmet>
 
 			<div className="page-content">
@@ -42,7 +86,7 @@ const ReadArticle = () => {
 				<div className="content-wrapper">
 					<div className="read-article-logo-container">
 						<div className="read-article-logo">
-							<Logo width={46} />
+							<Logo width={99} />
 						</div>
 					</div>
 
@@ -59,16 +103,16 @@ const ReadArticle = () => {
 						<div className="read-article-wrapper">
 							<div className="read-article-date-container">
 								<div className="read-article-date">
-									{article().date}
+									{articleData.date}
 								</div>
 							</div>
 
 							<div className="title read-article-title">
-								{article().title}
+								{articleData.title}
 							</div>
 
 							<div className="read-article-body">
-								<ArticleStyle>{article().body}</ArticleStyle>
+								<ArticleStyle>{articleData.body}</ArticleStyle>
 							</div>
 						</div>
 					</div>
