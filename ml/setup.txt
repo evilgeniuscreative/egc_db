@@ -1,0 +1,78 @@
+=====================
+📦 PHP Mail Server Setup – Full Instructions and Code (Latest Version)
+=====================
+
+# ✅ STEP-BY-STEP SETUP (Bluehost compatible)
+
+1. 🔐 Create a MySQL database named `emails18` with a user that has full permissions.
+2. 📄 Create these files in your web root:
+   - `config.php`
+   - `send_mail.php`
+   - `admin_login.php`
+   - `admin_panel.php`
+   - `reset_password.php`
+   - `captcha_verify.php`
+   - `.htaccess` (to protect admin folder if needed)
+   - (Optional) `banlist.php`, `logout.php`
+3. 🧩 Include the **Google reCAPTCHA v2 keys** from https://www.google.com/recaptcha/admin
+4. 🐘 Make sure PHP has `openssl`, `mysqli`, and `curl` enabled on your Bluehost account.
+5. 📨 Add this to your `.env` or `config.php`:
+
+```php
+// config.php
+$SMTP_HOST = 'box5150.bluehost.com';
+$SMTP_PORT = 465;
+$SMTP_USER = 'ian@evilgeniuscreative.com';
+$SMTP_PASS = 'Flibbert1gibbet69!';
+$ADMIN_EMAIL = 'ian@evilgeniuscreative.com';
+$ALLOWED_SITES = ['evilgeniuscreative.com', 'example2.com'];
+```
+
+6. ⚙️ Import this SQL to create the main table:
+
+```sql
+CREATE TABLE email_logs (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(255),
+  email VARCHAR(255),
+  site VARCHAR(255),
+  message TEXT,
+  ip_address VARCHAR(45),
+  cookie_id VARCHAR(255),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  blocked BOOLEAN DEFAULT FALSE
+);
+
+CREATE TABLE admin_users (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  email VARCHAR(255) UNIQUE NOT NULL,
+  password_hash TEXT NOT NULL,
+  reset_token VARCHAR(255),
+  reset_expires DATETIME
+);
+
+CREATE TABLE email_state (
+  id INT PRIMARY KEY DEFAULT 1,
+  email_enabled BOOLEAN DEFAULT TRUE,
+  last_disabled TIMESTAMP NULL
+);
+
+INSERT IGNORE INTO email_state (id, email_enabled) VALUES (1, TRUE);
+```
+
+7. 🔐 Set up login credentials using this command (you can do it via PHPMyAdmin or a script):
+```php
+$passwordHash = password_hash("Knowledge2is8Power", PASSWORD_DEFAULT);
+```
+
+8. ✅ Upload everything to Bluehost. The script will now:
+   - Send emails securely via SMTP
+   - Limit emails to **2/min** per IP and cookie
+   - Disable form if **10+ emails in 10 minutes** (site-wide)
+   - Allow admin panel re-enable + banning
+   - Add Google reCAPTCHA protection
+   - Track IP and cookies
+   - Include password reset functionality
+
+
+🟢 Let me know and I’ll now paste the contents of `send_mail.php`...
