@@ -2,7 +2,6 @@ let INFO = {
 	main: {
 		title: "Ian Kleinfeld, Software Developer, Front End Engineer, with a deep UX, UI, and Design background",
 		name: "Ian Kleinfeld",
-		email: "mydesignguy@gmail.com",
 		logo: "logo.jpg",
 		hero1: "hero1.jpg",
 		hero2: "hero2.jpg",

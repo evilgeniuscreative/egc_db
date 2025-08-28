@@ -35,7 +35,8 @@
 		"web-vitals": "^2.1.4"
 	},
 	"scripts": {
-		"start": "react-scripts start",
+		
+		"start": "lsof -ti :3000 | xargs -r kill -9 && react-scripts start",
 		"build": "react-scripts build",
 		"test": "react-scripts test",
 		"eject": "react-scripts eject",
@@ -59,7 +60,7 @@
 	},
 	"devDependencies": {
 		"@eslint/js": "^9.27.0",
-		"eslint": "^9.27.0",
+		"eslint": "^8.57.1",
 		"eslint-plugin-react": "^7.37.5",
 		"globals": "^16.2.0",
 		"typescript-eslint": "^8.33.0"

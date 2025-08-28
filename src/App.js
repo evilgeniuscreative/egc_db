@@ -16,6 +16,7 @@ import Notfound from "./pages/404";
 import AllRegistrations from "./pages/allregistrations";
 import ShowImage from "./pages/showImage";
 
+import Raptorize from "./components/raptorize";
 import { TRACKING_ID } from "./data/tracking";
 import "./app.css";
 
@@ -31,6 +32,7 @@ function App() {
 	// const { id } = useParams();
 	return (
 		<div className="App">
+			<Raptorize delay={5000} enabled={true} />
 			<Routes>
 				<Route path="/" element={<Homepage />} />
 				<Route path="/about" element={<About />} />
