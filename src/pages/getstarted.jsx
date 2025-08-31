@@ -1,218 +1,611 @@
-import React, { useEffect, useState } from "react";
-import { Helmet } from "react-helmet";
+/**
+ * Filename: getstarted.jsx
+ * Location: /src/pages/
+ *
+ * Project questionnaire form for Evil Genius Creative
+ * Comprehensive form for gathering project requirements, budget, timeline
+ *
+ * Variables:
+ * - form: Object containing all project questionnaire fields
+ * - recaptchaSiteKey: Dynamic reCAPTCHA site key from backend
+ * - errors: Form validation error states
+ * - success: Form submission success state
+ * - isSubmitting: Form submission loading state
+ * - modalIsOpen: Hosting info modal state
+ *
+ * Features:
+ * - International phone code integration
+ * - Currency conversion with USD equivalent
+ * - Dynamic date validation for project deadlines
+ * - reCAPTCHA v3 integration (invisible)
+ * - Comprehensive project data collection
+ *
+ * Instructions:
+ * 1. Requires recaptcha_config.php endpoint for dynamic site key
+ * 2. Submits to /submit.php with consolidated project message
+ * 3. Uses reCAPTCHA v3 action: 'getstarted_form'
+ * 4. All project data is formatted into readable message for admin
+ */
 
+import React, { useEffect, useState, useMemo } from "react";
+import { Helmet } from "react-helmet";
 import NavBar from "../components/common/navBar";
 import Footer from "../components/common/footer";
+import EgcModal from "../components/egcmodal/EgcModal";
 import Logo from "../components/common/logo";
 import Socials from "../components/about/socials";
-
+import phoneCodes from "../data/phonecodes.json";
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import CloseIcon from "@mui/icons-material/Close";
+import PropTypes from "prop-types";
 import INFO from "../data/user";
 import SEO from "../data/seo";
 
 import "./styles/contact.css";
 
-const Contact = () => {
-	const [form, setForm] = useState({
-		name: "",
-		email: "",
-		message: "",
-	});
-	const [errors, setErrors] = useState({});
-	const [success, setSuccess] = useState(false);
-	const [btnText, setBtnText] = useState("Send");
-	const [isSubmitting, setIsSubmitting] = useState(false);
+// Currency conversion helper
+function USDXConverter({ amount, currency, setUsdEquivalent }) {
+	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState("");
+
+	useEffect(() => {
+		if (!amount || !currency || currency === "USD" || currency === "") {
+			return;
+		}
+
+		const sanitizedAmount = parseFloat((amount + "").replace(/,/g, ""));
+		if (isNaN(sanitizedAmount)) {
+			setError("Invalid amount");
+			return;
+		}
+
+		setLoading(true);
+		setError("");
+
+		fetch(
+			`https://api.freecurrencyapi.com/v1/latest?apikey=fca_live_W9VpzqNqveR6psCl6ooVwJAS3V0Rm48cvUIXTFKF&currencies=${currency}`
+		)
+			.then((res) => res.json())
+			.then((data) => {
+				if (data.data && data.data[currency]) {
+					const rate = data.data[currency];
+					const usdValue = sanitizedAmount / rate;
+					setUsdEquivalent(
+						usdValue.toLocaleString("en-US", {
+							style: "currency",
+							currency: "USD",
+						})
+					);
+					setError("");
+				} else {
+					setUsdEquivalent("");
+					setError("Could not fetch conversion");
+				}
+			})
+			.catch((err) => {
+				console.error("Currency conversion error:", err);
+				setUsdEquivalent("");
+				setError("Could not fetch conversion");
+			})
+			.finally(() => setLoading(false));
+	}, [amount, currency]);
+
+	if (loading)
+		return (
+			<div className="usdx" style={{ textAlign: "center" }}>
+				Converting...
+			</div>
+		);
+	if (error)
+		return (
+			<div className="usdx" style={{ textAlign: "center", color: "red" }}>
+				{error}
+			</div>
+		);
+	return null;
+}
+
+function GetStarted() {
+	const thisYear = useMemo(() => new Date().getFullYear(), []);
+	const [recaptchaSiteKey, setRecaptchaSiteKey] = useState("");
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
-		// Load reCAPTCHA script
-		if (!window.grecaptcha) {
-			const script = document.createElement("script");
-			script.src = "https://www.google.com/recaptcha/api.js";
-			script.async = true;
-			script.defer = true;
-			document.body.appendChild(script);
-		}
+
+		// Fetch reCAPTCHA site key from backend
+		fetch("/recaptcha_config.php")
+			.then((res) => res.json())
+			.then((data) => {
+				setRecaptchaSiteKey(data.siteKey);
+
+				// Load reCAPTCHA v3 script with the site key
+				if (data.siteKey && !window.grecaptcha) {
+					const script = document.createElement("script");
+					script.src = `https://www.google.com/recaptcha/api.js?render=${data.siteKey}`;
+					script.async = true;
+					script.defer = true;
+					document.body.appendChild(script);
+				}
+			})
+			.catch((err) =>
+				console.error("Failed to load reCAPTCHA config:", err)
+			);
 	}, []);
 
-	const currentSEO = SEO.find((item) => item.page === "contact");
+	const currentSEO = SEO.find((item) => item.page === "getstarted");
+
+	const countryOptions = [
+		...phoneCodes.filter((c) => c.name === "United States"),
+		...phoneCodes
+			.filter((c) => c.name !== "United States")
+			.sort((a, b) => a.name.localeCompare(b.name)),
+	];
+	const phoneCodeOptions = phoneCodes;
+
+	const [modalIsOpen, setIsOpen] = useState(false);
+
+	const openModal = () => setIsOpen(true);
+	const closeModal = () => setIsOpen(false);
+
+	const today = new Date();
+	const getDefaultDeadline = () => {
+		const d = new Date(
+			today.getFullYear(),
+			today.getMonth() + 3,
+			today.getDate()
+		);
+		return {
+			month: (d.getMonth() + 1).toString(),
+			day: d.getDate().toString(),
+			year: d.getFullYear().toString(),
+		};
+	};
+	const defaultDeadlineObj = getDefaultDeadline();
+
+	const [form, setForm] = useState({
+		fullname: "",
+		phoneCode: "+1",
+		telephone: "",
+		email: "",
+		siteurl: "",
+		ownurl: false,
+		buyurl: false,
+		hosting: false,
+		hostself: false,
+		location: "United States",
+		description: "",
+		goals: "",
+		business: "",
+		budgetAmount: "",
+		budgetCurrency: "USD",
+		budgetOtherCurrency: "",
+		usdEquivalent: "",
+		deadlineMonth: defaultDeadlineObj.month,
+		deadlineDay: defaultDeadlineObj.day,
+		deadlineYear: defaultDeadlineObj.year,
+		notes: "",
+	});
+
+	const [errors, setErrors] = useState({});
+	const [touched, setTouched] = useState({});
+	const [success, setSuccess] = useState(false);
+	const [isSubmitting, setIsSubmitting] = useState(false);
+	const [btnText, setBtnText] = useState("Send");
+
+	// Validation helpers
+	const validateEmail = (email) =>
+		/.+@.+\..+/.test(email) && email.trim().length > 5;
+	const validatePhone = (phone) => /^[0-9\-\s()]{7,}$/.test(phone);
+	const validateUrl = (url) =>
+		/^(https?:\/\/)?(www\.)?[^\s]+\.[^\s]+/.test(url) ||
+		url.trim().length > 5;
+	const validateNumber = (val) => !isNaN(Number(val)) && val.trim() !== "";
+	const validateMonth = (m) => /^[1-9]$|^1[0-2]$/.test(m);
+	const validateDay = (d, m, y) => {
+		const day = Number(d);
+		const month = Number(m);
+		const year = Number(y);
+		if (!day || !month || !year) return false;
+		const daysInMonth = new Date(year, month, 0).getDate();
+		return day > 0 && day <= daysInMonth;
+	};
+	const validateYear = (y) =>
+		/^\d{4}$/.test(y) && Number(y) >= today.getFullYear();
 
 	const validate = () => {
 		let errs = {};
-		if (!form.name.trim()) errs.name = true;
+		if (!form.fullname.trim() || form.fullname.trim().length < 5)
+			errs.fullname = true;
+		if (!validatePhone(form.telephone)) errs.telephone = true;
+		if (!validateEmail(form.email)) errs.email = true;
+		if (!validateUrl(form.siteurl)) errs.siteurl = true;
+		if (!form.location) errs.location = true;
+		if (!form.description.trim() || form.description.trim().length < 50)
+			errs.description = true;
+		if (!form.goals.trim() || form.goals.trim().length < 50)
+			errs.goals = true;
+		if (!form.business.trim() || form.business.trim().length < 50)
+			errs.business = true;
+		if (!validateNumber(form.budgetAmount)) errs.budgetAmount = true;
+		if (!validateMonth(form.deadlineMonth)) errs.deadlineMonth = true;
 		if (
-			!form.email.trim() ||
-			!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)
+			!validateDay(
+				form.deadlineDay,
+				form.deadlineMonth,
+				form.deadlineYear
+			)
 		)
-			errs.email = true;
-		if (!form.message.trim() || form.message.trim().length < 50)
-			errs.message = true;
+			errs.deadlineDay = true;
+		if (!validateYear(form.deadlineYear)) errs.deadlineYear = true;
 		return errs;
 	};
 
+	const countCharacters = (name, length) => {
+		return {
+			className: form[name].length < length ? "not-met" : "met",
+			countText: `${form[name].length > length ? "OK: " : ""}${
+				form[name].length
+			} of ${length} characters minimum`,
+		};
+	};
+
 	const handleChange = (e) => {
-		setForm({ ...form, [e.target.name]: e.target.value });
-		if (errors[e.target.name]) {
-			setErrors({ ...errors, [e.target.name]: false });
+		const { name, value, type, checked } = e.target;
+		if (name === "location") {
+			const selectedCountry = countryOptions.find(
+				(c) => c.name === value
+			);
+			let newPhoneCode = form.phoneCode;
+			if (selectedCountry) newPhoneCode = selectedCountry.dial_code;
+			setForm((prev) => ({
+				...prev,
+				location: value,
+				phoneCode: newPhoneCode,
+			}));
+		} else if (name === "phoneCode") {
+			const selectedCountry = phoneCodeOptions.find(
+				(c) => c.dial_code === value
+			);
+			let newLocation = form.location;
+			if (selectedCountry) newLocation = selectedCountry.name;
+			setForm((prev) => ({
+				...prev,
+				phoneCode: value,
+				location: newLocation,
+			}));
+		} else if (name === "budgetCurrency") {
+			setForm((prev) => ({
+				...prev,
+				budgetCurrency: value,
+				budgetOtherCurrency: "",
+				usdEquivalent: "",
+			}));
+		} else if (name === "budgetOtherCurrency") {
+			setForm((prev) => ({
+				...prev,
+				budgetOtherCurrency: value,
+				usdEquivalent: "",
+			}));
+		} else if (name === "budgetAmount") {
+			const sanitized = value.replace(/[^\d.,]/g, "");
+			setForm((prev) => ({
+				...prev,
+				budgetAmount: sanitized,
+				usdEquivalent: "",
+			}));
+		} else {
+			setForm((prev) => ({
+				...prev,
+				[name]: type === "checkbox" ? checked : value,
+			}));
+		}
+		if (touched[name]) {
+			const fieldError = validateField(
+				name,
+				type === "checkbox" ? checked : value
+			);
+			setErrors((prev) => ({ ...prev, [name]: fieldError }));
 		}
 	};
 
+	const validateField = (name, value) => {
+		switch (name) {
+			case "fullname":
+				return !value.trim() || value.trim().length < 8;
+			case "telephone":
+				return !validatePhone(value);
+			case "email":
+				return !validateEmail(value) || value.trim().length < 5;
+			case "siteurl":
+				return !validateUrl(value) || value.trim().length < 15;
+			case "location":
+				return !value;
+			case "description":
+				return !value.trim() || value.trim().length < 50;
+			case "goals":
+				return !value.trim() || value.trim().length < 50;
+			case "business":
+				return !value.trim() || value.trim().length < 50;
+			case "budgetAmount":
+				return !validateNumber(value);
+			case "budgetCurrency":
+				return !value;
+			case "deadlineMonth":
+				return !validateMonth(value);
+			case "deadlineDay":
+				return !validateDay(
+					form.deadlineDay,
+					form.deadlineMonth,
+					form.deadlineYear
+				);
+			case "deadlineYear":
+				return !validateYear(value);
+			default:
+				return false;
+		}
+	};
+
+	// Form submit handler
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
 		if (isSubmitting) return;
+
+		const allTouched = Object.keys(form).reduce((acc, field) => {
+			acc[field] = true;
+			return acc;
+		}, {});
+		setTouched(allTouched);
 
 		const validationErrors = validate();
 		setErrors(validationErrors);
 
 		if (Object.keys(validationErrors).length === 0) {
 			setIsSubmitting(true);
-			setBtnText("Sending...");
+			setBtnText("Processing...");
 
 			try {
-				// Get reCAPTCHA token
-				const recaptchaToken = window.grecaptcha
-					? window.grecaptcha.getResponse()
-					: "";
-
-				if (!recaptchaToken) {
+				// Execute reCAPTCHA v3
+				if (!window.grecaptcha || !recaptchaSiteKey) {
 					setErrors({
-						submit: "Please complete the reCAPTCHA verification.",
+						submit: "reCAPTCHA not loaded. Please refresh the page.",
 					});
 					setBtnText("Send");
 					setIsSubmitting(false);
 					return;
 				}
 
-				// Prepare form data
-				const formData = new FormData();
-				formData.append("name", form.name);
-				formData.append("email", form.email);
-				formData.append("message", form.message);
-				formData.append("g-recaptcha-response", recaptchaToken);
-
-				// Send to PHP backend
-				const response = await fetch("/submit.php", {
-					method: "POST",
-					body: formData,
+				window.grecaptcha.ready(() => {
+					window.grecaptcha
+						.execute(recaptchaSiteKey, {
+							action: "getstarted_form",
+						})
+						.then(async (token) => {
+							await submitFormWithToken(token);
+						});
 				});
-
-				const responseText = await response.text();
-
-				if (
-					response.ok &&
-					(responseText.includes("Success") ||
-						responseText.includes("sent successfully"))
-				) {
-					setSuccess(true);
-					setForm({
-						name: "",
-						email: "",
-						message: "",
-					});
-					// Reset reCAPTCHA
-					if (window.grecaptcha) {
-						window.grecaptcha.reset();
-					}
-				} else {
-					console.error("Server response:", responseText);
-					setErrors({
-						submit:
-							responseText || "Failed to send. Please try again.",
-					});
-				}
 			} catch (error) {
-				console.error("Error sending form:", error);
+				console.error("Error with reCAPTCHA:", error);
 				setErrors({
-					submit: "Network error. Please check your connection and try again.",
+					submit: "reCAPTCHA error. Please try again.",
 				});
-			} finally {
 				setBtnText("Send");
 				setIsSubmitting(false);
 			}
 		}
 	};
 
+	async function submitFormWithToken(recaptchaToken) {
+		try {
+			// Create comprehensive message for PHP backend
+			const fullMessage = `
+PROJECT INQUIRY - Get Started Form
+
+Contact Information:
+Name: ${form.fullname}
+Phone: ${form.phoneCode} ${form.telephone}
+Email: ${form.email}
+Location: ${form.location}
+
+Project Details:
+Site URL: ${form.siteurl}
+${form.ownurl ? "✓ Already owns URL" : "✗ Does not own URL"}
+${form.hosting ? "✓ Needs hosting" : "✗ Does not need hosting"}
+
+Description: ${form.description}
+
+Goals: ${form.goals}
+
+Business Info: ${form.business}
+
+Budget: ${form.budgetAmount} ${form.budgetCurrency}${
+				form.usdEquivalent ? ` (${form.usdEquivalent})` : ""
+			}
+
+Deadline: ${form.deadlineMonth}/${form.deadlineDay}/${form.deadlineYear}
+
+Additional Notes: ${form.notes || "None"}
+
+Submitted: ${new Date().toLocaleString()}
+			`.trim();
+
+			// Prepare form data for PHP backend
+			const formData = new FormData();
+			formData.append("name", form.fullname);
+			formData.append("email", form.email);
+			formData.append("message", fullMessage);
+			formData.append("g-recaptcha-response", recaptchaToken);
+
+			// Send to PHP backend
+			const response = await fetch("/submit.php", {
+				method: "POST",
+				body: formData,
+			});
+
+			const responseText = await response.text();
+
+			if (
+				response.ok &&
+				(responseText.includes("Success") ||
+					responseText.includes("sent successfully"))
+			) {
+				setSuccess(true);
+				// Reset form to defaults
+				setForm({
+					fullname: "",
+					phoneCode: "+1",
+					telephone: "",
+					email: "",
+					siteurl: "",
+					ownurl: false,
+					buyurl: false,
+					hosting: false,
+					hostself: false,
+					location: "United States",
+					description: "",
+					goals: "",
+					business: "",
+					budgetAmount: "",
+					budgetCurrency: "USD",
+					budgetOtherCurrency: "",
+					usdEquivalent: "",
+					deadlineMonth: defaultDeadlineObj.month,
+					deadlineDay: defaultDeadlineObj.day,
+					deadlineYear: defaultDeadlineObj.year,
+					notes: "",
+				});
+			} else {
+				console.error("Server response:", responseText);
+				setErrors({
+					submit: responseText || "Failed to send. Please try again.",
+				});
+			}
+		} catch (error) {
+			console.error("Error sending form:", error);
+			setErrors({
+				submit: "Network error. Please check your connection and try again.",
+			});
+		} finally {
+			setBtnText("Send");
+			setIsSubmitting(false);
+		}
+	}
+
 	return (
-		<React.Fragment>
+		<div className="page-content">
 			<Helmet>
-				<title>{`Contact | ${INFO.main.title}`}</title>
-				<meta name="description" content={currentSEO?.description} />
+				<title>{`Get Started | ${INFO.main.title}`}</title>
+				<meta
+					name="description"
+					content={currentSEO?.description || ""}
+				/>
 				<meta
 					name="keywords"
 					content={currentSEO?.keywords?.join(", ") || ""}
 				/>
 			</Helmet>
-
-			<div className="page-content">
-				<NavBar active="contact" />
-				<div className="content-wrapper">
-					<div className="contact-logo-container">
-						<div className="contact-logo">
-							<Logo width={99} />
-						</div>
+			<NavBar active="getstarted" />
+			<div className="content-wrapper">
+				<div className="contact-logo-container">
+					<div className="contact-logo">
+						<Logo width={99} />
 					</div>
-
-					<div className="contact-container">
-						<div className="title contact-title">
-							Connect with Me
+				</div>
+				<div className="contact-container">
+					<div className="title contact-title">
+						Let's get started on your project! (Or get a quote).
+					</div>
+					<div className="subtitle contact-subtitle">
+						Thanks for your interest in working with me. Let's talk
+						about your project. I'm here to help you build something
+						amazing and unique, reliable, on time, and cost
+						effective.
+						<br />
+						<br />I make an effort to respond to all messages within
+						24 hours during weekdays.
+					</div>
+					<div className="getstarted-hosting-info-row">
+						<a name="hosting" className="getstarted-hosting-link">
+							What is hosting?
+						</a>
+					</div>
+					{success ? (
+						<div className="form-success">
+							Thank you for sending us a message, we'll get back
+							to you ASAP.
 						</div>
-
-						<div className="subtitle contact-subtitle">
-							<p>
-								Thank you for your interest in getting in touch
-								with me. I welcome your feedback, questions, and
-								suggestions. If you have a specific question or
-								comment, please feel free to email me directly
-								using the form below, or call{" "}
-								<a href="tel:+19193576004">(919) 357-6004</a> US
-								EST 9:30am-6pm only please.
-							</p>
-							<p>
-								<a href="https://www.timeanddate.com/time/map/#!cities=207">
-									Time zone reference map.
-								</a>
-							</p>
-							<p>
-								I make an effort to respond to all messages
-								within 24 hours, although it may take me longer
-								during busy periods.
-							</p>
-						</div>
-
-						{/* Success Message */}
-						{success && (
-							<div className="form-success">
-								Thank you for sending us a message, we'll get
-								back to you within 2 working days. If you need
-								to get in touch urgently, please call me at{" "}
-								<a href="tel:+19193576004">(919) 357-6004</a> US
-								EST 9:30am-6pm only please.
-							</div>
-						)}
-
-						{/* Contact Form */}
-						{!success && (
-							<form
-								id="contact-form"
-								onSubmit={handleSubmit}
-								noValidate
-							>
-								<label htmlFor="name">Name</label>
+					) : (
+						<form
+							id="getstarted-form"
+							onSubmit={handleSubmit}
+							noValidate
+						>
+							<div className="getstarted-fullname-row field-row">
+								<label htmlFor="fullname">Full Name</label>
 								<input
 									type="text"
-									id="name"
-									name="name"
-									value={form.name}
+									id="fullname"
+									name="fullname"
+									value={form.fullname}
 									onChange={handleChange}
-									className={errors.name ? "field-error" : ""}
+									className={
+										errors.fullname ? "field-error" : ""
+									}
 									required
 								/>
-								{errors.name && (
+								<div
+									id="get-started-fullname-count"
+									className={
+										countCharacters("fullname", 8).className
+									}
+								>
+									{countCharacters("fullname", 8).countText}
+								</div>
+								{errors.fullname && (
 									<div className="form-error">
 										This field is required
 									</div>
 								)}
-
+							</div>
+							<div className="field-row">
+								<label htmlFor="telephone">Telephone</label>
+								<div className="getstarted-phone-row">
+									<select
+										name="phoneCode"
+										value={form.phoneCode}
+										onChange={handleChange}
+										className="getstarted-phone-select"
+									>
+										{phoneCodeOptions.map((p) => (
+											<option
+												key={p.dial_code + p.name}
+												value={p.dial_code}
+											>
+												{p.dial_code} ({p.name})
+											</option>
+										))}
+									</select>
+									<input
+										type="text"
+										id="telephone"
+										name="telephone"
+										value={form.telephone}
+										onChange={handleChange}
+										className={
+											errors.telephone
+												? "field-error"
+												: ""
+										}
+										required
+									/>
+								</div>
+								{errors.telephone && (
+									<div className="form-error">
+										Please enter a valid phone number
+									</div>
+								)}
+							</div>
+							<div className="field-row" id="get-started-email">
 								<label htmlFor="email">Email</label>
 								<input
 									type="email"
@@ -225,85 +618,460 @@ const Contact = () => {
 									}
 									required
 								/>
+								<div
+									id="get-started-email-count"
+									className={
+										countCharacters("email", 6).className
+									}
+								>
+									{countCharacters("email", 6).countText}
+								</div>
 								{errors.email && (
 									<div className="form-error">
 										Please enter a valid email address
 									</div>
 								)}
-
-								<label htmlFor="message">Message</label>
-								<textarea
-									id="message"
-									name="message"
-									rows={10}
-									value={form.message}
+							</div>
+							<div className="field-row">
+								<label htmlFor="siteurl">Site URL</label>
+								<input
+									type="text"
+									id="siteurl"
+									name="siteurl"
+									value={form.siteurl}
 									onChange={handleChange}
 									className={
-										errors.message ? "field-error" : ""
+										errors.siteurl ? "field-error" : ""
+									}
+									placeholder="https://yourdomain.com"
+									required
+								/>
+								<div
+									id="get-started-siteurl-count"
+									className={
+										countCharacters("siteurl", 15).className
+									}
+								>
+									{countCharacters("siteurl", 15).countText}
+								</div>
+								{errors.siteurl && (
+									<div className="form-error">
+										Please enter a valid URL starting with
+										http://, https://, or www.
+									</div>
+								)}
+								<div className="checkbox-container field-row">
+									<label className="checkbox-label-row">
+										<div className="checkbox-label">
+											I already own this url
+										</div>
+										<input
+											type="checkbox"
+											name="ownurl"
+											checked={form.ownurl}
+											onChange={handleChange}
+										/>
+									</label>
+									<label className="checkbox-label-row">
+										<div className="checkbox-label">
+											I will need hosting
+										</div>
+										<input
+											type="checkbox"
+											name="hosting"
+											checked={form.hosting}
+											onChange={handleChange}
+										/>
+									</label>
+								</div>
+							</div>
+							<div className="field-row">
+								<label htmlFor="location">Location</label>
+								<select
+									id="location"
+									name="location"
+									value={form.location}
+									onChange={handleChange}
+									className={
+										errors.location ? "field-error" : ""
+									}
+									required
+								>
+									{countryOptions.map((c) => (
+										<option
+											key={c.code + c.name}
+											value={c.name}
+										>
+											{c.name}
+										</option>
+									))}
+								</select>
+								{errors.location && (
+									<div className="form-error">
+										This field is required
+									</div>
+								)}
+							</div>
+							<div id="description-row" className="field-row">
+								<label htmlFor="description">
+									Site General Description
+								</label>
+								<textarea
+									id="description"
+									name="description"
+									rows={6}
+									value={form.description}
+									onChange={handleChange}
+									className={
+										errors.description ? "field-error" : ""
 									}
 									required
 								/>
 								<div
+									id="get-started-description-count"
 									className={
-										form.message.length < 50
-											? "not-met"
-											: "met"
+										countCharacters("description", 50)
+											.className
 									}
 								>
-									{form.message.length} of 50 characters
-									minimum
+									{
+										countCharacters("description", 50)
+											.countText
+									}
 								</div>
-								{errors.message && (
+								{errors.description && (
 									<div className="form-error">
-										Message must be at least 50 characters
+										Must be at least 50 characters
 									</div>
 								)}
-
-								{/* reCAPTCHA */}
+							</div>
+							<div id="goals-row" className="field-row">
+								<label htmlFor="goals">Site Goals</label>
+								<textarea
+									id="goals"
+									name="goals"
+									rows={6}
+									value={form.goals}
+									onChange={handleChange}
+									className={
+										errors.goals ? "field-error" : ""
+									}
+									required
+								/>
 								<div
-									className="recaptcha-container"
-									style={{ margin: "20px 0" }}
+									id="get-started-goals-count"
+									className={
+										countCharacters("goals", 50).className
+									}
 								>
-									<div
-										className="g-recaptcha"
-										data-sitekey="6LeJArErAAAAACj8P0jXHJu0D9FWOY6kkC3xiinh"
-									></div>
+									{countCharacters("goals", 50).countText}
 								</div>
-
-								{errors.submit && (
-									<div
-										className="form-error"
-										style={{ marginBottom: "10px" }}
-									>
-										{errors.submit}
+								{errors.goals && (
+									<div className="form-error">
+										Must be at least 50 characters
 									</div>
 								)}
-
-								<div className="form-submit">
-									<button
-										type="submit"
-										disabled={isSubmitting}
-									>
-										{btnText}
-									</button>
+							</div>
+							<div id="business-row" className="field-row">
+								<label htmlFor="business">
+									Short Business Explanation
+								</label>
+								<textarea
+									id="business"
+									name="business"
+									rows={6}
+									value={form.business}
+									onChange={handleChange}
+									className={
+										errors.business ? "field-error" : ""
+									}
+									required
+								/>
+								<div
+									id="get-started-business-count"
+									className={
+										countCharacters("business", 50)
+											.className
+									}
+								>
+									{countCharacters("business", 50).countText}
 								</div>
-							</form>
-						)}
-					</div>
+								{errors.business && (
+									<div className="form-error">
+										Must be at least 50 characters
+									</div>
+								)}
+							</div>
+							<div id="budget-row" className="field-row">
+								<label htmlFor="budgetAmount">
+									Approximate Budget
+								</label>
+								<input
+									type="text"
+									id="budgetAmount"
+									name="budgetAmount"
+									value={form.budgetAmount}
+									onChange={handleChange}
+									className={
+										errors.budgetAmount ? "field-error" : ""
+									}
+									placeholder="e.g. 5000"
+									required
+								/>
 
+								<select
+									name="budgetCurrency"
+									value={form.budgetCurrency}
+									onChange={handleChange}
+									className="getstarted-currency-select"
+								>
+									<option value="USD">USD</option>
+									<option value="EUR">EUR</option>
+									<option value="GBP">GBP</option>
+									<option value="CAD">CAD</option>
+									<option value="AUD">AUD</option>
+									<option value="JPY">JPY</option>
+									<option value="CHF">CHF</option>
+									<option value="ILS">ILS</option>
+									<option value="Other">Other</option>
+								</select>
+								{form.budgetCurrency === "Other" && (
+									<input
+										type="text"
+										name="budgetOtherCurrency"
+										value={form.budgetOtherCurrency}
+										onChange={handleChange}
+										placeholder="Enter currency USD exchange rate"
+										className="getstarted-currency-other"
+									/>
+								)}
+								<div
+									id="get-started-budget-count"
+									className={
+										countCharacters("budgetAmount", 3)
+											.className
+									}
+								>
+									{
+										countCharacters("budgetAmount", 3)
+											.countText
+									}
+								</div>
+								{errors.budgetAmount && (
+									<div className="form-error">
+										Please enter a valid budget amount
+									</div>
+								)}
+								{form.budgetCurrency !== "USD" &&
+									form.budgetAmount && (
+										<USDXConverter
+											amount={form.budgetAmount}
+											currency={
+												form.budgetCurrency === "Other"
+													? form.budgetOtherCurrency
+													: form.budgetCurrency
+											}
+											setUsdEquivalent={(usd) =>
+												setForm((prev) => ({
+													...prev,
+													usdEquivalent: usd,
+												}))
+											}
+										/>
+									)}
+								{form.usdEquivalent && (
+									<div
+										className="usdx"
+										style={{ textAlign: "center" }}
+									>
+										USD Equivalent:{" "}
+										<strong>{form.usdEquivalent}</strong>
+									</div>
+								)}
+							</div>
+							<div className="field-row">
+								<label>
+									Approximate Deadline [ USA Style date:
+									MM/DD/YYYY ]
+								</label>
+								<div className="getstarted-deadline-row">
+									<select
+										name="deadlineMonth"
+										id="deadlineMonth"
+										value={form.deadlineMonth}
+										onChange={handleChange}
+										className={
+											errors.deadlineMonth
+												? "field-error"
+												: ""
+										}
+									>
+										<option value="">Month</option>
+										<option value="1">January (1)</option>
+										<option value="2">February (2)</option>
+										<option value="3">March (3)</option>
+										<option value="4">April (4)</option>
+										<option value="5">May (5)</option>
+										<option value="6">June (6)</option>
+										<option value="7">July (7)</option>
+										<option value="8">August (8)</option>
+										<option value="9">September (9)</option>
+										<option value="10">October (10)</option>
+										<option value="11">
+											November (11)
+										</option>
+										<option value="12">
+											December (12)
+										</option>
+									</select>
+
+									<span>/</span>
+
+									<select
+										name="deadlineDay"
+										id="deadlineDay"
+										value={form.deadlineDay}
+										onChange={handleChange}
+										className={
+											errors.deadlineDay
+												? "field-error"
+												: ""
+										}
+									>
+										<option value="">Day</option>
+										{(() => {
+											const month = parseInt(
+												form.deadlineMonth,
+												10
+											);
+											const year = parseInt(
+												form.deadlineYear,
+												10
+											);
+
+											let daysInMonth = 31;
+
+											if (month && !isNaN(month)) {
+												if (month === 2) {
+													if (
+														year &&
+														!isNaN(year) &&
+														((year % 4 === 0 &&
+															year % 100 !== 0) ||
+															year % 400 === 0)
+													) {
+														daysInMonth = 29;
+													} else {
+														daysInMonth = 28;
+													}
+												} else if (
+													[4, 6, 9, 11].includes(
+														month
+													)
+												) {
+													daysInMonth = 30;
+												}
+											}
+
+											const dayOptions = [];
+											for (
+												let i = 1;
+												i <= daysInMonth;
+												i++
+											) {
+												dayOptions.push(
+													<option
+														key={`day-${i}`}
+														value={i.toString()}
+													>
+														{i}
+													</option>
+												);
+											}
+											return dayOptions;
+										})()}
+									</select>
+									<span>/</span>
+
+									<select
+										name="deadlineYear"
+										id="deadlineYear"
+										value={form.deadlineYear}
+										onChange={handleChange}
+										className={
+											errors.deadlineYear
+												? "field-error"
+												: ""
+										}
+									>
+										<option value="">Year</option>
+										<option value={thisYear.toString()}>
+											{thisYear}
+										</option>
+										<option
+											value={(thisYear + 1).toString()}
+										>
+											{thisYear + 1}
+										</option>
+										<option
+											value={(thisYear + 2).toString()}
+										>
+											{thisYear + 2}
+										</option>
+									</select>
+								</div>
+								{(errors.deadlineMonth ||
+									errors.deadlineDay ||
+									errors.deadlineYear) && (
+									<div className="form-error">
+										Please enter a valid date (MM/DD/YYYY,
+										year ≥ 2025)
+									</div>
+								)}
+							</div>
+							<div className="field-row">
+								<label htmlFor="notes">Additional Notes</label>
+								<textarea
+									id="notes"
+									name="notes"
+									rows={4}
+									value={form.notes}
+									onChange={handleChange}
+								/>
+							</div>
+
+							{/* No visible reCAPTCHA widget for v3 - runs invisibly */}
+
+							{errors.submit && (
+								<div
+									className="form-error"
+									style={{ marginBottom: "10px" }}
+								>
+									{errors.submit}
+								</div>
+							)}
+
+							<div>
+								<input
+									type="submit"
+									value={btnText}
+									disabled={isSubmitting}
+								/>
+							</div>
+						</form>
+					)}
 					<div className="socials-container">
 						<div className="contact-socials">
 							<Socials />
 						</div>
 					</div>
-
 					<div className="page-footer">
 						<Footer />
 					</div>
 				</div>
 			</div>
-		</React.Fragment>
+		</div>
 	);
-};
+}
 
-export default Contact;
+export default GetStarted;

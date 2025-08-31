@@ -1,3 +1,29 @@
+/**
+ * Filename: contact.jsx
+ * Location: /src/pages/
+ *
+ * Simple contact form for Evil Genius Creative website
+ *
+ * Variables:
+ * - form: Object with name, email, message fields
+ * - recaptchaSiteKey: Dynamic reCAPTCHA site key from backend
+ * - errors: Form validation error states
+ * - success: Form submission success state
+ * - isSubmitting: Form submission loading state
+ *
+ * Features:
+ * - Basic contact form validation
+ * - reCAPTCHA v3 integration (invisible)
+ * - Real-time character counting for message field
+ * - Integration with PHP backend mail system
+ *
+ * Instructions:
+ * 1. Requires recaptcha_config.php endpoint for dynamic site key
+ * 2. Submits to /submit.php with basic contact data
+ * 3. Uses reCAPTCHA v3 action: 'contact_form'
+ * 4. Minimum 50 characters required for message field
+ */
+
 import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 
@@ -19,19 +45,50 @@ const Contact = () => {
 	});
 	const [errors, setErrors] = useState({});
 	const [success, setSuccess] = useState(false);
-	const [btnText, setBtnText] = useState("Send");
 	const [isSubmitting, setIsSubmitting] = useState(false);
+	const [btnText, setBtnText] = useState("Send");
+	const [recaptchaSiteKey, setRecaptchaSiteKey] = useState("");
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
-		// Load reCAPTCHA script
-		if (!window.grecaptcha) {
-			const script = document.createElement("script");
-			script.src = "https://www.google.com/recaptcha/api.js";
-			script.async = true;
-			script.defer = true;
-			document.body.appendChild(script);
-		}
+
+		// Fetch reCAPTCHA site key from backend
+		fetch("/recaptcha_config.php")
+			.then((res) => {
+				if (!res.ok) {
+					throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+				}
+				return res.json();
+			})
+			.then((data) => {
+				console.log("reCAPTCHA config loaded:", data);
+				setRecaptchaSiteKey(data.siteKey);
+
+				// Load reCAPTCHA v3 script with the site key
+				if (data.siteKey && !window.grecaptcha) {
+					const script = document.createElement("script");
+					script.src = `https://www.google.com/recaptcha/api.js?render=${data.siteKey}`;
+					script.async = true;
+					script.defer = true;
+					script.onload = () =>
+						console.log("reCAPTCHA script loaded");
+					script.onerror = () =>
+						console.error("reCAPTCHA script failed to load");
+					document.body.appendChild(script);
+				}
+			})
+			.catch((err) => {
+				console.error("Failed to load reCAPTCHA config:", err);
+				// Fallback to hardcoded key for testing
+				setRecaptchaSiteKey("6LeJArErAAAAACj8P0jXHJu0D9FWOY6kkC3xiinh");
+				if (!window.grecaptcha) {
+					const script = document.createElement("script");
+					script.src = `https://www.google.com/recaptcha/api.js?render=6LeJArErAAAAACj8P0jXHJu0D9FWOY6kkC3xiinh`;
+					script.async = true;
+					script.defer = true;
+					document.body.appendChild(script);
+				}
+			});
 	}, []);
 
 	const currentSEO = SEO.find((item) => item.page === "contact");
@@ -66,71 +123,81 @@ const Contact = () => {
 
 		if (Object.keys(validationErrors).length === 0) {
 			setIsSubmitting(true);
-			setBtnText("Sending...");
+			setBtnText("Processing...");
 
 			try {
-				// Get reCAPTCHA token
-				const recaptchaToken = window.grecaptcha
-					? window.grecaptcha.getResponse()
-					: "";
-
-				if (!recaptchaToken) {
+				// Execute reCAPTCHA v3
+				if (!window.grecaptcha || !recaptchaSiteKey) {
 					setErrors({
-						submit: "Please complete the reCAPTCHA verification.",
+						submit: "reCAPTCHA not loaded. Please refresh the page.",
 					});
 					setBtnText("Send");
 					setIsSubmitting(false);
 					return;
 				}
 
-				// Prepare form data
-				const formData = new FormData();
-				formData.append("name", form.name);
-				formData.append("email", form.email);
-				formData.append("message", form.message);
-				formData.append("g-recaptcha-response", recaptchaToken);
-
-				// Send to PHP backend
-				const response = await fetch("/submit.php", {
-					method: "POST",
-					body: formData,
+				window.grecaptcha.ready(() => {
+					window.grecaptcha
+						.execute(recaptchaSiteKey, { action: "contact_form" })
+						.then(async (token) => {
+							await submitFormWithToken(token);
+						});
 				});
-
-				const responseText = await response.text();
-
-				if (
-					response.ok &&
-					(responseText.includes("Success") ||
-						responseText.includes("sent successfully"))
-				) {
-					setSuccess(true);
-					setForm({
-						name: "",
-						email: "",
-						message: "",
-					});
-					// Reset reCAPTCHA
-					if (window.grecaptcha) {
-						window.grecaptcha.reset();
-					}
-				} else {
-					console.error("Server response:", responseText);
-					setErrors({
-						submit:
-							responseText || "Failed to send. Please try again.",
-					});
-				}
 			} catch (error) {
-				console.error("Error sending form:", error);
+				console.error("Error with reCAPTCHA:", error);
 				setErrors({
-					submit: "Network error. Please check your connection and try again.",
+					submit: "reCAPTCHA error. Please try again.",
 				});
-			} finally {
 				setBtnText("Send");
 				setIsSubmitting(false);
 			}
 		}
 	};
+
+	async function submitFormWithToken(recaptchaToken) {
+		try {
+			// Prepare form data
+			const formData = new FormData();
+			formData.append("name", form.name);
+			formData.append("email", form.email);
+			formData.append("message", form.message);
+			formData.append("g-recaptcha-response", recaptchaToken);
+
+			// Send to PHP backend
+			const response = await fetch("/submit.php", {
+				method: "POST",
+				body: formData,
+			});
+
+			const responseText = await response.text();
+
+			if (
+				response.ok &&
+				(responseText.includes("Success") ||
+					responseText.includes("sent successfully"))
+			) {
+				setSuccess(true);
+				setForm({
+					name: "",
+					email: "",
+					message: "",
+				});
+			} else {
+				console.error("Server response:", responseText);
+				setErrors({
+					submit: responseText || "Failed to send. Please try again.",
+				});
+			}
+		} catch (error) {
+			console.error("Error sending form:", error);
+			setErrors({
+				submit: "Network error. Please check your connection and try again.",
+			});
+		} finally {
+			setBtnText("Send");
+			setIsSubmitting(false);
+		}
+	}
 
 	return (
 		<React.Fragment>
@@ -259,16 +326,7 @@ const Contact = () => {
 									</div>
 								)}
 
-								{/* reCAPTCHA */}
-								<div
-									className="recaptcha-container"
-									style={{ margin: "20px 0" }}
-								>
-									<div
-										className="g-recaptcha"
-										data-sitekey="6LeJArErAAAAACj8P0jXHJu0D9FWOY6kkC3xiinh"
-									></div>
-								</div>
+								{/* No visible reCAPTCHA widget for v3 - runs invisibly */}
 
 								{errors.submit && (
 									<div

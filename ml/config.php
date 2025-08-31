@@ -1,4 +1,27 @@
 <?php
+/**
+ * Filename: config.php
+ * Location: /web/root/
+ * 
+ * Configuration loader for Evil Genius Creative mail system
+ * Loads environment variables from .env file in root directory
+ * 
+ * Variables:
+ * - DB_HOST, DB_NAME, DB_USER, DB_PASS: Database connection constants
+ * - $SMTP_HOST, $SMTP_PORT, $SMTP_USER, $SMTP_PASS: Global SMTP configuration
+ * - ADMIN_EMAIL: Admin email for notifications
+ * - $ALLOWED_SITES: Array of allowed referring domains
+ * - EMAILS_PER_MINUTE, EMAILS_PER_10_MIN: Rate limiting constants
+ * - RECAPTCHA_SECRET, RECAPTCHA_SITE_KEY: reCAPTCHA v3 keys
+ * - COOKIE_NAME: Cookie name for tracking users
+ * 
+ * Instructions:
+ * 1. Create .env file in server root directory ($_SERVER['DOCUMENT_ROOT'])
+ * 2. Include all required environment variables (see .env example)
+ * 3. This file must be included by all other PHP scripts
+ * 4. Environment variables are loaded into $_ENV, $_SERVER, and putenv()
+ */
+
 // Load environment variables from .env file
 function loadEnv($path) {
     if (!file_exists($path)) {

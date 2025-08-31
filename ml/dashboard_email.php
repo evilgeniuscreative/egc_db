@@ -1,4 +1,32 @@
 <?php
+/**
+ * Filename: dashboard_email.php
+ * Location: /web/root/
+ * 
+ * Admin dashboard for Evil Genius Creative mail system management
+ * 
+ * Variables:
+ * - $emails: Array of recent email submissions from database
+ * - $bans: Array of current IP and cookie bans
+ * - $form_disabled: Boolean check for form_disabled.flag file
+ * - $total_emails, $emails_today, $emails_last_10_min: Statistics counters
+ * - $hourly_stats, $top_ips: Analytics data arrays
+ * 
+ * Features:
+ * - View and delete recent emails
+ * - Manage IP and cookie bans
+ * - Enable/disable contact forms
+ * - Real-time statistics and analytics
+ * - Manual ban tools
+ * 
+ * Instructions:
+ * 1. Access via yourdomain.com/dashboard_email.php
+ * 2. Login required (uses auth.php session)
+ * 3. Can re-enable forms disabled by auto-protection
+ * 4. Ban management for spam prevention
+ * 5. Analytics show traffic patterns for monitoring
+ */
+
 require_once 'auth.php';
 require_once 'db.php';
 

@@ -1,4 +1,27 @@
 <?php
+/**
+ * Filename: smtp_mailer.php
+ * Location: /web/root/
+ * 
+ * SMTP mail functions for Evil Genius Creative contact forms
+ * 
+ * Variables:
+ * - $SMTP_HOST: SMTP server hostname from .env (box5150.bluehost.com)
+ * - $SMTP_PORT: SMTP port from .env (465 for SSL)
+ * - $SMTP_USER: SMTP username from .env (ian@evilgeniuscreative.com)
+ * - $SMTP_PASS: SMTP password from .env
+ * 
+ * Functions:
+ * - sendSMTPMail($to, $subject, $message, $from_name): Send email using PHP mail() (Bluehost optimized)
+ * - sendSMTPMailSocket($to, $subject, $message, $from_name): Backup socket-based SMTP method
+ * 
+ * Instructions:
+ * 1. Ensure config.php is properly loading .env variables
+ * 2. Bluehost handles SMTP internally with mail() function - primary method
+ * 3. Socket method available as backup if mail() fails
+ * 4. Called by submit.php for auto-replies and admin notifications
+ */
+
 require_once 'config.php';
 
 function sendSMTPMail($to, $subject, $message, $from_name = 'Evil Genius Creative') {
