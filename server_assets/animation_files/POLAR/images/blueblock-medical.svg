@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 17.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 750 750" enable-background="new 0 0 750 750" xml:space="preserve">
+<g id="Layer_3" display="none">
+	
+		<line display="inline" fill="none" stroke="#888888" stroke-width="2" stroke-miterlimit="10" x1="7" y1="6" x2="745.1" y2="744.1"/>
+	
+		<line display="inline" fill="none" stroke="#888888" stroke-width="2" stroke-miterlimit="10" x1="7" y1="744.1" x2="745.1" y2="6"/>
+</g>
+<g id="gamers" display="none">
+	<polygon display="inline" opacity="0.5" fill="#02A8E0" points="684,682.7 250,500 71.5,70.5 594,156 	"/>
+	<polygon display="inline" fill="none" stroke="#02A8E0" stroke-width="6" stroke-miterlimit="10" points="684,682.7 250,500 
+		71.5,70.5 594,156 	"/>
+	<circle display="inline" fill="#02A8E0" cx="71.4" cy="70.3" r="7.5"/>
+	<circle display="inline" fill="#02A8E0" cx="594.2" cy="156.5" r="7.5"/>
+	<circle display="inline" fill="#02A8E0" cx="683.9" cy="681.7" r="7.5"/>
+	<circle display="inline" fill="#02A8E0" cx="250.8" cy="500.4" r="7.5"/>
+</g>
+<g id="medical">
+	<polygon opacity="0.5" fill="#02A8E0" points="444,442.7 67,683 121.5,120.5 594,156 	"/>
+	<polygon fill="none" stroke="#02A8E0" stroke-width="6" stroke-miterlimit="10" points="444,442.7 67,683 121.5,120.5 594,156 	"/>
+	<circle fill="#02A8E0" cx="121.4" cy="120.3" r="7.5"/>
+	<circle fill="#02A8E0" cx="594.2" cy="156.5" r="7.5"/>
+	<circle fill="#02A8E0" cx="443.9" cy="441.7" r="7.5"/>
+	<circle fill="#02A8E0" cx="67.8" cy="683.4" r="7.5"/>
+</g>
+<g id="average" display="none">
+	
+		<polygon display="inline" fill="none" stroke="#888888" stroke-width="6" stroke-miterlimit="10" stroke-dasharray="12.5,5" points="
+		536.7,534.7 224,528 43,42 533.5,217 	"/>
+	<rect x="216.6" y="521.1" display="inline" fill="#888888" width="15" height="15"/>
+	<rect x="35.6" y="34.1" display="inline" fill="#888888" width="15" height="15"/>
+	<rect x="526.6" y="209.1" display="inline" fill="#888888" width="15" height="15"/>
+	<rect x="529.6" y="527.1" display="inline" fill="#888888" width="15" height="15"/>
+</g>
+</svg>

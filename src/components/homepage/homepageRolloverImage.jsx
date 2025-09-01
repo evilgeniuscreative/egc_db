@@ -28,16 +28,16 @@ const HomepageRolloverImage = () => {
 					onMouseLeave={handleMouseLeave}
 				>
 					<div className="batman-container">
-						<img src="images/batman.png" alt="batman" />
+						<img src="server_assets/images/batman.png" alt="batman" />
 					</div>
 					<img
-						src={`/images/${INFO.main.hero1}`}
+						src={`/server_assets/images/${INFO.main.hero1}`}
 						alt="hero main"
 						className="homepage-rollover"
 						draggable="false"
 					/>
 					<img
-						src={`/images/${INFO.main.hero2}`}
+						src={`/server_assets/images/${INFO.main.hero2}`}
 						alt="hero rollover"
 						className="homepage-rollover"
 						draggable="false"
@@ -48,7 +48,7 @@ const HomepageRolloverImage = () => {
 				<a href={INFO.main.herolink}>Click the image to get started</a>
 			</p>
 			<audio ref={audioRef} preload="auto">
-				<source src="/images/batman.mp3" type="audio/mpeg" />
+				<source src="/server_assets/images/batman.mp3" type="audio/mpeg" />
 				Your browser does not support the audio element.
 			</audio>
 		</div>

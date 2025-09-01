@@ -35,9 +35,9 @@
 		"web-vitals": "^2.1.4"
 	},
 	"scripts": {
-		
 		"start": "lsof -ti :3000 | xargs -r kill -9 && react-scripts start",
-		"build": "react-scripts build",
+		"build:dev": "react-scripts build",
+		"build:prod": "BUILD_PATH=build react-scripts build",
 		"test": "react-scripts test",
 		"eject": "react-scripts eject",
 		"lint": "eslint ."

@@ -1,0 +1,56 @@
+/* CSS document */
+
+.person-count{
+	font-size:0.5em;
+	font-family:notosans_regular,Helvetica,Arial,sans-serif;
+	text-align:center;
+	top:88%;
+	display:block;
+	position:relative;
+}
+
+.hundredPeople{
+height: 25%;
+width: 4%;
+float:left;
+display:none;
+}
+.thousandPeople{}
+#Stage_hundredPeopleImg{
+	position:absolute;
+	z-index: 0;
+}
+.stair-step{
+	background-color:#00A9E0;
+	display:block;
+	position:absolute;
+	bottom:0;
+}
+.stair-step-number{
+	font-family: notosans_bold, Helvetica, Arial, sans-serif;
+	top:0.1em;
+	position:relative;
+	font-size:0.65em;
+	width:auto;
+	float:right;
+	text-align:right;
+	margin-right:0.25em;
+	color:#ffffff;
+}
+#stairStep-100 div{
+	color:black;
+}
+#stairStep-0 div{
+	padding-right:0.5em;
+	color:black;
+}
+
+.whiteBG{
+	background: rgba(255,255,255,0.75);
+}
+.whiteBG90{
+	background: rgba(255,255,255,0.90);
+}
+.someLink{
+	cursor:pointer;
+}

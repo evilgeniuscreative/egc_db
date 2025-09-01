@@ -45,7 +45,7 @@ const Raptorize = ({ delay = 5000, enabled = true }) => {
       position: fixed;
       bottom: 0;
       left: ${initialLeft}px;
-      background: url('/images/raptor.png') no-repeat;
+      background: url('/server_assets/images/raptor.png') no-repeat;
       background-size: contain;
       transform: ${transform};
       z-index: 9999;
@@ -56,11 +56,11 @@ const Raptorize = ({ delay = 5000, enabled = true }) => {
 			document.body.appendChild(raptor);
 
 			// Play sound if available
-			const audio = new Audio("/images/raptor-sound.mp3");
+			const audio = new Audio("/server_assets/images/raptor-sound.mp3");
 			audio.volume = 0.5;
 			audio.play().catch(() => {
 				// Fallback to .ogg if mp3 fails
-				const oggAudio = new Audio("/images/raptor-sound.ogg");
+				const oggAudio = new Audio("/server_assets/images/raptor-sound.ogg");
 				oggAudio.volume = 0.5;
 				oggAudio.play().catch(() => {
 					console.log("Raptor sound could not be played");

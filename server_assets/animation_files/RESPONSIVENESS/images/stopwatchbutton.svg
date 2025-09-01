@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 17.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 300 348.33" enable-background="new 0 0 300 348.33" xml:space="preserve">
+<linearGradient id="stem_1_" gradientUnits="userSpaceOnUse" x1="60.1875" y1="229.8125" x2="241.4375" y2="229.8125">
+	<stop  offset="0" style="stop-color:#9E9E9E"/>
+	<stop  offset="0.5576" style="stop-color:#BEBEBE"/>
+	<stop  offset="1" style="stop-color:#979797"/>
+</linearGradient>
+<rect id="stem" x="60.188" y="143.875" fill="url(#stem_1_)" stroke="#000000" stroke-width="0.637" stroke-miterlimit="10" width="181.25" height="171.875"/>
+<linearGradient id="winder_1_" gradientUnits="userSpaceOnUse" x1="14.4063" y1="99.2381" x2="287.2178" y2="99.2381">
+	<stop  offset="0" style="stop-color:#9E9E9E"/>
+	<stop  offset="0.5576" style="stop-color:#BEBEBE"/>
+	<stop  offset="1" style="stop-color:#979797"/>
+</linearGradient>
+<path id="winder" fill="url(#winder_1_)" stroke="#000000" stroke-width="0.6369" stroke-miterlimit="10" d="M287.218,147.22
+	c0,21.267-10.67,38.506-23.832,38.506H38.238c-13.162,0-23.832-17.239-23.832-38.506V51.256c0-21.267,10.67-38.506,23.832-38.506
+	h225.147c13.162,0,23.832,17.239,23.832,38.506V147.22z"/>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+</svg>

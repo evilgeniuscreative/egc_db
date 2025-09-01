@@ -57,7 +57,7 @@ function article_1() {
 							<img
 								className="article-image"
 								alt={imageAlt}
-								src={`/images/${image}`}
+								src={`/server_assets/images/${image}`}
 							/>
 							<figcaption>{imageAlt}</figcaption>
 						</figure>

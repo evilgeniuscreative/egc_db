@@ -11,7 +11,7 @@ const showTheImage = (props) => {
 		<div className="image-container">
 			{imagePath ? (
 				<img
-					src={`/images/${imagePath}`}
+					src={`/server_assets/images/${imagePath}`}
 					alt={`${project.title}`}
 					className="full-size-image"
 				/>
