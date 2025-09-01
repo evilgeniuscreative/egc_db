@@ -40,10 +40,7 @@ const HomepageRolloverImage = () => {
 					onMouseLeave={handleMouseLeave}
 				>
 					<div className="batman-container">
-						<img
-							src="/images/batman.png"
-							alt="batman"
-						/>
+						<img src="/images/batman.png" alt="batman" />
 					</div>
 					<img
 						src={`/images/${currentImage}`}
