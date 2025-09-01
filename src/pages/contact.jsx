@@ -79,14 +79,21 @@ const Contact = () => {
 			})
 			.catch((err) => {
 				console.error("Failed to load reCAPTCHA config:", err);
-				// Fallback to hardcoded key for testing
-				setRecaptchaSiteKey("6LeJArErAAAAACj8P0jXHJu0D9FWOY6kkC3xiinh");
-				if (!window.grecaptcha) {
-					const script = document.createElement("script");
-					script.src = `https://www.google.com/recaptcha/api.js?render=6LeJArErAAAAACj8P0jXHJu0D9FWOY6kkC3xiinh`;
-					script.async = true;
-					script.defer = true;
-					document.body.appendChild(script);
+				// Use environment variable fallback
+				const envSiteKey = process.env.REACT_APP_RECAPTCHA_SITE_KEY;
+				if (envSiteKey) {
+					setRecaptchaSiteKey(envSiteKey);
+					if (!window.grecaptcha) {
+						const script = document.createElement("script");
+						script.src = `https://www.google.com/recaptcha/api.js?render=${envSiteKey}`;
+						script.async = true;
+						script.defer = true;
+						document.body.appendChild(script);
+					}
+				} else {
+					console.error(
+						"No reCAPTCHA site key available in environment variables"
+					);
 				}
 			});
 	}, []);
@@ -164,7 +171,7 @@ const Contact = () => {
 			formData.append("g-recaptcha-response", recaptchaToken);
 
 			// Send to PHP backend
-			const response = await fetch("/submit.php", {
+			const response = await fetch("/ml/submit.php", {
 				method: "POST",
 				body: formData,
 			});
