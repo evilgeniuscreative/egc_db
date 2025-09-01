@@ -1,14 +1,15 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import INFO from "../../data/user";
 import "./styles/homepageRolloverImage.css";
 
 const HomepageRolloverImage = () => {
 	const audioRef = useRef(null);
 
-	let currentImage = "hero1.jpg";
+	const [currentImage, setCurrentImage] = useState(INFO.main.hero1);
+
 	const handleImageChange = () => {
-		document.setTimeout(() => {
-			currentImage = "hero2.jpg";
+		setTimeout(() => {
+			setCurrentImage(INFO.main.hero2);
 		}, 500);
 	};
 
@@ -23,6 +24,7 @@ const HomepageRolloverImage = () => {
 	};
 
 	const handleMouseLeave = () => {
+		setCurrentImage(INFO.main.hero1); // Reset to original image
 		if (audioRef.current) {
 			audioRef.current.pause();
 			audioRef.current.currentTime = 0; // Reset to beginning
@@ -39,18 +41,18 @@ const HomepageRolloverImage = () => {
 				>
 					<div className="batman-container">
 						<img
-							src="server_assets/images/batman.png"
+							src="/images/batman.png"
 							alt="batman"
 						/>
 					</div>
 					<img
-						src={`/server_assets/images/${currentImage}`}
+						src={`/images/${currentImage}`}
 						alt="hero main"
 						className="homepage-rollover"
 						draggable="false"
 					/>
 					<img
-						src={`/server_assets/images/${currentImage}`}
+						src={`/images/${currentImage}`}
 						alt="hero rollover"
 						className="homepage-rollover"
 						draggable="false"

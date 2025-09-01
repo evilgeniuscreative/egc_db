@@ -151,7 +151,7 @@ const Homepage = () => {
 									height="24px"
 									width="24px"
 									className="homepage-social-icon"
-									src="/server_assets/images/Bluesky_Logo.svg"
+									src="/images/Bluesky_Logo.svg"
 									alt="Follow us on Bluesky"
 								/>
 							</a>

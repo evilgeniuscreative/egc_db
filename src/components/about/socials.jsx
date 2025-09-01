@@ -33,7 +33,7 @@ const Socials = () => {
 					<div className="social-icon">
 						<img
 							className="social-icon"
-							src="/server_assets/images/Bluesky_Logo.svg"
+							src="/images/Bluesky_Logo.svg"
 							alt="Follow us on Bluesky"
 						/>
 					</div>

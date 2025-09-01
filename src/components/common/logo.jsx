@@ -14,7 +14,7 @@ const Logo = (props) => {
 
 	const imageElement = (
 		<img
-			src={`/server_assets/images/${INFO.main.logo}`}
+			src={`/images/${INFO.main.logo}`}
 			alt="logo"
 			className="logo"
 			width={width}
