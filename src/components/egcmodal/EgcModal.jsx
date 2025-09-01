@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from "react";
 import ReactDOM from "react-dom";
-import PropTypes from "prop-types";
 import "./styles/egcmodal.css";
 
 /**
@@ -96,11 +95,5 @@ const EgcModal = ({ isOpen, onRequestClose, contentLabel, children }) => {
 	);
 };
 
-EgcModal.propTypes = {
-	isOpen: PropTypes.bool.isRequired,
-	onRequestClose: PropTypes.func.isRequired,
-	contentLabel: PropTypes.string,
-	children: PropTypes.node.isRequired,
-};
 
 export default EgcModal;

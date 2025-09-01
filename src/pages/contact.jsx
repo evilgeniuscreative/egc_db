@@ -38,21 +38,25 @@ import SEO from "../data/seo";
 import "./styles/contact.css";
 
 const Contact = () => {
+	// FORM STATE: Main form data object
 	const [form, setForm] = useState({
 		name: "",
 		email: "",
 		message: "",
 	});
-	const [errors, setErrors] = useState({});
-	const [success, setSuccess] = useState(false);
-	const [isSubmitting, setIsSubmitting] = useState(false);
-	const [btnText, setBtnText] = useState("Send");
-	const [recaptchaSiteKey, setRecaptchaSiteKey] = useState("");
+	
+	// UI STATE: Form validation and submission states
+	const [errors, setErrors] = useState({});           // Field-specific error messages
+	const [success, setSuccess] = useState(false);      // Success message display flag
+	const [isSubmitting, setIsSubmitting] = useState(false); // Loading state during submission
+	const [btnText, setBtnText] = useState("Send");     // Dynamic button text
+	const [recaptchaSiteKey, setRecaptchaSiteKey] = useState(""); // reCAPTCHA key from backend
 
+	// COMPONENT INITIALIZATION: Set up page and load reCAPTCHA
 	useEffect(() => {
-		window.scrollTo(0, 0);
+		window.scrollTo(0, 0); // Scroll to top when component loads
 
-		// Fetch reCAPTCHA site key from backend
+		// SECURITY: Fetch dynamic reCAPTCHA site key from backend
 		fetch("/recaptcha_config.php")
 			.then((res) => {
 				if (!res.ok) {
@@ -64,7 +68,7 @@ const Contact = () => {
 				console.log("reCAPTCHA config loaded:", data);
 				setRecaptchaSiteKey(data.siteKey);
 
-				// Load reCAPTCHA v3 script with the site key
+				// RECAPTCHA: Load Google reCAPTCHA v3 script dynamically
 				if (data.siteKey && !window.grecaptcha) {
 					const script = document.createElement("script");
 					script.src = `https://www.google.com/recaptcha/api.js?render=${data.siteKey}`;
@@ -79,7 +83,7 @@ const Contact = () => {
 			})
 			.catch((err) => {
 				console.error("Failed to load reCAPTCHA config:", err);
-				// Use environment variable fallback
+				// FALLBACK: Use environment variable if backend fails
 				const envSiteKey = process.env.REACT_APP_RECAPTCHA_SITE_KEY;
 				if (envSiteKey) {
 					setRecaptchaSiteKey(envSiteKey);
@@ -98,33 +102,38 @@ const Contact = () => {
 			});
 	}, []);
 
+	// SEO: Get page-specific SEO metadata
 	const currentSEO = SEO.find((item) => item.page === "contact");
 
+	// VALIDATION: Check form fields for errors
 	const validate = () => {
 		let errs = {};
-		if (!form.name.trim()) errs.name = true;
+		if (!form.name.trim()) errs.name = true;                    // Name is required
 		if (
 			!form.email.trim() ||
-			!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)
+			!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)           // Email format validation
 		)
 			errs.email = true;
-		if (!form.message.trim() || form.message.trim().length < 50)
+		if (!form.message.trim() || form.message.trim().length < 50) // Minimum 50 characters
 			errs.message = true;
 		return errs;
 	};
 
+	// FORM HANDLING: Update form state and clear errors on input
 	const handleChange = (e) => {
-		setForm({ ...form, [e.target.name]: e.target.value });
+		setForm({ ...form, [e.target.name]: e.target.value });  // Update form field
 		if (errors[e.target.name]) {
-			setErrors({ ...errors, [e.target.name]: false });
+			setErrors({ ...errors, [e.target.name]: false });   // Clear error when user types
 		}
 	};
 
+	// FORM SUBMISSION: Main form submission handler
 	const handleSubmit = async (e) => {
-		e.preventDefault();
+		e.preventDefault();  // Prevent default form submission
 
-		if (isSubmitting) return;
+		if (isSubmitting) return;  // Prevent double submission
 
+		// VALIDATION: Check all form fields
 		const validationErrors = validate();
 		setErrors(validationErrors);
 
@@ -133,7 +142,7 @@ const Contact = () => {
 			setBtnText("Processing...");
 
 			try {
-				// Execute reCAPTCHA v3
+				// SECURITY: Check if reCAPTCHA is ready
 				if (!window.grecaptcha || !recaptchaSiteKey) {
 					setErrors({
 						submit: "reCAPTCHA not loaded. Please refresh the page.",
@@ -143,11 +152,12 @@ const Contact = () => {
 					return;
 				}
 
+				// RECAPTCHA: Execute invisible reCAPTCHA v3 verification
 				window.grecaptcha.ready(() => {
 					window.grecaptcha
-						.execute(recaptchaSiteKey, { action: "contact_form" })
+						.execute(recaptchaSiteKey, { action: "contact_form" })  // Generate token
 						.then(async (token) => {
-							await submitFormWithToken(token);
+							await submitFormWithToken(token);  // Submit with token
 						});
 				});
 			} catch (error) {
@@ -161,16 +171,17 @@ const Contact = () => {
 		}
 	};
 
+	// BACKEND SUBMISSION: Send form data with reCAPTCHA token to PHP backend
 	async function submitFormWithToken(recaptchaToken) {
 		try {
-			// Prepare form data
+			// FORM DATA: Prepare data for PHP backend
 			const formData = new FormData();
-			formData.append("name", form.name);
-			formData.append("email", form.email);
-			formData.append("message", form.message);
-			formData.append("g-recaptcha-response", recaptchaToken);
+			formData.append("name", form.name);                    // User's name
+			formData.append("email", form.email);                  // User's email
+			formData.append("message", form.message);              // Message content
+			formData.append("g-recaptcha-response", recaptchaToken); // reCAPTCHA token
 
-			// Send to PHP backend
+			// HTTP REQUEST: Send POST request to PHP mail handler
 			const response = await fetch("/ml/submit.php", {
 				method: "POST",
 				body: formData,
@@ -178,18 +189,20 @@ const Contact = () => {
 
 			const responseText = await response.text();
 
+			// SUCCESS HANDLING: Check if submission was successful
 			if (
 				response.ok &&
 				(responseText.includes("Success") ||
 					responseText.includes("sent successfully"))
 			) {
-				setSuccess(true);
-				setForm({
+				setSuccess(true);  // Show success message
+				setForm({          // Reset form fields
 					name: "",
 					email: "",
 					message: "",
 				});
 			} else {
+				// ERROR HANDLING: Display server error message
 				console.error("Server response:", responseText);
 				setErrors({
 					submit: responseText || "Failed to send. Please try again.",

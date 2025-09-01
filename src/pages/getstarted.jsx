@@ -37,22 +37,24 @@ import Socials from "../components/about/socials";
 import phoneCodes from "../data/phonecodes.json";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import CloseIcon from "@mui/icons-material/Close";
-import PropTypes from "prop-types";
 import INFO from "../data/user";
 import SEO from "../data/seo";
 
 import "./styles/contact.css";
 
-// Currency conversion helper
+// CURRENCY CONVERSION: Helper component to convert project budget to USD
 function USDXConverter({ amount, currency, setUsdEquivalent }) {
-	const [loading, setLoading] = useState(false);
-	const [error, setError] = useState("");
+	const [loading, setLoading] = useState(false);  // API call loading state
+	const [error, setError] = useState("");         // Conversion error messages
 
+	// CURRENCY API: Convert non-USD amounts to USD equivalent
 	useEffect(() => {
+		// Skip conversion if no amount, no currency, or already USD
 		if (!amount || !currency || currency === "USD" || currency === "") {
 			return;
 		}
 
+		// VALIDATION: Clean and validate the amount input
 		const sanitizedAmount = parseFloat((amount + "").replace(/,/g, ""));
 		if (isNaN(sanitizedAmount)) {
 			setError("Invalid amount");
@@ -62,14 +64,16 @@ function USDXConverter({ amount, currency, setUsdEquivalent }) {
 		setLoading(true);
 		setError("");
 
+		// API CALL: Fetch current exchange rates from FreeCurrencyAPI
 		fetch(
 			`https://api.freecurrencyapi.com/v1/latest?apikey=fca_live_W9VpzqNqveR6psCl6ooVwJAS3V0Rm48cvUIXTFKF&currencies=${currency}`
 		)
 			.then((res) => res.json())
 			.then((data) => {
 				if (data.data && data.data[currency]) {
-					const rate = data.data[currency];
-					const usdValue = sanitizedAmount / rate;
+					// CALCULATION: Convert foreign currency to USD
+					const rate = data.data[currency];        // Exchange rate
+					const usdValue = sanitizedAmount / rate; // Convert to USD
 					setUsdEquivalent(
 						usdValue.toLocaleString("en-US", {
 							style: "currency",
@@ -78,6 +82,7 @@ function USDXConverter({ amount, currency, setUsdEquivalent }) {
 					);
 					setError("");
 				} else {
+					// ERROR: API didn't return expected data
 					setUsdEquivalent("");
 					setError("Could not fetch conversion");
 				}
@@ -88,7 +93,7 @@ function USDXConverter({ amount, currency, setUsdEquivalent }) {
 				setError("Could not fetch conversion");
 			})
 			.finally(() => setLoading(false));
-	}, [amount, currency]);
+	}, [amount, currency]); // Re-run when amount or currency changes
 
 	if (loading)
 		return (
@@ -106,19 +111,21 @@ function USDXConverter({ amount, currency, setUsdEquivalent }) {
 }
 
 function GetStarted() {
+	// DATE UTILITIES: Get current year for date validation
 	const thisYear = useMemo(() => new Date().getFullYear(), []);
 	const [recaptchaSiteKey, setRecaptchaSiteKey] = useState("");
 
+	// COMPONENT INITIALIZATION: Set up page and load reCAPTCHA
 	useEffect(() => {
-		window.scrollTo(0, 0);
+		window.scrollTo(0, 0); // Scroll to top when component loads
 
-		// Fetch reCAPTCHA site key from backend
+		// SECURITY: Fetch dynamic reCAPTCHA site key from backend
 		fetch("/recaptcha_config.php")
 			.then((res) => res.json())
 			.then((data) => {
 				setRecaptchaSiteKey(data.siteKey);
 
-				// Load reCAPTCHA v3 script with the site key
+				// RECAPTCHA: Load Google reCAPTCHA v3 script dynamically
 				if (data.siteKey && !window.grecaptcha) {
 					const script = document.createElement("script");
 					script.src = `https://www.google.com/recaptcha/api.js?render=${data.siteKey}`;
@@ -132,101 +139,128 @@ function GetStarted() {
 			);
 	}, []);
 
+	// SEO: Get page-specific SEO metadata
 	const currentSEO = SEO.find((item) => item.page === "getstarted");
 
+	// PHONE/COUNTRY DATA: Prepare sorted country and phone code options
 	const countryOptions = [
-		...phoneCodes.filter((c) => c.name === "United States"),
+		...phoneCodes.filter((c) => c.name === "United States"), // US first
 		...phoneCodes
 			.filter((c) => c.name !== "United States")
-			.sort((a, b) => a.name.localeCompare(b.name)),
+			.sort((a, b) => a.name.localeCompare(b.name)),        // Rest alphabetical
 	];
 	const phoneCodeOptions = phoneCodes;
 
+	// MODAL STATE: Hosting information modal control
 	const [modalIsOpen, setIsOpen] = useState(false);
 
-	const openModal = () => setIsOpen(true);
-	const closeModal = () => setIsOpen(false);
+	const openModal = () => setIsOpen(true);   // Show hosting info modal
+	const closeModal = () => setIsOpen(false); // Hide hosting info modal
 
+	// DATE CALCULATION: Set default project deadline to 3 months from today
 	const today = new Date();
 	const getDefaultDeadline = () => {
 		const d = new Date(
 			today.getFullYear(),
-			today.getMonth() + 3,
+			today.getMonth() + 3,  // Add 3 months
 			today.getDate()
 		);
 		return {
-			month: (d.getMonth() + 1).toString(),
+			month: (d.getMonth() + 1).toString(),  // Convert to 1-12 format
 			day: d.getDate().toString(),
 			year: d.getFullYear().toString(),
 		};
 	};
 	const defaultDeadlineObj = getDefaultDeadline();
 
+	// FORM STATE: Comprehensive project questionnaire data
 	const [form, setForm] = useState({
-		fullname: "",
-		phoneCode: "+1",
-		telephone: "",
-		email: "",
-		siteurl: "",
-		ownurl: false,
-		buyurl: false,
-		hosting: false,
-		hostself: false,
-		location: "United States",
-		description: "",
-		goals: "",
-		business: "",
-		budgetAmount: "",
-		budgetCurrency: "USD",
-		budgetOtherCurrency: "",
-		usdEquivalent: "",
-		deadlineMonth: defaultDeadlineObj.month,
-		deadlineDay: defaultDeadlineObj.day,
-		deadlineYear: defaultDeadlineObj.year,
-		notes: "",
+		// CONTACT INFO
+		fullname: "",                              // Client's full name
+		phoneCode: "+1",                           // International phone code
+		telephone: "",                             // Phone number
+		email: "",                                 // Email address
+		
+		// WEBSITE/HOSTING INFO
+		siteurl: "",                               // Desired website URL
+		ownurl: false,                             // Already owns domain
+		buyurl: false,                             // Needs to buy domain
+		hosting: false,                            // Needs hosting setup
+		hostself: false,                           // Will self-host
+		location: "United States",                 // Client location
+		
+		// PROJECT DETAILS
+		description: "",                           // Project description
+		goals: "",                                 // Project goals
+		business: "",                              // Business description
+		
+		// BUDGET INFO
+		budgetAmount: "",                          // Budget amount
+		budgetCurrency: "USD",                     // Budget currency
+		budgetOtherCurrency: "",                   // Custom currency
+		usdEquivalent: "",                         // USD conversion result
+		
+		// TIMELINE
+		deadlineMonth: defaultDeadlineObj.month,   // Project deadline month
+		deadlineDay: defaultDeadlineObj.day,       // Project deadline day
+		deadlineYear: defaultDeadlineObj.year,     // Project deadline year
+		
+		// ADDITIONAL INFO
+		notes: "",                                 // Additional notes
 	});
 
-	const [errors, setErrors] = useState({});
-	const [touched, setTouched] = useState({});
-	const [success, setSuccess] = useState(false);
-	const [isSubmitting, setIsSubmitting] = useState(false);
-	const [btnText, setBtnText] = useState("Send");
+	// UI STATE: Form validation and submission states
+	const [errors, setErrors] = useState({});           // Field-specific error messages
+	const [touched, setTouched] = useState({});         // Fields that user has interacted with
+	const [success, setSuccess] = useState(false);      // Success message display flag
+	const [isSubmitting, setIsSubmitting] = useState(false); // Loading state during submission
+	const [btnText, setBtnText] = useState("Send");     // Dynamic button text
 
-	// Validation helpers
+	// VALIDATION: Helper functions for form field validation
 	const validateEmail = (email) =>
-		/.+@.+\..+/.test(email) && email.trim().length > 5;
-	const validatePhone = (phone) => /^[0-9\-\s()]{7,}$/.test(phone);
+		/.+@.+\..+/.test(email) && email.trim().length > 5;  // Basic email format check
+	const validatePhone = (phone) => /^[0-9\-\s()]{7,}$/.test(phone); // Phone number format
 	const validateUrl = (url) =>
 		/^(https?:\/\/)?(www\.)?[^\s]+\.[^\s]+/.test(url) ||
-		url.trim().length > 5;
-	const validateNumber = (val) => !isNaN(Number(val)) && val.trim() !== "";
-	const validateMonth = (m) => /^[1-9]$|^1[0-2]$/.test(m);
+		url.trim().length > 5;                              // URL format or minimum length
+	const validateNumber = (val) => !isNaN(Number(val)) && val.trim() !== ""; // Valid number check
+	const validateMonth = (m) => /^[1-9]$|^1[0-2]$/.test(m);                 // Month 1-12
 	const validateDay = (d, m, y) => {
 		const day = Number(d);
 		const month = Number(m);
 		const year = Number(y);
 		if (!day || !month || !year) return false;
-		const daysInMonth = new Date(year, month, 0).getDate();
-		return day > 0 && day <= daysInMonth;
+		const daysInMonth = new Date(year, month, 0).getDate(); // Get max days in month
+		return day > 0 && day <= daysInMonth;                  // Valid day for the month
 	};
 	const validateYear = (y) =>
-		/^\d{4}$/.test(y) && Number(y) >= today.getFullYear();
+		/^\d{4}$/.test(y) && Number(y) >= today.getFullYear(); // 4-digit year, not in past
 
+	// VALIDATION: Main form validation function
 	const validate = () => {
 		let errs = {};
+		// CONTACT VALIDATION
 		if (!form.fullname.trim() || form.fullname.trim().length < 5)
-			errs.fullname = true;
-		if (!validatePhone(form.telephone)) errs.telephone = true;
-		if (!validateEmail(form.email)) errs.email = true;
-		if (!validateUrl(form.siteurl)) errs.siteurl = true;
-		if (!form.location) errs.location = true;
+			errs.fullname = true;                           // Name minimum 5 chars
+		if (!validatePhone(form.telephone)) errs.telephone = true;  // Phone format check
+		if (!validateEmail(form.email)) errs.email = true;          // Email format check
+		
+		// WEBSITE VALIDATION
+		if (!validateUrl(form.siteurl)) errs.siteurl = true;        // URL format check
+		if (!form.location) errs.location = true;                   // Location required
+		
+		// PROJECT DETAILS VALIDATION (minimum 50 characters each)
 		if (!form.description.trim() || form.description.trim().length < 50)
 			errs.description = true;
 		if (!form.goals.trim() || form.goals.trim().length < 50)
 			errs.goals = true;
 		if (!form.business.trim() || form.business.trim().length < 50)
 			errs.business = true;
+		
+		// BUDGET VALIDATION
 		if (!validateNumber(form.budgetAmount)) errs.budgetAmount = true;
+		
+		// DATE VALIDATION
 		if (!validateMonth(form.deadlineMonth)) errs.deadlineMonth = true;
 		if (
 			!validateDay(
@@ -240,17 +274,21 @@ function GetStarted() {
 		return errs;
 	};
 
+	// UI HELPER: Character count display for text fields
 	const countCharacters = (name, length) => {
 		return {
-			className: form[name].length < length ? "not-met" : "met",
+			className: form[name].length < length ? "not-met" : "met", // CSS class for styling
 			countText: `${form[name].length > length ? "OK: " : ""}${
 				form[name].length
-			} of ${length} characters minimum`,
+			} of ${length} characters minimum`,                        // Display text
 		};
 	};
 
+	// FORM HANDLING: Update form state with special logic for related fields
 	const handleChange = (e) => {
 		const { name, value, type, checked } = e.target;
+		
+		// LOCATION CHANGE: Auto-update phone code when country changes
 		if (name === "location") {
 			const selectedCountry = countryOptions.find(
 				(c) => c.name === value
@@ -262,6 +300,7 @@ function GetStarted() {
 				location: value,
 				phoneCode: newPhoneCode,
 			}));
+		// PHONE CODE CHANGE: Auto-update country when phone code changes
 		} else if (name === "phoneCode") {
 			const selectedCountry = phoneCodeOptions.find(
 				(c) => c.dial_code === value
@@ -273,26 +312,30 @@ function GetStarted() {
 				phoneCode: value,
 				location: newLocation,
 			}));
+		// BUDGET CURRENCY CHANGE: Reset conversion when currency changes
 		} else if (name === "budgetCurrency") {
 			setForm((prev) => ({
 				...prev,
 				budgetCurrency: value,
-				budgetOtherCurrency: "",
-				usdEquivalent: "",
+				budgetOtherCurrency: "",  // Clear custom currency
+				usdEquivalent: "",        // Clear USD conversion
 			}));
+		// CUSTOM CURRENCY CHANGE: Reset conversion
 		} else if (name === "budgetOtherCurrency") {
 			setForm((prev) => ({
 				...prev,
 				budgetOtherCurrency: value,
-				usdEquivalent: "",
+				usdEquivalent: "",        // Clear USD conversion
 			}));
+		// BUDGET AMOUNT CHANGE: Sanitize input and reset conversion
 		} else if (name === "budgetAmount") {
-			const sanitized = value.replace(/[^\d.,]/g, "");
+			const sanitized = value.replace(/[^\d.,]/g, ""); // Only allow numbers, commas, periods
 			setForm((prev) => ({
 				...prev,
 				budgetAmount: sanitized,
-				usdEquivalent: "",
+				usdEquivalent: "",        // Clear USD conversion
 			}));
+		// GENERAL FIELD CHANGE: Handle checkboxes and text inputs
 		} else {
 			setForm((prev) => ({
 				...prev,
