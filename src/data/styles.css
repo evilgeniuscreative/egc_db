@@ -172,6 +172,18 @@
 	}
 }
 
+@keyframes bounce-scale {
+	0% {
+		transform: scale(1);
+	}
+	50% {
+		transform: scale(1.25);
+	}
+	100% {
+		transform: scale(1.15);
+	}
+}
+
 .hideme {
 	position: absolute;
 	top: -0.95em;

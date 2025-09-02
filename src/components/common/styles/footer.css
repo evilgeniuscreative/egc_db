@@ -1,5 +1,13 @@
 @import "../../../data/styles.css";
 
+
+.page-footer {
+	margin: 0 -80px;
+	background: var(--primary-color);
+	box-sizing: border-box;
+	padding: 0 80px;
+}
+
 .footer {
 	display: flex;
 	flex-direction: row-reverse;
@@ -32,11 +40,14 @@
 
 .footer-nav-link-list a {
 	text-decoration: none;
-	color: var(--secondary-color);
+	color: white;
+	transition: all 0.3s ease-in-out;
+	display: inline-block;
 }
 
 .footer-nav-link-list a:hover {
 	color: var(--link-color);
+	animation: bounce-scale 0.4s ease-out forwards;
 }
 
 .footer-credits-text {

@@ -4,12 +4,20 @@ import "./styles/homepageRolloverImage.css";
 
 const HomepageRolloverImage = () => {
 	const audioRef = useRef(null);
+	const timeoutRef = useRef(null);
+	const isMouseOverRef = useRef(false);
 
 	const [isHovered, setIsHovered] = useState(false);
 
 	const handleMouseEnter = () => {
+		isMouseOverRef.current = true;
+		if (timeoutRef.current) {
+			clearTimeout(timeoutRef.current);
+		}
 		setTimeout(() => {
-			setIsHovered(true);
+			if (isMouseOverRef.current) {
+				setIsHovered(true);
+			}
 		}, 500);
 		if (audioRef.current) {
 			audioRef.current.currentTime = 0; // Reset to beginning
@@ -21,6 +29,7 @@ const HomepageRolloverImage = () => {
 	};
 
 	const handleMouseLeave = () => {
+		isMouseOverRef.current = false;
 		setIsHovered(false);
 		if (audioRef.current) {
 			audioRef.current.pause();
