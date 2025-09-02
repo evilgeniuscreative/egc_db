@@ -1,4 +1,4 @@
-@import "/src/data/styles.css";
+@import "./data/styles.css";
 
 ::-webkit-scrollbar {
 	width: 10px;
@@ -30,6 +30,26 @@
 	background-color: white;
 }
 
+.form-submit {
+	text-align: center;
+}
+.form-submit button {
+	background-color: var(--blue-med);
+	color: white;
+	cursor: pointer;
+	width: 100%;
+	min-width: 390px;
+	max-width: 850px;
+	transition: all 0.3s ease-in-out;
+	transform: scale(1);
+}
+
+.form-submit button:hover {
+	background-color: var(--blue-dark);
+	transition: all 0.3s ease-in-out;
+	transform: scale(1.05);
+}
+
 /* .page-content:before,
 .page-content:after {
 	content: "";
@@ -50,8 +70,9 @@
 } */
 
 .content-wrapper {
-	max-width: 1000px;
+	max-width: 1200px;
 	margin: 0 auto;
+	padding: 0 80px;
 }
 
 .title {
@@ -69,10 +90,6 @@
 	line-height: 28px;
 	width: 70%;
 	margin-top: 25px;
-}
-
-.page-footer {
-	position: block;
 }
 
 .page-footer::before {

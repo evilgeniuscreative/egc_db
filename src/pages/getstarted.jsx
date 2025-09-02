@@ -44,8 +44,8 @@ import "./styles/contact.css";
 
 // CURRENCY CONVERSION: Helper component to convert project budget to USD
 function USDXConverter({ amount, currency, setUsdEquivalent }) {
-	const [loading, setLoading] = useState(false);  // API call loading state
-	const [error, setError] = useState("");         // Conversion error messages
+	const [loading, setLoading] = useState(false); // API call loading state
+	const [error, setError] = useState(""); // Conversion error messages
 
 	// CURRENCY API: Convert non-USD amounts to USD equivalent
 	useEffect(() => {
@@ -72,7 +72,7 @@ function USDXConverter({ amount, currency, setUsdEquivalent }) {
 			.then((data) => {
 				if (data.data && data.data[currency]) {
 					// CALCULATION: Convert foreign currency to USD
-					const rate = data.data[currency];        // Exchange rate
+					const rate = data.data[currency]; // Exchange rate
 					const usdValue = sanitizedAmount / rate; // Convert to USD
 					setUsdEquivalent(
 						usdValue.toLocaleString("en-US", {
@@ -147,14 +147,14 @@ function GetStarted() {
 		...phoneCodes.filter((c) => c.name === "United States"), // US first
 		...phoneCodes
 			.filter((c) => c.name !== "United States")
-			.sort((a, b) => a.name.localeCompare(b.name)),        // Rest alphabetical
+			.sort((a, b) => a.name.localeCompare(b.name)), // Rest alphabetical
 	];
 	const phoneCodeOptions = phoneCodes;
 
 	// MODAL STATE: Hosting information modal control
 	const [modalIsOpen, setIsOpen] = useState(false);
 
-	const openModal = () => setIsOpen(true);   // Show hosting info modal
+	const openModal = () => setIsOpen(true); // Show hosting info modal
 	const closeModal = () => setIsOpen(false); // Hide hosting info modal
 
 	// DATE CALCULATION: Set default project deadline to 3 months from today
@@ -162,11 +162,11 @@ function GetStarted() {
 	const getDefaultDeadline = () => {
 		const d = new Date(
 			today.getFullYear(),
-			today.getMonth() + 3,  // Add 3 months
+			today.getMonth() + 3, // Add 3 months
 			today.getDate()
 		);
 		return {
-			month: (d.getMonth() + 1).toString(),  // Convert to 1-12 format
+			month: (d.getMonth() + 1).toString(), // Convert to 1-12 format
 			day: d.getDate().toString(),
 			year: d.getFullYear().toString(),
 		};
@@ -176,62 +176,62 @@ function GetStarted() {
 	// FORM STATE: Comprehensive project questionnaire data
 	const [form, setForm] = useState({
 		// CONTACT INFO
-		fullname: "",                              // Client's full name
-		phoneCode: "+1",                           // International phone code
-		telephone: "",                             // Phone number
-		email: "",                                 // Email address
-		
+		fullname: "", // Client's full name
+		phoneCode: "+1", // International phone code
+		telephone: "", // Phone number
+		email: "", // Email address
+
 		// WEBSITE/HOSTING INFO
-		siteurl: "",                               // Desired website URL
-		ownurl: false,                             // Already owns domain
-		buyurl: false,                             // Needs to buy domain
-		hosting: false,                            // Needs hosting setup
-		hostself: false,                           // Will self-host
-		location: "United States",                 // Client location
-		
+		siteurl: "", // Desired website URL
+		ownurl: false, // Already owns domain
+		buyurl: false, // Needs to buy domain
+		hosting: false, // Needs hosting setup
+		hostself: false, // Will self-host
+		location: "United States", // Client location
+
 		// PROJECT DETAILS
-		description: "",                           // Project description
-		goals: "",                                 // Project goals
-		business: "",                              // Business description
-		
+		description: "", // Project description
+		goals: "", // Project goals
+		business: "", // Business description
+
 		// BUDGET INFO
-		budgetAmount: "",                          // Budget amount
-		budgetCurrency: "USD",                     // Budget currency
-		budgetOtherCurrency: "",                   // Custom currency
-		usdEquivalent: "",                         // USD conversion result
-		
+		budgetAmount: "", // Budget amount
+		budgetCurrency: "USD", // Budget currency
+		budgetOtherCurrency: "", // Custom currency
+		usdEquivalent: "", // USD conversion result
+
 		// TIMELINE
-		deadlineMonth: defaultDeadlineObj.month,   // Project deadline month
-		deadlineDay: defaultDeadlineObj.day,       // Project deadline day
-		deadlineYear: defaultDeadlineObj.year,     // Project deadline year
-		
+		deadlineMonth: defaultDeadlineObj.month, // Project deadline month
+		deadlineDay: defaultDeadlineObj.day, // Project deadline day
+		deadlineYear: defaultDeadlineObj.year, // Project deadline year
+
 		// ADDITIONAL INFO
-		notes: "",                                 // Additional notes
+		notes: "", // Additional notes
 	});
 
 	// UI STATE: Form validation and submission states
-	const [errors, setErrors] = useState({});           // Field-specific error messages
-	const [touched, setTouched] = useState({});         // Fields that user has interacted with
-	const [success, setSuccess] = useState(false);      // Success message display flag
+	const [errors, setErrors] = useState({}); // Field-specific error messages
+	const [touched, setTouched] = useState({}); // Fields that user has interacted with
+	const [success, setSuccess] = useState(false); // Success message display flag
 	const [isSubmitting, setIsSubmitting] = useState(false); // Loading state during submission
-	const [btnText, setBtnText] = useState("Send");     // Dynamic button text
+	const [btnText, setBtnText] = useState("Send"); // Dynamic button text
 
 	// VALIDATION: Helper functions for form field validation
 	const validateEmail = (email) =>
-		/.+@.+\..+/.test(email) && email.trim().length > 5;  // Basic email format check
+		/.+@.+\..+/.test(email) && email.trim().length > 5; // Basic email format check
 	const validatePhone = (phone) => /^[0-9\-\s()]{7,}$/.test(phone); // Phone number format
 	const validateUrl = (url) =>
 		/^(https?:\/\/)?(www\.)?[^\s]+\.[^\s]+/.test(url) ||
-		url.trim().length > 5;                              // URL format or minimum length
+		url.trim().length > 5; // URL format or minimum length
 	const validateNumber = (val) => !isNaN(Number(val)) && val.trim() !== ""; // Valid number check
-	const validateMonth = (m) => /^[1-9]$|^1[0-2]$/.test(m);                 // Month 1-12
+	const validateMonth = (m) => /^[1-9]$|^1[0-2]$/.test(m); // Month 1-12
 	const validateDay = (d, m, y) => {
 		const day = Number(d);
 		const month = Number(m);
 		const year = Number(y);
 		if (!day || !month || !year) return false;
 		const daysInMonth = new Date(year, month, 0).getDate(); // Get max days in month
-		return day > 0 && day <= daysInMonth;                  // Valid day for the month
+		return day > 0 && day <= daysInMonth; // Valid day for the month
 	};
 	const validateYear = (y) =>
 		/^\d{4}$/.test(y) && Number(y) >= today.getFullYear(); // 4-digit year, not in past
@@ -241,14 +241,14 @@ function GetStarted() {
 		let errs = {};
 		// CONTACT VALIDATION
 		if (!form.fullname.trim() || form.fullname.trim().length < 5)
-			errs.fullname = true;                           // Name minimum 5 chars
-		if (!validatePhone(form.telephone)) errs.telephone = true;  // Phone format check
-		if (!validateEmail(form.email)) errs.email = true;          // Email format check
-		
+			errs.fullname = true; // Name minimum 5 chars
+		if (!validatePhone(form.telephone)) errs.telephone = true; // Phone format check
+		if (!validateEmail(form.email)) errs.email = true; // Email format check
+
 		// WEBSITE VALIDATION
-		if (!validateUrl(form.siteurl)) errs.siteurl = true;        // URL format check
-		if (!form.location) errs.location = true;                   // Location required
-		
+		if (!validateUrl(form.siteurl)) errs.siteurl = true; // URL format check
+		if (!form.location) errs.location = true; // Location required
+
 		// PROJECT DETAILS VALIDATION (minimum 50 characters each)
 		if (!form.description.trim() || form.description.trim().length < 50)
 			errs.description = true;
@@ -256,10 +256,10 @@ function GetStarted() {
 			errs.goals = true;
 		if (!form.business.trim() || form.business.trim().length < 50)
 			errs.business = true;
-		
+
 		// BUDGET VALIDATION
 		if (!validateNumber(form.budgetAmount)) errs.budgetAmount = true;
-		
+
 		// DATE VALIDATION
 		if (!validateMonth(form.deadlineMonth)) errs.deadlineMonth = true;
 		if (
@@ -280,14 +280,14 @@ function GetStarted() {
 			className: form[name].length < length ? "not-met" : "met", // CSS class for styling
 			countText: `${form[name].length > length ? "OK: " : ""}${
 				form[name].length
-			} of ${length} characters minimum`,                        // Display text
+			} of ${length} characters minimum`, // Display text
 		};
 	};
 
 	// FORM HANDLING: Update form state with special logic for related fields
 	const handleChange = (e) => {
 		const { name, value, type, checked } = e.target;
-		
+
 		// LOCATION CHANGE: Auto-update phone code when country changes
 		if (name === "location") {
 			const selectedCountry = countryOptions.find(
@@ -300,7 +300,7 @@ function GetStarted() {
 				location: value,
 				phoneCode: newPhoneCode,
 			}));
-		// PHONE CODE CHANGE: Auto-update country when phone code changes
+			// PHONE CODE CHANGE: Auto-update country when phone code changes
 		} else if (name === "phoneCode") {
 			const selectedCountry = phoneCodeOptions.find(
 				(c) => c.dial_code === value
@@ -312,30 +312,30 @@ function GetStarted() {
 				phoneCode: value,
 				location: newLocation,
 			}));
-		// BUDGET CURRENCY CHANGE: Reset conversion when currency changes
+			// BUDGET CURRENCY CHANGE: Reset conversion when currency changes
 		} else if (name === "budgetCurrency") {
 			setForm((prev) => ({
 				...prev,
 				budgetCurrency: value,
-				budgetOtherCurrency: "",  // Clear custom currency
-				usdEquivalent: "",        // Clear USD conversion
+				budgetOtherCurrency: "", // Clear custom currency
+				usdEquivalent: "", // Clear USD conversion
 			}));
-		// CUSTOM CURRENCY CHANGE: Reset conversion
+			// CUSTOM CURRENCY CHANGE: Reset conversion
 		} else if (name === "budgetOtherCurrency") {
 			setForm((prev) => ({
 				...prev,
 				budgetOtherCurrency: value,
-				usdEquivalent: "",        // Clear USD conversion
+				usdEquivalent: "", // Clear USD conversion
 			}));
-		// BUDGET AMOUNT CHANGE: Sanitize input and reset conversion
+			// BUDGET AMOUNT CHANGE: Sanitize input and reset conversion
 		} else if (name === "budgetAmount") {
 			const sanitized = value.replace(/[^\d.,]/g, ""); // Only allow numbers, commas, periods
 			setForm((prev) => ({
 				...prev,
 				budgetAmount: sanitized,
-				usdEquivalent: "",        // Clear USD conversion
+				usdEquivalent: "", // Clear USD conversion
 			}));
-		// GENERAL FIELD CHANGE: Handle checkboxes and text inputs
+			// GENERAL FIELD CHANGE: Handle checkboxes and text inputs
 		} else {
 			setForm((prev) => ({
 				...prev,
@@ -1094,19 +1094,19 @@ Submitted: ${new Date().toLocaleString()}
 								</div>
 							)}
 
-							<div>
-								<input
+							<div className="form-submit	">
+								<button
 									type="submit"
 									value={btnText}
 									disabled={isSubmitting}
-								/>
+								>
+									{btnText}
+								</button>
 							</div>
 						</form>
 					)}
 					<div className="socials-container">
-						<div className="contact-socials">
-							<Socials />
-						</div>
+						<Socials />
 					</div>
 					<div className="page-footer">
 						<Footer />

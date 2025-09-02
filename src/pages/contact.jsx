@@ -44,12 +44,12 @@ const Contact = () => {
 		email: "",
 		message: "",
 	});
-	
+
 	// UI STATE: Form validation and submission states
-	const [errors, setErrors] = useState({});           // Field-specific error messages
-	const [success, setSuccess] = useState(false);      // Success message display flag
+	const [errors, setErrors] = useState({}); // Field-specific error messages
+	const [success, setSuccess] = useState(false); // Success message display flag
 	const [isSubmitting, setIsSubmitting] = useState(false); // Loading state during submission
-	const [btnText, setBtnText] = useState("Send");     // Dynamic button text
+	const [btnText, setBtnText] = useState("Send"); // Dynamic button text
 	const [recaptchaSiteKey, setRecaptchaSiteKey] = useState(""); // reCAPTCHA key from backend
 
 	// COMPONENT INITIALIZATION: Set up page and load reCAPTCHA
@@ -108,30 +108,31 @@ const Contact = () => {
 	// VALIDATION: Check form fields for errors
 	const validate = () => {
 		let errs = {};
-		if (!form.name.trim()) errs.name = true;                    // Name is required
+		if (!form.name.trim()) errs.name = true; // Name is required
 		if (
 			!form.email.trim() ||
-			!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)           // Email format validation
+			!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email) // Email format validation
 		)
 			errs.email = true;
-		if (!form.message.trim() || form.message.trim().length < 50) // Minimum 50 characters
+		if (!form.message.trim() || form.message.trim().length < 50)
+			// Minimum 50 characters
 			errs.message = true;
 		return errs;
 	};
 
 	// FORM HANDLING: Update form state and clear errors on input
 	const handleChange = (e) => {
-		setForm({ ...form, [e.target.name]: e.target.value });  // Update form field
+		setForm({ ...form, [e.target.name]: e.target.value }); // Update form field
 		if (errors[e.target.name]) {
-			setErrors({ ...errors, [e.target.name]: false });   // Clear error when user types
+			setErrors({ ...errors, [e.target.name]: false }); // Clear error when user types
 		}
 	};
 
 	// FORM SUBMISSION: Main form submission handler
 	const handleSubmit = async (e) => {
-		e.preventDefault();  // Prevent default form submission
+		e.preventDefault(); // Prevent default form submission
 
-		if (isSubmitting) return;  // Prevent double submission
+		if (isSubmitting) return; // Prevent double submission
 
 		// VALIDATION: Check all form fields
 		const validationErrors = validate();
@@ -155,9 +156,9 @@ const Contact = () => {
 				// RECAPTCHA: Execute invisible reCAPTCHA v3 verification
 				window.grecaptcha.ready(() => {
 					window.grecaptcha
-						.execute(recaptchaSiteKey, { action: "contact_form" })  // Generate token
+						.execute(recaptchaSiteKey, { action: "contact_form" }) // Generate token
 						.then(async (token) => {
-							await submitFormWithToken(token);  // Submit with token
+							await submitFormWithToken(token); // Submit with token
 						});
 				});
 			} catch (error) {
@@ -176,9 +177,9 @@ const Contact = () => {
 		try {
 			// FORM DATA: Prepare data for PHP backend
 			const formData = new FormData();
-			formData.append("name", form.name);                    // User's name
-			formData.append("email", form.email);                  // User's email
-			formData.append("message", form.message);              // Message content
+			formData.append("name", form.name); // User's name
+			formData.append("email", form.email); // User's email
+			formData.append("message", form.message); // Message content
 			formData.append("g-recaptcha-response", recaptchaToken); // reCAPTCHA token
 
 			// HTTP REQUEST: Send POST request to PHP mail handler
@@ -195,8 +196,9 @@ const Contact = () => {
 				(responseText.includes("Success") ||
 					responseText.includes("sent successfully"))
 			) {
-				setSuccess(true);  // Show success message
-				setForm({          // Reset form fields
+				setSuccess(true); // Show success message
+				setForm({
+					// Reset form fields
 					name: "",
 					email: "",
 					message: "",
@@ -284,52 +286,60 @@ const Contact = () => {
 								onSubmit={handleSubmit}
 								noValidate
 							>
-								<label htmlFor="name">Name</label>
-								<input
-									type="text"
-									id="name"
-									name="name"
-									value={form.name}
-									onChange={handleChange}
-									className={errors.name ? "field-error" : ""}
-									required
-								/>
+								<div className="field-row">
+									<label htmlFor="name">Name</label>
+									<input
+										type="text"
+										id="name"
+										name="name"
+										value={form.name}
+										onChange={handleChange}
+										className={
+											errors.name ? "field-error" : ""
+										}
+										required
+									/>
+								</div>
 								{errors.name && (
 									<div className="form-error">
 										This field is required
 									</div>
 								)}
 
-								<label htmlFor="email">Email</label>
-								<input
-									type="email"
-									id="email"
-									name="email"
-									value={form.email}
-									onChange={handleChange}
-									className={
-										errors.email ? "field-error" : ""
-									}
-									required
-								/>
+								<div className="field-row">
+									<label htmlFor="email">Email</label>
+									<input
+										type="email"
+										id="email"
+										name="email"
+										value={form.email}
+										onChange={handleChange}
+										className={
+											errors.email ? "field-error" : ""
+										}
+										required
+									/>
+								</div>
 								{errors.email && (
 									<div className="form-error">
 										Please enter a valid email address
 									</div>
 								)}
 
-								<label htmlFor="message">Message</label>
-								<textarea
-									id="message"
-									name="message"
-									rows={10}
-									value={form.message}
-									onChange={handleChange}
-									className={
-										errors.message ? "field-error" : ""
-									}
-									required
-								/>
+								<div className="field-row">
+									<label htmlFor="message">Message</label>
+									<textarea
+										id="message"
+										name="message"
+										rows={10}
+										value={form.message}
+										onChange={handleChange}
+										className={
+											errors.message ? "field-error" : ""
+										}
+										required
+									/>
+								</div>
 								<div
 									className={
 										form.message.length < 50
@@ -370,9 +380,7 @@ const Contact = () => {
 					</div>
 
 					<div className="socials-container">
-						<div className="contact-socials">
-							<Socials />
-						</div>
+						<Socials />
 					</div>
 
 					<div className="page-footer">
