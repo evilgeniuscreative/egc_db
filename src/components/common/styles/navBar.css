@@ -70,7 +70,7 @@
 
 .nav-item a:hover {
 	color: var(--link-color);
-	transform: scale(1.15);
+	transform: scale(1.25);
 }
 
 .nav-item.nav-item-start a {
@@ -79,13 +79,19 @@
 	background-color: var(--blue-med);
 	padding: 0.15em 0.75em;
 	color: var(--white);
+	position: relative;
+	z-index: 1;
+	will-change: transform;
+	backface-visibility: hidden;
 }
 
-.nav-item.nav-item-start:hover {
+.nav-item.nav-item-start a:hover {
 	background-color: var(--link-color);
 	border: 1px solid var(--link-color);
 	color: var(--white);
 	transition: all 0.3s ease-in-out;
+	transform: scale(1.25);
+	z-index: 2;
 }
 
 .nav-item.nav-item-start.active {
