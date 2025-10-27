@@ -124,19 +124,25 @@
 	}
 }
 
-@media (max-width: 800px) {
+@media (max-width: 810px) {
 	.content-wrapper {
-		max-width: 90%;
-		margin: 0 auto;
+		max-width: 100%;
+		margin: 0;
 		padding: 0 10px;
 	}
 
+	.page-content {
+		width: 100%;
+	}
 	.title {
 		width: 100%;
 	}
 
 	.subtitle {
 		width: 100%;
+	}
+	.page-footer{
+		margin-top: 20px;
 	}
 }
 

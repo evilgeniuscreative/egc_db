@@ -18,6 +18,7 @@
 
 .nav-background {
 	width: 500px;
+	min-width: 300px;
 	height: 40px;
 	padding-left: 0%;
 	padding-right: 0%;
@@ -83,6 +84,9 @@
 	z-index: 1;
 	will-change: transform;
 	backface-visibility: hidden;
+	text-align: center;
+	min-width: 65px;
+	min-height: 16px;
 }
 
 .nav-item.nav-item-start a:hover {
@@ -106,20 +110,114 @@
 	color: var(--link-color) !important;
 }
 
+@media (max-width: 800px) {
+	.content-wrapper {
+		width: 100%;
+		margin: 0 auto;
+	}
+	.homepage-first-area {
+		padding: 0 30px;
+	}
+	.homepage-first-area-right-side {
+		justify-content: center;
+		margin-bottom: 30px;
+	}
+	.homepage-image-container {
+		width: 100%;
+	}
+	.homepage-rollover-image-container {
+		height: 500px;
+		padding-top: 50px;
+		vertical-align: top;
+		max-height: 100%;
+		max-width: 100%;
+
+		> img {
+			height: 500px;
+			width: 500px;
+			max-height: 100%;
+			max-width: 100%;
+		}
+	}
+	.homepage-rollover-image-container img {
+		height: 100%;
+		width: auto;
+	}
+	.homepage-logo-container {
+		position: absolute;
+		left: 5%;
+	}
+	.homepage-projects {
+		padding: 0 5%;
+	}
+}
+
 @media (max-width: 600px) {
 	.navbar {
-		margin-left: 25%;
-		margin-right: 25%;
-		width: 80%;
-		font-size: 80%;
+		width: 75%;
+		margin-top: 11.5px;
 	}
-
+	.nav-list {
+		gap: 25px;
+	}
 	.nav-background {
-		width: 80%;
-		height: 40px;
+		width: 100%;
+		max-width: 100%;
 	}
+	.page-content {
+		max-width: 100%;
+	}
+	.content-wrapper {
+		width: 100%;
+		margin: 0 auto;
+		padding: 10%;
+		max-width: 100%;
+	}
+	.homepage-first-area-right-side {
+		justify-content: center;
+		margin: 30px auto;
+		padding: 0 5%;
+	}
+	.homepage-first-area-left-side {
+		padding-top: 0;
+		width: 90%;
+	}
+	.homepage-socials {
+		justify-content: center;
+	}
+	.homepage-image-container {
+		width: 100%;
+	}
+	.homepage-rollover-image-container {
+		height: 500px;
+		padding-top: 0;
+		vertical-align: top;
 
-	.nav-item {
-		font-weight: bold;
+		> img {
+			height: 500px;
+			width: 500px;
+		}
+	}
+	.homepage-rollover-image-container img {
+		height: 100%;
+		width: auto;
+	}
+	.homepage-logo-container {
+		position: absolute;
+		left: 0;
+		padding-top: 50px;
+	}
+	.homepage-projects {
+		padding: 0 5%;
+	}
+	.project-thumb-section {
+		height: 300px;
+	}
+	.project-thumb {
+		max-width: 100%;
+		height: 300px;
+		background-size: contain;
+		background-position: bottom;
+		background-repeat: no-repeat;
 	}
 }
