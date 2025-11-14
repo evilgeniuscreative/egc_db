@@ -1,212 +1,41 @@
-// script.js - Complete Unified Desktop/Mobile City Lights Script
-// Auto-detects device and uses appropriate optimized settings
+// Configuration
+const CYCLE_DURATION = 120000; // Milliseconds for one 24-hour cycle (2 minutes)
+const DEBUG = true; // Enable/disable debug logging
+const INIT_TIMEOUT = 45000; // 45 second timeout for initialization (increased)
 
-// =============================================================================
-// DEVICE DETECTION (RUNS FIRST)
-// =============================================================================
-
-function detectMobileDevice() {
-	const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-	const mobileRegex =
-		/android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i;
-	return mobileRegex.test(userAgent.toLowerCase());
-}
-
-const IS_MOBILE = detectMobileDevice();
-console.log(`[CityLights] Device: ${IS_MOBILE ? "MOBILE" : "DESKTOP"}`);
-
-if (IS_MOBILE) {
-	enforcePortraitBlocker();
-	if (screen.orientation) {
-		screen.orientation.lock("landscape").catch((err) => {
-			console.log(
-				"[CityLights] Could not lock to landscape:",
-				err.message
-			);
-		});
-	}
-}
-
-function enforcePortraitBlocker() {
-	let landscapeOverlay = null;
-
-	function createOverlay() {
-		if (document.getElementById("landscape-overlay")) {
-			landscapeOverlay = document.getElementById("landscape-overlay");
-			return;
-		}
-
-		landscapeOverlay = document.createElement("div");
-		landscapeOverlay.id = "landscape-overlay";
-		landscapeOverlay.style.cssText = `
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      z-index: 99999;
-      opacity: 1;
-      visibility: visible;
-      transition: opacity 0.3s ease, visibility 0.3s ease;
-      pointer-events: none;
-    `;
-
-		const messageContainer = document.createElement("div");
-		messageContainer.style.cssText = `
-      text-align: center;
-      color: white;
-      font-family: Arial, sans-serif;
-      pointer-events: auto;
-    `;
-
-		const icon = document.createElement("div");
-		icon.innerHTML = "📱";
-		icon.style.cssText = `
-      font-size: 80px;
-      margin-bottom: 20px;
-      transform: rotate(-90deg);
-      transition: transform 0.3s ease;
-    `;
-
-		const title = document.createElement("h1");
-		title.textContent = "Please Rotate Your Device";
-		title.style.cssText = `
-      font-size: 28px;
-      margin: 0 0 15px 0;
-      font-weight: bold;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-    `;
-
-		const message = document.createElement("p");
-		message.textContent = "City Lights works best in landscape mode";
-		message.style.cssText = `
-      font-size: 16px;
-      margin: 0;
-      color: rgba(255, 255, 255, 0.8);
-      text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-    `;
-
-		messageContainer.appendChild(icon);
-		messageContainer.appendChild(title);
-		messageContainer.appendChild(message);
-		landscapeOverlay.appendChild(messageContainer);
-		document.body.appendChild(landscapeOverlay);
-	}
-
-	function checkOrientation() {
-		const isPortrait = window.innerHeight > window.innerWidth;
-
-		if (isPortrait) {
-			createOverlay();
-			landscapeOverlay.style.opacity = "1";
-			landscapeOverlay.style.visibility = "visible";
-			landscapeOverlay.style.pointerEvents = "auto";
-			document.body.style.overflow = "hidden";
-
-			const sceneContainer = document.getElementById("scene-container");
-			if (sceneContainer) {
-				sceneContainer.style.opacity = "0.3";
-				sceneContainer.style.pointerEvents = "none";
-			}
-		} else {
-			if (landscapeOverlay) {
-				landscapeOverlay.style.opacity = "0";
-				landscapeOverlay.style.visibility = "hidden";
-				landscapeOverlay.style.pointerEvents = "none";
-			}
-			document.body.style.overflow = "auto";
-
-			const sceneContainer = document.getElementById("scene-container");
-			if (sceneContainer) {
-				sceneContainer.style.opacity = "1";
-				sceneContainer.style.pointerEvents = "auto";
-			}
-		}
-	}
-
-	document.addEventListener("DOMContentLoaded", () => checkOrientation());
-	window.addEventListener("orientationchange", () => checkOrientation());
-	window.addEventListener("resize", () => checkOrientation());
-	if (screen.orientation) {
-		screen.orientation.addEventListener("change", () => checkOrientation());
-	}
-}
-
-// =============================================================================
-// GLOBAL CONFIGURATION
-// =============================================================================
-
-const DEBUG = true;
-
-const DEVICE_CONFIG = IS_MOBILE
-	? {
-			cycleDuration: 180000,
-			buildingCount: 8,
-			houseCount: 4,
-			minClouds: 1,
-			maxClouds: 3,
-			starCount: 50,
-			initTimeout: 90000,
-			rafBatchSize_stars: 15,
-			rafBatchSize_buildings: 4,
-			rafBatchSize_houses: 2,
-			updateWindowFrequency: 1000,
-			disableUfoMovement: false,
-	  }
-	: {
-			cycleDuration: 240000,
-			buildingCount: 15,
-			houseCount: 10,
-			minClouds: 3,
-			maxClouds: 8,
-			starCount: 100,
-			initTimeout: 45000,
-			rafBatchSize_stars: 30,
-			rafBatchSize_buildings: 8,
-			rafBatchSize_houses: 3,
-			updateWindowFrequency: 500,
-			disableUfoMovement: false,
-	  };
-
-console.log(`[CityLights] Using ${IS_MOBILE ? "MOBILE" : "DESKTOP"} config`);
-
-// =============================================================================
-// SHARED UTILITIES
-// =============================================================================
-
-function log(message) {
-	try {
-		if (DEBUG) {
-			console.log(`[CityLights] ${message}`);
-		}
-	} catch (e) {}
-}
-
-function setLoadingText(text) {
-	const loadingText = document.querySelector(".loading-text");
-	if (loadingText) {
-		loadingText.textContent = text;
-		log(`Loading: ${text}`);
-	}
-}
-
+// Send heartbeats to watchdog if we're in an iframe
 function sendHeartbeat() {
 	try {
 		if (window.parent && window.parent !== window) {
 			window.parent.postMessage("heartbeat", "*");
 		}
-	} catch (e) {}
+	} catch (e) {
+		// Silently fail if postMessage is not available
+	}
 }
 
+// Start sending heartbeats every 5 seconds
 const heartbeatInterval = setInterval(sendHeartbeat, 1000);
-sendHeartbeat();
+sendHeartbeat(); // Send initial heartbeat
 
-// Error handling
+// Helper for debug logging
+function log(message) {
+	try {
+		if (DEBUG) {
+			console.log(`[CityLights] ${message}`);
+		}
+	} catch (e) {
+		// Silently fail if console is not available
+	}
+}
+
+function setLoadingText(text) {
+	if (this.loadingText) {
+		this.loadingText.textContent = text;
+		log(`Loading step: ${text}`);
+	}
+}
+
 (function setupErrorHandling() {
 	const errorLog = document.getElementById("error-log");
 	const errorSidebar = document.getElementById("error-sidebar");
@@ -216,10 +45,12 @@ sendHeartbeat();
 
 	if (errorLog && errorSidebar && showErrorsBtn) {
 		errorSidebar.style.display = "block";
+
 		const originalConsoleError = console.error;
 
 		console.error = function () {
 			originalConsoleError.apply(console, arguments);
+
 			const errorMsg = Array.from(arguments)
 				.map((arg) => {
 					if (arg instanceof Error) {
@@ -235,6 +66,7 @@ sendHeartbeat();
 			errorEntry.className = "error-entry";
 			errorEntry.innerHTML = `<hr><p><strong>${new Date().toLocaleTimeString()}</strong>: ${errorMsg}</p>`;
 			errorLog.appendChild(errorEntry);
+
 			errorSidebar.style.display = "block";
 			showErrorsBtn.style.display = "none";
 		};
@@ -251,20 +83,20 @@ sendHeartbeat();
 		});
 
 		if (clearErrorsBtn) {
-			clearErrorsBtn.addEventListener("click", () => {
+			clearErrorsBtn.addEventListener("click", function () {
 				errorLog.innerHTML = "";
 			});
 		}
 
 		if (toggleSidebarBtn) {
-			toggleSidebarBtn.addEventListener("click", () => {
+			toggleSidebarBtn.addEventListener("click", function () {
 				errorSidebar.style.display = "none";
 				showErrorsBtn.style.display = "block";
 			});
 		}
 
 		if (showErrorsBtn) {
-			showErrorsBtn.addEventListener("click", () => {
+			showErrorsBtn.addEventListener("click", function () {
 				errorSidebar.style.display = "block";
 				showErrorsBtn.style.display = "none";
 			});
@@ -294,7 +126,7 @@ function monitorInitialization() {
 			const timeSinceChange = Date.now() - lastChangeTime;
 			if (timeSinceChange > 10000) {
 				console.warn(
-					`Loading stuck at "${currentMessage}" for ${Math.round(
+					`Loading appears stuck at "${currentMessage}" for ${Math.round(
 						timeSinceChange / 1000
 					)} seconds`
 				);
@@ -374,20 +206,16 @@ function initScene() {
 	}
 }
 
-// =============================================================================
-// CITY SCENE CLASS
-// =============================================================================
-
 class CityScene {
 	constructor(options = {}) {
 		this.options = Object.assign(
 			{
-				cycleDuration: DEVICE_CONFIG.cycleDuration,
-				buildingCount: DEVICE_CONFIG.buildingCount,
-				houseCount: DEVICE_CONFIG.houseCount,
-				minClouds: DEVICE_CONFIG.minClouds,
-				maxClouds: DEVICE_CONFIG.maxClouds,
-				starCount: DEVICE_CONFIG.starCount,
+				cycleDuration: 240000,
+				buildingCount: 15 + Math.floor(Math.random() * 10),
+				houseCount: 10 + Math.floor(Math.random() * 5),
+				minClouds: 3,
+				maxClouds: 8,
+				starCount: 100,
 			},
 			options
 		);
@@ -401,11 +229,14 @@ class CityScene {
 		this.clouds = [];
 		this.stars = [];
 		this.lastWindowUpdate = 0;
+		this.speedSlider = null;
+		this.speedDisplay = null;
+		this.lampLights = null;
+		this.lampDowns = null;
+		this.nightLayer = null;
+		this.dayLayer = null;
 		this.windowObjects = [];
 		this.isNewDay = true;
-		this.animationFrameId = null;
-		this.animationRunning = false;
-		this.wasPlayingBeforeHidden = false;
 
 		this.eventHandlers = {
 			visibilityChange: null,
@@ -428,6 +259,7 @@ class CityScene {
 		this.ufoWrap = null;
 		this.ufo = null;
 		this.airplane = null;
+		this.clockDisplay = null;
 		this.digitalClock = null;
 		this.analogClock = null;
 		this.hourHand = null;
@@ -437,8 +269,10 @@ class CityScene {
 		this.resetBtn = null;
 		this.speedSlider = null;
 		this.speedDisplay = null;
-		this.lampLights = [];
-		this.lampDowns = [];
+		this.lampLights = null;
+		this.lampDowns = null;
+		this.nightLayer = null;
+		this.dayLayer = null;
 
 		this.init();
 	}
@@ -468,6 +302,7 @@ class CityScene {
 		this.ufo = document.querySelector(".ufo");
 		this.airplane = document.querySelector(".airplane");
 
+		this.clockDisplay = document.getElementById("clock");
 		this.digitalClock = document.getElementById("digital-clock");
 		this.analogClock = document.getElementById("analog-clock");
 		this.hourHand = this.analogClock
@@ -483,7 +318,10 @@ class CityScene {
 		this.speedSlider = document.getElementById("speedSlider");
 		this.speedDisplay = document.getElementById("speedDisplay");
 
+		this.lampLights = document.querySelectorAll(".lamp-light");
+
 		this.setupEventListeners();
+
 		this.isInitialized = false;
 
 		setTimeout(() => {
@@ -491,23 +329,22 @@ class CityScene {
 		}, 300);
 	}
 
+	// OPTIMIZED: Chain initialization steps with promises
 	initializeSequentially() {
 		try {
 			log("Sequential initialization started");
 
 			const initTimeoutId = setTimeout(() => {
-				log("Initialization timeout reached");
+				log("Initialization timeout reached - forcing refresh option");
 				const emergencyBtn =
 					document.getElementById("emergency-refresh");
 				if (emergencyBtn) {
 					emergencyBtn.classList.add("visible");
 					setLoadingText(
-						`Loading taking too long (${
-							DEVICE_CONFIG.initTimeout / 1000
-						}s). Refresh?`
+						"Loading taking too long. Consider refreshing."
 					);
 				}
-			}, DEVICE_CONFIG.initTimeout);
+			}, INIT_TIMEOUT);
 
 			if (this.isInitialized) {
 				clearTimeout(initTimeoutId);
@@ -525,6 +362,7 @@ class CityScene {
 		}
 	}
 
+	// OPTIMIZED: Chain initialization steps with promises
 	chainedInitialization(timeoutId) {
 		setLoadingText("Setting up stars...");
 
@@ -574,17 +412,14 @@ class CityScene {
 				this.loadingComplete = true;
 
 				this.animate();
+				this.airplaneMovement();
+				this.ufoRandomMovement();
 
-				if (!DEVICE_CONFIG.disableUfoMovement) {
-					this.airplaneMovement();
-					this.ufoRandomMovement();
-
-					this.ufoMovementInterval = setInterval(() => {
-						if (this.isPlaying && this.ufo) {
-							this.ufoRandomMovement();
-						}
-					}, 1000 + Math.random() * 2000);
-				}
+				this.ufoMovementInterval = setInterval(() => {
+					if (this.isPlaying && this.ufo) {
+						this.ufoRandomMovement();
+					}
+				}, 1000 + Math.random() * 2000);
 
 				clearTimeout(timeoutId);
 
@@ -608,10 +443,12 @@ class CityScene {
 			});
 	}
 
+	// OPTIMIZED: Helper method - Simple delay promise
 	delay(ms) {
 		return new Promise((resolve) => setTimeout(resolve, ms));
 	}
 
+	// OPTIMIZED: Star creation using requestAnimationFrame batching
 	setupStarsOptimized() {
 		return new Promise((resolve) => {
 			if (!this.starContainer) {
@@ -625,8 +462,8 @@ class CityScene {
 
 			this.starContainer.innerHTML = "";
 
-			const starCount = DEVICE_CONFIG.starCount;
-			const batchSize = DEVICE_CONFIG.rafBatchSize_stars;
+			const starCount = Math.floor(Math.random() * 50) + 100;
+			const batchSize = 30;
 			let currentBatch = 0;
 
 			const createNextBatch = () => {
@@ -663,6 +500,7 @@ class CityScene {
 		});
 	}
 
+	// OPTIMIZED: Building creation
 	createBuildingsOptimized() {
 		return new Promise((resolve) => {
 			const cityscape = document.getElementById("cityscape");
@@ -675,8 +513,8 @@ class CityScene {
 			const existingBuildings = document.querySelectorAll(".building");
 			existingBuildings.forEach((building) => building.remove());
 
-			const buildingCount = DEVICE_CONFIG.buildingCount;
-			const batchSize = DEVICE_CONFIG.rafBatchSize_buildings;
+			const buildingCount = this.options.buildingCount;
+			const batchSize = 8;
 			let currentBatch = 0;
 
 			const createNextBatch = () => {
@@ -742,6 +580,7 @@ class CityScene {
 		});
 	}
 
+	// OPTIMIZED: House creation
 	createHousesOptimized() {
 		return new Promise((resolve) => {
 			const existingHouses = this.cityscape.querySelectorAll(".house");
@@ -775,10 +614,7 @@ class CityScene {
 				"#4E342E",
 			];
 
-			const houseCount = Math.min(
-				Math.floor(Math.random() * 6) + 6,
-				DEVICE_CONFIG.houseCount
-			);
+			const houseCount = Math.floor(Math.random() * 6) + 6;
 			const containerWidth = window.innerWidth;
 			const minSpacing = 130;
 
@@ -858,6 +694,7 @@ class CityScene {
 
 	setupCelestialBodies() {
 		log("Setting up celestial bodies");
+		setLoadingText("setupCelestialBodies()...");
 
 		if (!this.sun) {
 			this.sun = document.getElementById("sun");
@@ -865,6 +702,7 @@ class CityScene {
 				log("ERROR: Sun element not found");
 				return;
 			}
+			setLoadingText("setupCelestialBodies() loaded Sun.");
 		}
 
 		if (!this.moon) {
@@ -873,6 +711,7 @@ class CityScene {
 				log("ERROR: Moon element not found");
 				return;
 			}
+			setLoadingText("setupCelestialBodies() loaded Moon.");
 		}
 
 		this.sun.className = "sun";
@@ -884,6 +723,7 @@ class CityScene {
 				crater.className = "moon-crater";
 				this.moon.appendChild(crater);
 			}
+			setLoadingText("setupCelestialBodies() Setup Moon Craters.");
 		}
 
 		log("Celestial bodies setup complete");
@@ -894,8 +734,8 @@ class CityScene {
 		existingClouds.forEach((cloud) => cloud.remove());
 		this.clouds = [];
 
-		this.minClouds = DEVICE_CONFIG.minClouds;
-		this.maxClouds = DEVICE_CONFIG.maxClouds;
+		this.minClouds = 3;
+		this.maxClouds = 6;
 
 		for (let i = 0; i < this.minClouds; i++) {
 			this.createCloud(true);
@@ -1052,6 +892,7 @@ class CityScene {
 	updatePhases(timeOfDay) {
 		try {
 			const currentTime = timeOfDay * 24;
+			let currentPhase;
 
 			const skyLayers = {
 				dawn: document.querySelector(".sky-layer.dawn"),
@@ -1068,6 +909,7 @@ class CityScene {
 			});
 
 			if (currentTime >= 5 && currentTime < 7) {
+				currentPhase = "dawn";
 				if (skyLayers.dawn) {
 					skyLayers.dawn.classList.remove("hidden");
 					skyLayers.dawn.style.opacity = 1;
@@ -1079,11 +921,13 @@ class CityScene {
 					}
 				}
 			} else if (currentTime >= 7 && currentTime < 18) {
+				currentPhase = "day";
 				if (skyLayers.day) {
 					skyLayers.day.classList.remove("hidden");
 					skyLayers.day.style.opacity = 1;
 				}
 			} else if (currentTime >= 18 && currentTime < 20) {
+				currentPhase = "dusk";
 				if (skyLayers.dusk) {
 					skyLayers.dusk.classList.remove("hidden");
 					skyLayers.dusk.style.opacity = 1;
@@ -1095,6 +939,7 @@ class CityScene {
 					}
 				}
 			} else {
+				currentPhase = "night";
 				if (skyLayers.night) {
 					skyLayers.night.classList.remove("hidden");
 					skyLayers.night.style.opacity = 1;
@@ -1106,12 +951,7 @@ class CityScene {
 					const light = this.lampLights[i];
 					const down = this.lampDowns[i];
 
-					const isNightPhase =
-						(currentTime >= 18 && currentTime < 20) ||
-						currentTime >= 20 ||
-						currentTime < 5;
-
-					if (isNightPhase) {
+					if (currentPhase === "night" || currentPhase === "dusk") {
 						light.classList.remove("day");
 						light.classList.add("night");
 
@@ -1155,12 +995,31 @@ class CityScene {
 
 			const minuteAngle = minutes * 6;
 			this.minuteHand.style.transform = `rotate(${minuteAngle}deg)`;
+
+			if (Math.random() < 0.01) {
+				log(
+					`Updating clock - Time: ${hours12}:${String(
+						minutes
+					).padStart(2, "0")} ${ampm}`
+				);
+				log(
+					`Hour hand angle: ${hourAngle}deg, Minute hand angle: ${minuteAngle}deg`
+				);
+			}
+		} else if (Math.random() < 0.01) {
+			log(
+				"WARNING: Hour or minute hand references missing in updateClock"
+			);
+			log(
+				`hourHand exists: ${!!this
+					.hourHand}, minuteHand exists: ${!!this.minuteHand}`
+			);
 		}
 	}
 
 	updateWindowLights(timeOfDay) {
 		const now = Date.now();
-		if (now - this.lastWindowUpdate < DEVICE_CONFIG.updateWindowFrequency) {
+		if (now - this.lastWindowUpdate < 500) {
 			return;
 		}
 		this.lastWindowUpdate = now;
@@ -1175,6 +1034,7 @@ class CityScene {
 					window.element.classList.remove("lit");
 				});
 				this.isNewDay = true;
+				console.log("New day started - window states reset");
 			} else if (hours < 7 || hours >= 8) {
 				this.isNewDay = false;
 			}
@@ -1194,10 +1054,12 @@ class CityScene {
 			const buildingWindows = this.windowObjects.filter(
 				(w) => w.building
 			);
+
 			const totalBuildingWindows = buildingWindows.length;
 			const targetLitCount = Math.floor(
 				totalBuildingWindows * litPercentage
 			);
+
 			const currentlyLitWindows = buildingWindows.filter(
 				(w) => w.state === "on"
 			).length;
@@ -1261,6 +1123,69 @@ class CityScene {
 		} catch (error) {
 			console.error("Error updating window lights:", error);
 		}
+	}
+
+	calculateWindowTurnOffTime() {
+		let x, y;
+		do {
+			x = Math.random() * 7 + 18;
+			y = Math.random() * 0.2;
+		} while (y > this.gaussianMixturePDF(x));
+
+		return x;
+	}
+
+	gaussianMixturePDF(x) {
+		const mu1 = 8 + 18;
+		const sigma1 = Math.sqrt(5);
+		const w1 = 0.7;
+
+		const mu2 = 4 + 18;
+		const sigma2 = Math.sqrt(10);
+		const w2 = 0.3;
+
+		function normalPDF(x, mu, sigma) {
+			return (
+				(1 / (Math.sqrt(2 * Math.PI) * sigma)) *
+				Math.exp(-Math.pow(x - mu, 2) / (2 * sigma * sigma))
+			);
+		}
+
+		return w1 * normalPDF(x, mu1, sigma1) + w2 * normalPDF(x, mu2, sigma2);
+	}
+
+	calculateCelestialPosition(progress, body) {
+		const viewportWidth = window.innerWidth;
+		const viewportHeight = window.innerHeight;
+
+		const startX = -200;
+		const endX = viewportWidth + 200;
+		const x = startX + progress * (endX - startX);
+
+		const h = viewportWidth / 2;
+		const k = 10;
+
+		const maxDistance = Math.max(h + 200, viewportWidth + 200 - h);
+		const a =
+			maxDistance > 0
+				? (viewportHeight - k) / (maxDistance * maxDistance)
+				: 0.001;
+
+		let y;
+		try {
+			y = a * Math.pow(x - h, 2) + k;
+
+			if (isNaN(y) || !isFinite(y)) {
+				y = viewportHeight / 2;
+			}
+		} catch (e) {
+			console.error("Error calculating celestial position:", e);
+			y = viewportHeight / 2;
+		}
+
+		y = Math.max(10, Math.min(y, viewportHeight));
+
+		return { x, y };
 	}
 
 	interpolateColor(color1, color2, factor) {
@@ -1456,6 +1381,7 @@ class CityScene {
 				this.ufoWrap.style.top = "15px";
 			}
 			this.ufoWrap.style.top = `${ufoRect.top}px`;
+
 			this.ufoWrap.style.left = `${ufoRect.left}px`;
 			this.ufoWrap.style.animationPlayState = "running";
 
@@ -1500,6 +1426,7 @@ class CityScene {
 		}
 
 		this.ufoRandomMovement();
+
 		this.animate();
 
 		setTimeout(() => {
@@ -1547,6 +1474,7 @@ class CityScene {
 				this.ufoWrap.style.top = "15px";
 			}
 			this.ufoWrap.style.top = `${ufoRect.top}px`;
+
 			this.ufoWrap.style.left = `${ufoRect.left}px`;
 			this.ufoWrap.style.animationPlayState = "paused";
 
@@ -1613,6 +1541,7 @@ class CityScene {
 		}
 
 		this.animationFrameId = requestAnimationFrame(() => this.animate());
+
 		this.animationRunning = true;
 
 		if (this.ufoWrap && this.ufoWrap.getBoundingClientRect().top < 15) {
@@ -1620,41 +1549,17 @@ class CityScene {
 		}
 	}
 
-	shuffleArray(array) {
-		for (let i = array.length - 1; i > 0; i--) {
-			const j = Math.floor(Math.random() * (i + 1));
-			[array[i], array[j]] = [array[j], array[i]];
-		}
-	}
+	checkAnimationStatus() {
+		log("Checking animation status...");
 
-	createStreetlamps() {
-		const existingLamps = this.cityscape.querySelectorAll(".streetlamp");
-		existingLamps.forEach((lamp) => lamp.remove());
+		if (this.isPlaying && !this.animationRunning) {
+			log("Animation appears to be stalled, restarting...");
 
-		const spacing = 150;
-		const lampCount = Math.ceil(window.innerWidth / spacing);
+			if (this.animationFrameId) {
+				cancelAnimationFrame(this.animationFrameId);
+			}
 
-		this.lampLights = [];
-		this.lampDowns = [];
-
-		for (let i = 0; i <= lampCount; i++) {
-			const lamp = document.createElement("div");
-			lamp.className = "streetlamp";
-			lamp.style.left = `${i * spacing}px`;
-
-			const light = document.createElement("div");
-			light.className = "lamp-light day";
-
-			const down = document.createElement("div");
-			down.className = "lamp-down";
-
-			lamp.appendChild(light);
-			lamp.appendChild(down);
-
-			this.cityscape.appendChild(lamp);
-
-			this.lampLights.push(light);
-			this.lampDowns.push(down);
+			this.animationFrameId = requestAnimationFrame(() => this.animate());
 		}
 	}
 
@@ -1711,34 +1616,42 @@ class CityScene {
 				case 0:
 					newTop = Math.max(15, currentTop - 200);
 					newLeft = currentLeft;
+					console.log("UFO moving up");
 					break;
 				case 1:
 					newTop = Math.min(maxVerticalPosition, currentTop + 200);
 					newLeft = currentLeft;
+					console.log("UFO moving down");
 					break;
 				case 2:
 					newTop = Math.max(15, currentTop - 150);
 					newLeft = Math.min(viewportWidth - 150, currentLeft + 200);
+					console.log("UFO moving diagonal up right");
 					break;
 				case 3:
 					newTop = Math.min(maxVerticalPosition, currentTop + 150);
 					newLeft = Math.min(viewportWidth - 150, currentLeft + 200);
+					console.log("UFO moving diagonal down right");
 					break;
 				case 4:
 					newTop = Math.max(15, currentTop - 150);
 					newLeft = Math.max(50, currentLeft - 200);
+					console.log("UFO moving diagonal up left");
 					break;
 				case 5:
 					newTop = Math.min(maxVerticalPosition, currentTop + 150);
 					newLeft = Math.max(50, currentLeft - 200);
+					console.log("UFO moving diagonal down left");
 					break;
 				case 6:
 					this.ufoWrap.style.right = "-110%";
 					this.ufoWrap.style.left = "auto";
+					console.log("UFO zooming right");
 					this.scheduleUfoReturn();
 					return;
 				case 7:
 					this.ufoWrap.style.left = "-110%";
+					console.log("UFO zooming left");
 					this.scheduleUfoReturn();
 					return;
 			}
@@ -1830,6 +1743,76 @@ class CityScene {
 		}, returnDelay);
 	}
 
+	shuffleArray(array) {
+		for (let i = array.length - 1; i > 0; i--) {
+			const j = Math.floor(Math.random() * (i + 1));
+			[array[i], array[j]] = [array[j], array[i]];
+		}
+	}
+
+	updateSkyColors(phase, currentTime) {
+		try {
+			const sceneContainer = document.getElementById("scene-container");
+			if (!sceneContainer) return;
+
+			if (phase === "dawn") {
+				const progress = (currentTime - 5) / 2;
+				let dawnColor;
+
+				if (progress < 0.5) {
+					const adjustedProgress = progress * 2;
+					dawnColor = this.interpolateColor(
+						"#1a1a2e",
+						"#d88ae3",
+						adjustedProgress
+					);
+				} else {
+					const adjustedProgress = (progress - 0.5) * 2;
+					dawnColor = this.interpolateColor(
+						"#d88ae3",
+						"#87ceeb",
+						adjustedProgress
+					);
+				}
+
+				sceneContainer.style.background = dawnColor;
+			} else if (phase === "day") {
+				sceneContainer.style.background = "#87ceeb";
+			} else if (phase === "dusk") {
+				const progress = (currentTime - 18) / 2;
+				let duskColor;
+
+				if (progress < 0.5) {
+					const adjustedProgress = progress * 2;
+					duskColor = this.interpolateColor(
+						"#87ceeb",
+						"#d88ae3",
+						adjustedProgress
+					);
+				} else {
+					const adjustedProgress = (progress - 0.5) * 2;
+					duskColor = this.interpolateColor(
+						"#d88ae3",
+						"#0f0c29",
+						adjustedProgress
+					);
+				}
+
+				sceneContainer.style.background = duskColor;
+			} else {
+				sceneContainer.style.background = "#0f0c29";
+			}
+		} catch (error) {
+			console.error("Error in updateSkyColors:", error);
+			if (phase === "dawn") sceneContainer.style.background = "#87ceeb";
+			else if (phase === "day")
+				sceneContainer.style.background = "#87ceeb";
+			else if (phase === "dusk")
+				sceneContainer.style.background = "#614385";
+			else sceneContainer.style.background = "#0f0c29";
+		}
+	}
+
 	airplaneMovement() {
 		if (this.airplane) {
 			this.airplane.classList.remove("goLeft", "goRight");
@@ -1851,6 +1834,37 @@ class CityScene {
 		setTimeout(() => {
 			this.airplaneMovement();
 		}, 5000 + Math.random() * 15000);
+	}
+
+	createStreetlamps() {
+		const existingLamps = this.cityscape.querySelectorAll(".streetlamp");
+		existingLamps.forEach((lamp) => lamp.remove());
+
+		const spacing = 150;
+		const lampCount = Math.ceil(window.innerWidth / spacing);
+
+		this.lampLights = [];
+		this.lampDowns = [];
+
+		for (let i = 0; i <= lampCount; i++) {
+			const lamp = document.createElement("div");
+			lamp.className = "streetlamp";
+			lamp.style.left = `${i * spacing}px`;
+
+			const light = document.createElement("div");
+			light.className = "lamp-light day";
+
+			const down = document.createElement("div");
+			down.className = "lamp-down";
+
+			lamp.appendChild(light);
+			lamp.appendChild(down);
+
+			this.cityscape.appendChild(lamp);
+
+			this.lampLights.push(light);
+			this.lampDowns.push(down);
+		}
 	}
 
 	cleanup() {

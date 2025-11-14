@@ -91,9 +91,10 @@ const Articles = () => {
 					<div className="socials-container">
 						<Socials />
 					</div>
-					<div className="page-footer">
-						<Footer />
-					</div>
+					
+				</div>
+				<div className="page-footer">
+					<Footer />
 				</div>
 			</div>
 		</React.Fragment>

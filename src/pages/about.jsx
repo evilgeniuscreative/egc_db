@@ -66,10 +66,11 @@ const About = () => {
 					<div className="socials">
 						<Socials />
 					</div>
-					<div className="page-footer">
+					
+				</div>
+				<div className="page-footer">
 						<Footer />
 					</div>
-				</div>
 			</div>
 		</React.Fragment>
 	);

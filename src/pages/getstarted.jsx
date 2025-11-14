@@ -1108,10 +1108,10 @@ Submitted: ${new Date().toLocaleString()}
 					<div className="socials-container">
 						<Socials />
 					</div>
-					<div className="page-footer">
-						<Footer />
-					</div>
 				</div>
+			</div>
+			<div className="page-footer">
+				<Footer />
 			</div>
 		</div>
 	);

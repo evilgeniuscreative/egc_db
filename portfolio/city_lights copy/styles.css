@@ -1,0 +1,1284 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  overflow: hidden;
+}
+
+@font-face {
+  font-family: "Digital-7";
+  src: url("./fonts/digital-7.ttf");
+}
+
+@keyframes sunset {
+  0% {
+    background-color: #87ceeb;
+  }
+  33% {
+    background-color: #3535b2;
+  }
+  66% {
+    background-color: #171771;
+  }
+  100% {
+    background-color: #18182b;
+  }
+}
+
+@keyframes dawn {
+  0% {
+    background-color: #1a1a2e;
+  }
+  33% {
+    background-color: #171771;
+  }
+  50% {
+    background-color: #d88ae3;
+  }
+  66% {
+    background-color: #171771;
+  }
+  75% {
+    background-color: #8235b2;
+  }
+  100% {
+    background-color: #87ceeb;
+  }
+}
+
+@keyframes twinkle {
+  0% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 0.8;
+  }
+}
+
+@keyframes float {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-120vw);
+  }
+}
+
+#scene-container {
+  background: #87ceeb;
+  height: 100vh;
+  position: relative;
+  transition: background 2s ease;
+  width: 100vw;
+}
+
+#street {
+  display: block;
+  position: absolute;
+  bottom: 0;
+  height: 8px;
+  background: #0e0e0f;
+  width: 100%;
+  z-index: 100;
+}
+
+#clock-container {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  width: 160px;
+  z-index: 1000;
+}
+
+#digital-clock {
+  font-family: "Digital-7", monospace;
+  font-size: 45px;
+  color: #ff0000;
+  background: #000000;
+  padding: 0 15px;
+  border-radius: 5px;
+  text-align: center;
+  display: none;
+  width: 260px;
+  height: 50px;
+}
+
+#digital-clock.active {
+  display: block;
+}
+
+#analog-clock {
+  background: rgba(255, 255, 255, 0.9);
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  position: absolute;
+  top: 45px;
+  right: 45px;
+  display: none;
+  z-index: 10;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.9);
+}
+
+#analog-clock.active {
+  display: block;
+}
+
+.clock-face {
+  height: 100%;
+  position: relative;
+  width: 100%;
+}
+
+.clock-marker {
+  position: absolute;
+  width: 2px;
+  height: 8px;
+  background: #000;
+  transform-origin: 50% 50%;
+}
+
+.hour-hand,
+.minute-hand {
+  position: absolute;
+  background: #000;
+  transform-origin: bottom center;
+  left: 50%;
+  top: 50%;
+}
+
+.hour-hand {
+  width: 4px;
+  height: 40px;
+  margin-left: -2px;
+  margin-top: -40px;
+}
+
+.minute-hand {
+  width: 2px;
+  height: 60px;
+  margin-left: -1px;
+  margin-top: -60px;
+}
+
+.center-dot {
+  width: 8px;
+  height: 8px;
+  background: #333;
+  border-radius: 50%;
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: #000;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Hour markers */
+#analog-clock::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  border-radius: 50%;
+}
+
+.hour-marker {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: #333;
+  border-radius: 50%;
+  transform-origin: 50% 50%;
+}
+
+/* Position the hour markers */
+.hour-marker:nth-child(1) {
+  transform: translate(77px, 10px);
+} /* 12 o'clock */
+.hour-marker:nth-child(2) {
+  transform: translate(120px, 25px);
+} /* 1 o'clock */
+.hour-marker:nth-child(3) {
+  transform: translate(135px, 77px);
+} /* 3 o'clock */
+.hour-marker:nth-child(4) {
+  transform: translate(120px, 129px);
+} /* 5 o'clock */
+.hour-marker:nth-child(5) {
+  transform: translate(77px, 144px);
+} /* 6 o'clock */
+.hour-marker:nth-child(6) {
+  transform: translate(25px, 129px);
+} /* 7 o'clock */
+.hour-marker:nth-child(7) {
+  transform: translate(10px, 77px);
+} /* 9 o'clock */
+.hour-marker:nth-child(8) {
+  transform: translate(25px, 25px);
+} /* 11 o'clock */
+
+.sky-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 1;
+  transition: opacity 2s ease-in-out;
+  pointer-events: none;
+}
+
+.sky-layer.hidden {
+  opacity: 0;
+  transition: opacity 2s ease-in-out;
+}
+
+.sky-layer.night {
+  background: linear-gradient(to bottom, #1a1a2e, #16213e);
+  z-index: 1;
+}
+
+.sky-layer.moonrise {
+  /* background: linear-gradient(to bottom, 
+        #1a1a2e 0%,
+        #2d3047 30%,
+        #474b6b 60%,
+        #8b7f93 85%,
+        #c8a2c8 100%
+    ); */
+  z-index: 2;
+}
+
+.sky-layer.dusk {
+  background: linear-gradient(to bottom, #ff7f50, #2b2b4a);
+  z-index: 3;
+}
+
+.sky-layer.day {
+  background: linear-gradient(to bottom, #87ceeb, #e0ffff);
+  z-index: 4;
+}
+
+.sky-layer.dawn {
+  background: linear-gradient(to bottom, #ffb6c1, #87ceeb);
+  z-index: 5;
+}
+
+#stars {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transition: opacity 1s ease;
+  z-index: 3;
+}
+
+.scene-night #stars {
+  display: block;
+}
+
+.star {
+  position: absolute;
+  background: white;
+  border-radius: 50%;
+  animation: twinkle 1.5s infinite ease-in-out;
+  z-index: 3;
+}
+
+.star.small {
+  width: 2px;
+  height: 2px;
+}
+
+.star.medium {
+  width: 3px;
+  height: 3px;
+}
+
+.star.large {
+  width: 4px;
+  height: 4px;
+}
+
+#star-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  transition: opacity 10s ease-in-out;
+}
+
+@keyframes goLeft {
+  0% {
+    transform: translateX(120vw);
+  }
+  100% {
+    transform: translateX(-120vw);
+  }
+}
+
+@keyframes goRight {
+  0% {
+    transform: translateX(-120vw);
+  }
+  100% {
+    transform: translateX(120vw);
+  }
+}
+
+.airplane {
+  position: absolute;
+  top: -100px;
+  left: -150px;
+  width: 160px;
+  height: 65px;
+
+  z-index: 12;
+}
+
+.airplane.goLeft {
+  background-image: url("./img/airplaneL.png");
+  animation: goLeft 7s linear;
+}
+
+.airplane.goRight {
+  background-image: url("./img/airplaneR.png");
+  animation: goRight 7s linear;
+}
+
+.airplane.stopFlying {
+  top: -150px;
+  left: -150px;
+  animation: none;
+}
+
+/* UFO */
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes hover {
+  0% {
+    transform: translateY(0);
+  }
+  25% {
+    transform: translateY(-15px);
+  }
+  50% {
+    transform: translateY(5px);
+  }
+  75% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes wobble {
+  from {
+    transform: translateX(-5px) rotate(-1deg);
+  }
+  to {
+    transform: translateX(5px) rotate(1deg);
+  }
+}
+
+@keyframes drift {
+  0% {
+    left: -100px;
+  }
+  15% {
+    left: 20%;
+  }
+  30% {
+    left: 15%;
+  }
+  45% {
+    left: 40%;
+  }
+  60% {
+    left: 35%;
+  }
+  75% {
+    left: 70%;
+  }
+  90% {
+    left: 65%;
+  }
+  100% {
+    left: 110%;
+  }
+}
+
+/* New wrapper for UFO */
+.ufo-wrap {
+  position: relative;
+  width: 120px;
+  height: 30px;
+  top: 50px;
+  left: 50%;
+  z-index: 6;
+  transition: top 3s ease-in-out, left 3s ease-in-out, right 3s ease-in-out,
+    opacity 1s ease-in-out;
+}
+
+.ufo {
+  position: absolute;
+  top: 5px;
+  left: 10px;
+  width: 100px;
+  height: 25px;
+  background: #c0c0c0;
+  border-radius: 90% / 70%;
+  box-shadow: 0 5px 20px rgba(255, 255, 255, 0.3);
+  /* animation: hover 3s infinite ease-in-out, 
+   wobble 0.5s infinite ease-in-out alternate; */
+  /* transform-origin: center; */
+  z-index: 7;
+  /* transition: top 3s ease-in-out, left 3s ease-in-out, right 3s ease-in-out; */
+}
+
+/* Add a class for horizontal movement */
+.ufo-wrap.drifting {
+  /* animation: drift 15s infinite linear; */
+}
+
+.ufo-wrap.up {
+  top: 15px;
+  transition: top 3s ease-in-out;
+}
+
+.ufo-wrap.down {
+  top: 250px;
+  transition: top 3s ease-in-out;
+}
+
+.ufo-wrap.up .ufo,
+.ufo-wrap.down .ufo {
+  transition: top 3s ease-in-out;
+}
+
+.ufo-wrap.diagonalUpRight {
+  top: 15px;
+  left: 90%;
+  transition: top 3s ease-in-out, left 3s ease-in-out;
+}
+
+.ufo-wrap.diagonalDownRight {
+  top: 250px;
+  left: 90%;
+  transition: top 3s ease-in-out, left 3s ease-in-out;
+}
+
+.ufo-wrap.diagonalUpLeft {
+  top: 15px;
+  left: 10%;
+  transition: top 3s ease-in-out, left 3s ease-in-out;
+}
+
+.ufo-wrap.diagonalDownLeft {
+  top: 250px;
+  left: 10%;
+  transition: top 3s ease-in-out, left 3s ease-in-out;
+}
+
+.ufo-wrap.zoomOffRight {
+  left: auto;
+  right: -110%;
+  transition: right 3s linear;
+}
+
+.ufo-wrap.zoomOffLeft {
+  left: -110%;
+  transition: left 3s linear;
+}
+
+.ufo-wrap.fadeIn {
+  animation: fadeIn 1s ease-in-out;
+}
+
+.bubble {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  width: 50px;
+  height: 30px;
+  background: linear-gradient(#add8e6cc 50%, #c0c0c0 50%);
+  border-radius: 50%;
+  transform: translateX(-50%);
+  box-shadow: inset 0 5px 10px #00000033;
+}
+
+.bubble img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-height: 80%;
+  width: auto;
+}
+
+.ufolights {
+  position: relative;
+  bottom: -5px;
+  left: 50%;
+  width: 160px;
+  height: 15px;
+  display: flex;
+  justify-content: space-around;
+  transform: translateX(-50%);
+  z-index: 5;
+}
+
+.ufolight {
+  position: absolute;
+  bottom: 5px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  animation: blink 1s ease-in-out infinite;
+}
+
+.ufolight.redlight {
+  animation-delay: 0s;
+  background: #ff0000;
+  box-shadow: 0 0 10px #ff0000;
+  left: 3px;
+  bottom: 5px;
+}
+
+.ufolight.greenlight {
+  background: #008000;
+  box-shadow: 0 0 10px #008000;
+  animation-delay: 0.75s;
+  transform: translateY(70%);
+  left: 52px;
+  bottom: 4px;
+}
+
+.ufolight.yellowlight {
+  background: #ffeb3b;
+  box-shadow: 0 0 10px #bec107;
+  animation-delay: 1.5s;
+  left: 102px;
+}
+
+@keyframes blink {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.2;
+  }
+}
+
+#cityscape {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 70vh;
+  z-index: 100;
+}
+
+.building {
+  position: absolute;
+  bottom: 0;
+  background: #2c3e50;
+  border: 1px solid #555555;
+  box-shadow: 2px 2px 5px #555555;
+  border-radius: 2px -1px 3px 0.8px;
+  transition: background-color 1s ease;
+  padding: 10px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.window-container {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.floor {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 6px;
+}
+
+.floor:last-child {
+  margin-bottom: 0;
+}
+
+.window {
+  width: 25px;
+  height: 35px;
+  min-width: 25px;
+  background: linear-gradient(45deg, #b9e1ff 0%, #1c6ea4 100%);
+  transition: background-color 0.3s ease, background-image 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.scene-night .window:not(.lit) {
+  background-color: #1a1a1a;
+  background-image: none;
+  transition: background-color 0.3s ease, background-image 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.scene-night .window.lit {
+  background-color: #ffeb3b;
+  background-image: none;
+  box-shadow: 0 0 10px rgba(255, 235, 59, 0.5);
+  transition: background-color 0.3s ease, background-image 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.window.lit {
+  background-color: #ffeb3b;
+  background-image: none;
+  transition: background-color 0.3s ease, background-image 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.scene-dusk .window:not(.lit) {
+  background: linear-gradient(45deg, #b9e1ff 0%, #1c6ea4 100%);
+  transition: background-color 0.3s ease, background-image 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.house {
+  position: absolute;
+  bottom: 0;
+  width: 120px;
+  height: 100px;
+  border-radius: 5px 5px 0 0;
+  transition: all 3s ease;
+  border: 1px solid #555555;
+  box-shadow: 2px 2px 5px #555555;
+}
+
+.roof {
+  position: absolute;
+  top: -30px;
+  left: 0;
+  width: 100%;
+  height: 30px;
+  clip-path: polygon(0 100%, 50% 0, 100% 100%);
+  transition: filter 3s ease;
+  border: 1px solid #555555;
+  box-shadow: 2px 2px 5px #555555;
+}
+
+.door {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 30px;
+  height: 50px;
+  border-radius: 3px 3px 0 0;
+  transition: filter 3s ease;
+  box-shadow: inset 0 5px 5px rgba(0, 0, 0, 0.2);
+}
+
+.door::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 5px;
+  width: 5px;
+  height: 5px;
+  background: #ffd700;
+  border-radius: 50%;
+  box-shadow: 0 0 2px #ffd700;
+}
+
+.scene-night .house,
+.scene-night .roof,
+.scene-night .door {
+  filter: brightness(0.9);
+  transition: filter 2s ease;
+}
+
+.house-window-left,
+.house-window-right {
+  position: absolute;
+  width: 20px;
+  height: 40px;
+  background: linear-gradient(45deg, #b9e1ff 0%, #1c6ea4 100%);
+  transition: background-color 0.3s ease, background-image 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.house-window-left {
+  left: 10px;
+  bottom: 30px;
+}
+
+.house-window-right {
+  right: 10px;
+  bottom: 30px;
+}
+
+.scene-night .house-window-left.lit,
+.scene-night .house-window-right.lit {
+  background: #ffd700;
+  background-image: none;
+  box-shadow: 0 0 15px rgba(255, 255, 224, 0.5);
+}
+
+.scene-night .house-window-left:not(.lit),
+.scene-night .house-window-right:not(.lit) {
+  background-color: #1a1a1a;
+  background-image: none;
+}
+
+.scene-dusk .house-window-left:not(.lit),
+.scene-dusk .house-window-right:not(.lit) {
+  background: linear-gradient(45deg, #b9e1ff 0%, #1c6ea4 100%);
+}
+
+.house-window-left.lit,
+.house-window-right.lit {
+  background: #ffd700;
+  background-image: none;
+  box-shadow: 0 0 15px rgba(255, 255, 224, 0.5);
+}
+
+.streetlamp {
+  position: absolute;
+  bottom: 0;
+  width: 6px;
+  height: 100px;
+  background-color: #121314;
+  z-index: 150;
+}
+
+.lamp-light {
+  position: absolute;
+  top: -5px;
+  left: -7px;
+  width: 20px;
+  height: 20px;
+  background: #ffd700;
+  border-radius: 50%;
+  /* box-shadow: 0 0 20px #ffd700; */
+  transition: all 0.5s ease;
+}
+
+.lamp-light.day {
+  background-color: #ffffff;
+  transition: all 0.5s ease;
+}
+
+.lamp-light.night {
+  background-color: #ffeb3b;
+  transition: all 0.5s ease;
+}
+
+.lamp-down.night {
+  opacity: 0.8;
+  box-shadow: 0 25px 30px 30px #ffd700;
+  transition: all 0.5s ease;
+}
+
+.cloud {
+  position: absolute;
+  background: #ffffff;
+  border-radius: 35px;
+  opacity: 0.8;
+  transition: background-color 2s ease;
+  z-index: 80;
+}
+
+.cloud::before,
+.cloud::after {
+  content: "";
+  position: absolute;
+  background: inherit;
+  border-radius: 50%;
+}
+
+.cloud::before {
+  width: 50%;
+  height: 100%;
+  top: -50%;
+  left: 25%;
+}
+
+.cloud::after {
+  width: 30%;
+  height: 60%;
+  top: -30%;
+  left: 10%;
+}
+
+.scene-night .cloud {
+  background: #334455;
+  opacity: 0.4;
+}
+
+#star-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  transition: opacity 10s ease-in-out;
+}
+
+#controls {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  z-index: 1000;
+}
+
+.control-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  width: 520px;
+  align-items: baseline;
+}
+
+button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.9);
+  cursor: pointer;
+  font-size: 14px;
+  width: 120px;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background: rgba(255, 255, 255, 1);
+}
+
+/* Sun and Moon animations */
+#sun,
+#moon {
+  position: absolute;
+  transform: none;
+}
+
+#sun.visible,
+#moon.visible {
+  opacity: 1;
+}
+
+.sun-animation {
+  animation: sun-x var(--animation-duration) linear forwards,
+    sun-y var(--animation-duration) cubic-bezier(0.2, 0, 0.8, 1) forwards;
+}
+
+.moon-animation {
+  animation: moon-x var(--animation-duration) linear forwards,
+    moon-y var(--animation-duration) cubic-bezier(0.2, 0, 0.8, 1) forwards;
+}
+
+@keyframes sun-x {
+  0% {
+    left: -100px;
+  }
+  100% {
+    left: calc(100vw + 100px);
+  }
+}
+
+@keyframes sun-y {
+  0% {
+    top: calc(0.9 * 100vh);
+  }
+  50% {
+    top: calc(0.4 * 100vh);
+  }
+  100% {
+    top: calc(0.9 * 100vh);
+  }
+}
+
+@keyframes moon-x {
+  0% {
+    left: -100px;
+  }
+  100% {
+    left: calc(100vw + 100px);
+  }
+}
+
+@keyframes moon-y {
+  0% {
+    top: calc(0.9 * 100vh);
+  }
+  50% {
+    top: calc(0.4 * 100vh);
+  }
+  100% {
+    top: calc(0.9 * 100vh);
+  }
+}
+
+#clock {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-family: monospace;
+  font-size: 20px;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.scene-day .house {
+  background-color: var(--house-color-day);
+}
+
+.scene-night .house {
+  background-color: var(--house-color-night);
+}
+
+.scene-day .house::before {
+  background-color: var(--roof-color-day);
+}
+
+.scene-night .house::before {
+  background-color: var(--roof-color-night);
+}
+
+.scene-day .house::after {
+  background-color: var(--door-color-day);
+}
+
+.scene-night .house::after {
+  background-color: var(--door-color-night);
+}
+
+.moon-crater {
+  position: absolute;
+  background: #e0e0e0;
+  border-radius: 50%;
+}
+
+.moon-crater:nth-child(1) {
+  width: 15px;
+  height: 15px;
+  top: 10px;
+  left: 10px;
+}
+
+.moon-crater:nth-child(2) {
+  width: 10px;
+  height: 10px;
+  top: 25px;
+  right: 15px;
+}
+
+.moon-crater:nth-child(3) {
+  width: 12px;
+  height: 12px;
+  bottom: 10px;
+  left: 20px;
+}
+
+.moon-crater:nth-child(4) {
+  width: 8px;
+  height: 8px;
+  bottom: 15px;
+  right: 10px;
+}
+
+.speed-control {
+  border-radius: 10px;
+  transform: translateX(-10%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  z-index: 1000;
+}
+
+.speed-control input[type="range"] {
+  width: 200px;
+  height: 10px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 5px;
+  outline: none;
+}
+
+.speed-control input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  background: #fff;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+#speedDisplay {
+  color: white;
+  font-size: 14px;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.clocks {
+  padding-right: 44px;
+}
+#toggleClock,
+#playPause {
+  width: 120px;
+  height: 30px;
+  border-radius: 4px;
+  background: #fff;
+  cursor: pointer;
+  z-index: 11;
+  border: 1px solid #ccc;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+#analog-clock {
+  border: 1px solid var(--border-color);
+  right: 94px;
+  top: 75px;
+}
+
+#toggleClock.active {
+  box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+#toggleClock:hover {
+  background: #f5f5f5;
+}
+
+#playPause {
+  right: 130px;
+}
+
+#playPause:hover {
+  background: #f5f5f5;
+}
+
+.controls {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.controls.top {
+  flex-direction: column;
+  align-items: center;
+}
+
+.controls.bottom {
+  flex-direction: row;
+  align-items: space-between;
+}
+
+.controls button {
+  margin: 5px;
+  padding: 5px 10px;
+  border-radius: 4px;
+  border: 1px solid #aaa;
+  background: #eee;
+  cursor: pointer;
+  font-size: 12px;
+  outline: none;
+  transition: all 0.2s ease-in-out;
+}
+
+.controls button:active {
+  box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.sun {
+  display: block;
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #ffdd00;
+  box-shadow: 0 0 30px #ffdd00, 0 0 60px #ffbb00;
+  z-index: 90;
+  top: 0;
+  left: 0;
+  transform: translate(-200px, 100vh);
+  transition: opacity 0.5s ease;
+}
+
+.sun.visible {
+  opacity: 1;
+  animation-name: sun-path;
+  animation-duration: 40s;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+.moon {
+  display: block;
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #ddd;
+  box-shadow: 0 0 20px #ddd;
+  z-index: 90;
+  top: 0;
+  left: 0;
+  transform: translate(-200px, 100vh);
+  transition: opacity 0.5s ease;
+}
+
+.moon.visible {
+  opacity: 1;
+  animation-name: moon-path;
+  animation-duration: 40s;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+/* Loading overlay */
+#loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.9);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  transition: opacity 0.5s ease;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+#loading-overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.spinner {
+  border: 5px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top: 5px solid #fff;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+}
+
+.loading-text {
+  color: white;
+  margin-top: 20px;
+  font-family: sans-serif;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Hide all UI elements until scene is loaded */
+body.loading #scene-container,
+body.loading #controls,
+body.loading #clock {
+  visibility: hidden !important;
+}
+
+/* Window transition classes with different timing */
+.window-transition-1 {
+  transition: background-color 1s ease, background-image 1s ease,
+    box-shadow 1s ease;
+}
+
+.window-transition-2 {
+  transition: background-color 2s ease, background-image 2s ease,
+    box-shadow 2s ease;
+}
+
+.window-transition-3 {
+  transition: background-color 3s ease, background-image 3s ease,
+    box-shadow 3s ease;
+}
+
+.window-transition-4 {
+  transition: background-color 4s ease, background-image 4s ease,
+    box-shadow 4s ease;
+}
+
+.window-transition-5 {
+  transition: background-color 5s ease, background-image 5s ease,
+    box-shadow 5s ease;
+}
+
+.window-transition-6 {
+  transition: background-color 6s ease, background-image 6s ease,
+    box-shadow 6s ease;
+}
+
+/* Emergency refresh button styling */
+#emergency-refresh {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #ff3b30;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  font-family: sans-serif;
+  text-decoration: none;
+  display: inline-block;
+  opacity: 0.7;
+  visibility: visible;
+  transition: opacity 0.3s ease, background-color 0.3s ease;
+}
+
+#emergency-refresh:hover {
+  background-color: #ff6651;
+  opacity: 1;
+}
+
+#emergency-refresh.visible {
+  opacity: 1;
+}

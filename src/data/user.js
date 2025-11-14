@@ -62,7 +62,7 @@ let INFO = {
 			type: ["animation", "frontend", "design"],
 			thumb: "images/thumb-city-lights.jpg",
 			description:
-				"Exploring CSS and Javascript animation with an interactive day-to-night web app. Took a lot longer than it looks, getting everything to work together properly and on the timeline! Just HTML, JavaScript, and CSS. It's complicated, so every now and then it gets hung up loading. Just refresh. Still working that loading kink out.",
+				"NOTE: DESKTOP ONLY. This does not function on mobile due to the complexity of the code. Exploring CSS and Javascript animation with an interactive day-to-night web app. Took a lot longer than it looks, getting everything to work together properly and on the timeline! Just HTML, JavaScript, and CSS. It's complicated, so every now and then it gets hung up loading. Just refresh. Still working that loading kink out.",
 			logos: [
 				{
 					id: "56924",

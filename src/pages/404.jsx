@@ -5,7 +5,7 @@ import { faFaceSadTear } from "@fortawesome/free-regular-svg-icons";
 
 import NavBar from "../components/common/navBar";
 import Logo from "../components/common/logo";
-
+import Footer from "../components/common/footer";
 import INFO from "../data/user";
 
 import "./styles/404.css";
@@ -48,6 +48,9 @@ const Notfound = () => {
 							</div>
 						</div>
 					</div>
+				</div>
+				<div className="page-footer">
+					<Footer />
 				</div>
 			</div>
 		</React.Fragment>

@@ -38,9 +38,9 @@ const AllRegistrations = () => {
 					<div className="coar-container">
 						<RegistrationTable data={REG_DATA} />
 					</div>
-					<div className="page-footer">
-						<Footer />
-					</div>
+				</div>
+				<div className="page-footer">
+					<Footer />
 				</div>
 			</div>
 		</React.Fragment>

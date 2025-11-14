@@ -51,9 +51,9 @@ const AnimationsPage = () => {
 								))}
 						</div>
 					</div>
-					<div className="page-footer">
-						<Footer />
-					</div>
+				</div>
+				<div className="page-footer">
+					<Footer />
 				</div>
 			</div>
 		</React.Fragment>
