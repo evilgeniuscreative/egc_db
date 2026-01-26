@@ -9,18 +9,18 @@ import Projects from "./pages/projects";
 import Articles from "./pages/articles";
 import ReadArticle from "./pages/readArticle";
 import Contact from "./pages/contact";
-import GetStarted from "./pages/getstarted";     
+import GetStarted from "./pages/getstarted";
 import Animation from "./pages/animations";
 import Designs from "./pages/designs";
 import Notfound from "./pages/404";
 import AllRegistrations from "./pages/allregistrations";
 import ShowImage from "./pages/showImage";
 
+import AdminRoutes from "./admin/AdminRoutes";
+
 import Raptorize from "./components/raptorize";
 import { TRACKING_ID } from "./data/tracking";
 import "./app.css";
-
-
 
 function App() {
 	useEffect(() => {
@@ -45,6 +45,7 @@ function App() {
 				<Route path="/animation" element={<Animation />} />
 				<Route path="/coar" element={<AllRegistrations />} />
 				<Route path="/showimage/:id" element={<ShowImage />} />
+				<Route path="/admin/*" element={<AdminRoutes />} />
 				<Route path="*" element={<Notfound />} />
 			</Routes>
 		</div>

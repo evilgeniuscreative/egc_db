@@ -1,0 +1,17 @@
+# Protect config file
+<Files "config.php">
+    Order Allow,Deny
+    Deny from all
+</Files>
+
+# Protect schema file
+<Files "schema.sql">
+    Order Allow,Deny
+    Deny from all
+</Files>
+
+# Allow PHP files to be accessed
+<FilesMatch "\.php$">
+    Order Allow,Deny
+    Allow from all
+</FilesMatch>
