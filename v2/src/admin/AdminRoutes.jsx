@@ -4,6 +4,9 @@ import { useAuth } from "../context/AuthContext";
 import Login from "./Login";
 import Dashboard from "./Dashboard";
 import CrudPage from "./CrudPage";
+import ProjectsPage from "./pages/ProjectsPage";
+import ArticlesPage from "./pages/ArticlesPage";
+import AnimationsPage from "./pages/AnimationsPage";
 
 function Protected({ children }) {
 	const { isAuth, loading } = useAuth();
@@ -28,7 +31,7 @@ export default function AdminRoutes() {
 				path="projects"
 				element={
 					<Protected>
-						<CrudPage table="projects" title="Projects" />
+						<ProjectsPage />
 					</Protected>
 				}
 			/>
@@ -36,7 +39,7 @@ export default function AdminRoutes() {
 				path="articles"
 				element={
 					<Protected>
-						<CrudPage table="articles" title="Articles" />
+						<ArticlesPage />
 					</Protected>
 				}
 			/>
@@ -44,7 +47,7 @@ export default function AdminRoutes() {
 				path="animations"
 				element={
 					<Protected>
-						<CrudPage table="animations" title="Animations" />
+						<AnimationsPage />
 					</Protected>
 				}
 			/>

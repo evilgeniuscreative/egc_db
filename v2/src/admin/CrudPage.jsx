@@ -5,11 +5,41 @@ import { useApi } from "../hooks/useApi";
 export default function CrudPage({ table, title }) {
 	const [items, setItems] = useState([]);
 	const [editing, setEditing] = useState(null);
+	const [sortField, setSortField] = useState("id");
+	const [sortDirection, setSortDirection] = useState("asc");
 	const api = useApi();
 
 	useEffect(() => {
 		api.getAll(table).then(setItems);
 	}, [table]);
+
+	const handleSort = (field) => {
+		if (sortField === field) {
+			setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+		} else {
+			setSortField(field);
+			setSortDirection("asc");
+		}
+	};
+
+	const sortedItems = [...items].sort((a, b) => {
+		let aVal = a[sortField];
+		let bVal = b[sortField];
+
+		// Handle null/undefined
+		if (aVal == null) aVal = "";
+		if (bVal == null) bVal = "";
+
+		// Convert to string for comparison
+		aVal = String(aVal).toLowerCase();
+		bVal = String(bVal).toLowerCase();
+
+		if (sortDirection === "asc") {
+			return aVal > bVal ? 1 : aVal < bVal ? -1 : 0;
+		} else {
+			return aVal < bVal ? 1 : aVal > bVal ? -1 : 0;
+		}
+	});
 
 	const handleDelete = async (id) => {
 		if (window.confirm("Delete?")) {
@@ -61,11 +91,31 @@ export default function CrudPage({ table, title }) {
 			>
 				<thead>
 					<tr style={{ background: "#f5f5f5" }}>
-						<th style={{ padding: "12px", textAlign: "left" }}>
-							ID
+						<th
+							onClick={() => handleSort("id")}
+							style={{
+								padding: "12px",
+								textAlign: "left",
+								cursor: "pointer",
+								userSelect: "none",
+							}}
+						>
+							ID{" "}
+							{sortField === "id" &&
+								(sortDirection === "asc" ? "↑" : "↓")}
 						</th>
-						<th style={{ padding: "12px", textAlign: "left" }}>
-							Title
+						<th
+							onClick={() => handleSort("title")}
+							style={{
+								padding: "12px",
+								textAlign: "left",
+								cursor: "pointer",
+								userSelect: "none",
+							}}
+						>
+							Title{" "}
+							{sortField === "title" &&
+								(sortDirection === "asc" ? "↑" : "↓")}
 						</th>
 						<th style={{ padding: "12px", textAlign: "left" }}>
 							Actions
@@ -73,7 +123,7 @@ export default function CrudPage({ table, title }) {
 					</tr>
 				</thead>
 				<tbody>
-					{items.map((item) => (
+					{sortedItems.map((item) => (
 						<tr
 							key={item.id}
 							style={{ borderTop: "1px solid #eee" }}
