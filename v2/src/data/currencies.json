@@ -1,0 +1,17 @@
+{
+  "currencies": [
+    { "rank": 1, "currency": "US Dollar", "code": "USD", "symbol": "US $" },
+    { "rank": 2, "currency": "Australian Dollar", "code": "AUD", "symbol": "AU $" },
+    { "rank": 3, "currency": "British Pound Sterling", "code": "GBP", "symbol": "£" },
+    { "rank": 4, "currency": "Canadian Dollar", "code": "CAD", "symbol": "$" },
+    { "rank": 5, "currency": "Chinese Yuan", "code": "CNY", "symbol": "CH ¥" },
+    { "rank": 6, "currency": "Euro", "code": "EUR", "symbol": "€" },
+    { "rank": 7, "currency": "Hong Kong Dollar", "code": "HKD", "symbol": "$" },
+    { "rank": 8, "currency": "Japanese Yen", "code": "JPY", "symbol": "JP ¥" },
+    { "rank": 9, "currency": "Mexican Peso", "code": "MXN", "symbol": "MX $" },
+    { "rank": 10, "currency": "New Zealand Dollar", "code": "NZD", "symbol": "NZ $" },
+    { "rank": 11, "currency": "Norwegian Krone", "code": "NOK", "symbol": "kr" },
+    { "rank": 12, "currency": "Singapore Dollar", "code": "SGD", "symbol": "SP $" },
+    { "rank": 13, "currency": "Other", "code": "OTHER", "symbol": "Other" }
+  ]
+}

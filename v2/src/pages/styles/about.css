@@ -1,0 +1,57 @@
+@import "../../data/styles.css";
+
+/* About Hero - Simplified Grid Layout */
+.about-hero {
+	display: grid;
+	grid-template-columns: 1fr 400px;
+	gap: 60px;
+	align-items: center;
+	padding: 40px 0;
+}
+
+.about-text {
+	max-width: 100%;
+}
+
+.about-text .title {
+	margin-bottom: 20px;
+}
+
+.about-image {
+	width: 400px;
+	height: auto;
+	border-radius: 10px;
+	overflow: hidden;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.about-image img {
+	width: 100%;
+	height: auto;
+	display: block;
+}
+
+/* Tablet Layout */
+@media (max-width: 1024px) {
+	.about-hero {
+		grid-template-columns: 1fr;
+		gap: 30px;
+	}
+
+	.about-image {
+		width: 100%;
+		max-width: 400px;
+		margin: 0 auto;
+	}
+}
+
+/* Mobile Layout */
+@media (max-width: 600px) {
+	.about-hero {
+		gap: 20px;
+	}
+
+	.about-image {
+		max-width: 300px;
+	}
+}

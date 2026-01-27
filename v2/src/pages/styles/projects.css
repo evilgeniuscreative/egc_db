@@ -1,0 +1,15 @@
+@import "../../data/styles.css";
+
+.projects-section {
+	padding: 40px 0;
+}
+
+.projects-section .title {
+	margin-bottom: 20px;
+}
+
+.projects-section .subtitle {
+	margin-bottom: 40px;
+	line-height: 1.6;
+	max-width: 900px;
+}

@@ -1,0 +1,143 @@
+@import "../../data/styles.css";
+
+/* Hero Section - Simplified Grid Layout */
+.hero {
+	display: grid;
+	grid-template-columns: 1fr 370px;
+	gap: 40px;
+	align-items: center;
+	padding: 25px 0 30px;
+}
+
+.hero-text {
+	max-width: 85%;
+}
+
+.hero-text .title {
+	margin-bottom: 20px;
+}
+
+.hero-image {
+	width: 370px;
+	height: 370px;
+	position: relative;
+}
+
+/* Rollover Image Animations */
+@keyframes containerSpin {
+	0% {
+		transform: scale(1) rotate(0deg);
+	}
+	50% {
+		transform: scale(1.4) rotate(720deg);
+	}
+	100% {
+		transform: scale(1) rotate(-720deg);
+	}
+}
+
+@keyframes batmanShow {
+	0%,
+	100% {
+		opacity: 0;
+	}
+	10%,
+	70% {
+		opacity: 1;
+	}
+}
+
+.batman-container {
+	position: absolute;
+	inset: 0;
+	z-index: 3;
+	pointer-events: none;
+}
+
+.batman-container img {
+	opacity: 0;
+	width: 450px;
+	height: auto;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.homepage-rollover-image-container:hover {
+	animation: containerSpin 1s ease-in-out;
+}
+
+.homepage-rollover-image-container:hover .batman-container img {
+	animation: batmanShow 1s ease-in-out;
+}
+
+.homepage-image-wrapper {
+	overflow: hidden;
+	border-radius: 10%;
+	transform: rotate(3deg);
+}
+
+.homepage-image-wrapper img {
+	width: 100%;
+	display: block;
+}
+
+/* Social Links - Flexbox */
+.social-links {
+	display: flex;
+	gap: 20px;
+	align-items: center;
+	padding: 30px 0;
+}
+
+.social-links a {
+	font-size: 25px;
+	color: var(--secondary-color);
+	transition: color 0.2s ease-in-out;
+}
+
+.social-links a:hover {
+	color: var(--primary-color);
+}
+
+.social-links img {
+	display: block;
+}
+
+/* Projects Section */
+.projects-section {
+	padding: 40px 0;
+}
+
+/* Tablet Layout */
+@media (max-width: 1024px) {
+	.hero {
+		grid-template-columns: 1fr;
+		gap: 20px;
+	}
+
+	.hero-text {
+		max-width: 100%;
+		order: 2;
+	}
+
+	.hero-image {
+		order: 1;
+		margin: 50px auto;
+	}
+}
+
+/* Mobile Layout */
+@media (max-width: 600px) {
+	.hero-image {
+		width: 300px;
+		height: 300px;
+		margin: 0 auto 20px;
+	}
+
+	.social-links {
+		flex-wrap: wrap;
+		gap: 15px;
+	}
+}

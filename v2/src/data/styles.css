@@ -1,0 +1,299 @@
+:root {
+	/* ------- colors ------- */
+	--primary-color: #27272a;
+	--secondary-color: #38544d;
+	--tertiary-color: #acacb4;
+	--quaternary-color: #e4e4e7;
+	--lightest-gray: #efefef;
+	--link-color: #14b8a6;
+	--blue-lt: #81baff;
+
+	--blue-med: #4040b9;
+	--blue-dark: #192a80;
+	--green-lt: #a4eca1;
+	--green-med: #389e35;
+	--success: #389e35;
+	--green-neon: #80f71e;
+	--green-dark: #2b6023;
+	--orange: #ff9940;
+	--yellow-med: #ffef40;
+	--red: #e73a3a;
+	--warning: #e73a3a;
+	--red-med: #ab3e5b;
+	--indigo: #3f2196;
+	--white: #ffffff;
+	--violet: #290c46;
+	/* ---------------------- */
+
+	/* ------- fonts ------- */
+	--primary-font: "Ubuntu", sans-serif;
+	--ubuntu-font: "Ubuntu", sans-serif;
+	--neuton-font: "Neuton", serif;
+	--heebo-font: "Heebo", sans-serif;
+
+	/* --secondary-font: "Heebo", sans-serif; */
+	/* --------------------- */
+
+	/* ------- general ------- */
+	--border-color: var(--tertiary-color);
+	--radius: 3px;
+	--radius-large: 5px;
+}
+.neuton-extralight {
+	font-family: "Neuton", serif;
+	font-weight: 200;
+	font-style: normal;
+}
+
+.neuton-light {
+	font-family: "Neuton", serif;
+	font-weight: 300;
+	font-style: normal;
+}
+
+.neuton-regular {
+	font-family: "Neuton", serif;
+	font-weight: 400;
+	font-style: normal;
+}
+
+.neuton-bold {
+	font-family: "Neuton", serif;
+	font-weight: 700;
+	font-style: normal;
+}
+
+.neuton-extrabold {
+	font-family: "Neuton", serif;
+	font-weight: 800;
+	font-style: normal;
+}
+
+.neuton-regular-italic {
+	font-family: "Neuton", serif;
+	font-weight: 400;
+	font-style: italic;
+}
+
+.ubuntu-light {
+	font-family: "Ubuntu", sans-serif;
+	font-weight: 300;
+	font-style: normal;
+}
+
+.ubuntu-regular {
+	font-family: "Ubuntu", sans-serif;
+	font-weight: 400;
+	font-style: normal;
+}
+
+.ubuntu-medium {
+	font-family: "Ubuntu", sans-serif;
+	font-weight: 500;
+	font-style: normal;
+}
+
+.ubuntu-bold {
+	font-family: "Ubuntu", sans-serif;
+	font-weight: 700;
+	font-style: normal;
+}
+
+.ubuntu-light-italic {
+	font-family: "Ubuntu", sans-serif;
+	font-weight: 300;
+	font-style: italic;
+}
+
+.ubuntu-regular-italic {
+	font-family: "Ubuntu", sans-serif;
+	font-weight: 400;
+	font-style: italic;
+}
+
+.ubuntu-medium-italic {
+	font-family: "Ubuntu", sans-serif;
+	font-weight: 500;
+	font-style: italic;
+}
+
+.ubuntu-bold-italic {
+	font-family: "Ubuntu", sans-serif;
+	font-weight: 700;
+	font-style: italic;
+}
+
+.field-error {
+	border: 1px solid var(--red) !important;
+}
+
+.form-error {
+	color: var(--red);
+	font-size: 0.85em;
+	text-align: right;
+	float: right;
+	margin-top: 2px;
+	margin-bottom: 10px;
+}
+
+.form-success {
+	background: var(--blue-lt);
+	border: 1px solid var(--blue-med);
+	border-radius: var(--radius-large);
+	padding: 2em 1.5em;
+	font-size: 1.25em;
+	color: var(--primary-color);
+	margin: 2em auto;
+	text-align: center;
+	max-width: 600px;
+}
+
+@keyframes fadeIn {
+	0% {
+		max-height: 145px;
+		opacity: 0;
+		visibility: hidden;
+	}
+
+	100% {
+		max-height: 400px;
+		opacity: 1;
+		visibility: visible;
+	}
+}
+@keyframes fadeOut {
+	0% {
+		opacity: 1;
+		max-height: 400px;
+	}
+	100% {
+		opacity: 0;
+		max-height: 145px;
+	}
+}
+
+@keyframes bounce-scale {
+	0% {
+		transform: scale(1);
+	}
+	50% {
+		transform: scale(1.25);
+	}
+	100% {
+		transform: scale(1.15);
+	}
+}
+
+.hideme {
+	position: absolute;
+	top: -0.95em;
+	animation: fadeOut 1s forwards ease-in-out;
+}
+
+.showme {
+	display: block !important;
+	animation: fadeIn 1s forwards ease-in-out;
+}
+
+/* Experiment with background wavy
+.page-content:before,
+.page-content:after {
+	--s: 140px; control the size 
+	--c1: var(--green-med);
+	--c2: var(--green-lt);
+	--blk: #0000;
+	--nqblk: #0008;
+	--ltbl1: #d0ecf4;
+	--ltbl2: #ffffff;
+
+	--_g: var(--blk) 25%, var(--nqblk) 47%, var(--c1) 53% 147%,
+		var(--c2) 153% 247%, var(--c1) 253% 347%, var(--c2) 353% 447%,
+		var(--c1) 453% 547%, var(--nqblk) 553%, var(--blk) 575%;
+	--_s: calc(25% / 3) calc(25% / 4) at 50%;
+	background: radial-gradient(var(--_s) 100%, var(--_g)),
+		radial-gradient(var(--_s) 100%, var(--_g)) calc(var(--s) / 2)
+			calc(3 * var(--s) / 4),
+		radial-gradient(var(--_s) 0, var(--_g)) calc(var(--s) / 2) 0,
+		radial-gradient(var(--_s) 0, var(--_g)) 0 calc(3 * var(--s) / 4),
+		repeating-linear-gradient(
+			90deg,
+			var(--ltbl1) calc(25% / -6) calc(25% / 6),
+			var(--ltbl2) 0 calc(25% / 2)
+		);
+	background-size: var(--s) calc(3 * var(--s) / 2);
+	animation: m 2.5s infinite linear;
+}
+*/
+
+button {
+	border-radius: var(--radius-large);
+	border: 1px solid var(--blue-dark);
+	background-color: var(--blue-med);
+	color: var(--white);
+	font-weight: 600;
+	font-size: 18px;
+	padding: 8px 10px;
+	margin: 2em auto;
+	min-width: 250px;
+	max-width: 250px;
+	width: 50%;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+div,
+span {
+	font-family: var(--primary-font);
+	color: var(--primary-color);
+}
+form {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	margin: 80px auto 20px;
+	width: 80%;
+}
+
+label {
+	font-weight: 600;
+	font-size: 14px;
+}
+input,
+textarea,
+select,
+input[type="checkbox"],
+input[type="radio"] {
+	box-sizing: border-box;
+	border-radius: var(--radius-large);
+	border: 1px solid var(--secondary-color);
+	font-size: 18px;
+	margin-bottom: 20px;
+	max-width: 100%;
+	padding: 8px;
+	width: 100%;
+}
+.checkbox-container {
+	display: flex;
+	direction: column;
+	gap: 2em;
+}
+input[type="checkbox"] {
+	height: 25px;
+	width: 25px;
+	margin-top: 16px;
+}
+.checkbox-label {
+	font-size: 16px;
+	width: auto;
+}
+.checkbox-label-row {
+	align-items: center;
+	display: flex;
+	justify-content: start;
+	gap: 1em;
+}

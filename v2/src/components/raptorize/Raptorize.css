@@ -1,0 +1,42 @@
+/* Raptorize Component Styles */
+
+.raptor-element {
+  transition: left 0.1s ease-out;
+}
+
+/* Optional: Add visual indicator for bottom corners when active */
+.raptorize-active::after {
+  content: '';
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 20%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.raptorize-active::before {
+  content: '';
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 20%;
+  height: 20%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Debug mode - uncomment to see trigger zones */
+/*
+.raptorize-debug .raptorize-active::after {
+  background: rgba(255, 0, 0, 0.1);
+  border-top: 2px dashed rgba(255, 0, 0, 0.3);
+}
+
+.raptorize-debug .raptorize-active::before {
+  background: rgba(0, 255, 0, 0.1);
+  border-left: 2px dashed rgba(0, 255, 0, 0.3);
+  border-top: 2px dashed rgba(0, 255, 0, 0.3);
+}
+*/

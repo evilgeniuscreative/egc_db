@@ -7,6 +7,8 @@ import CrudPage from "./CrudPage";
 import ProjectsPage from "./pages/ProjectsPage";
 import ArticlesPage from "./pages/ArticlesPage";
 import AnimationsPage from "./pages/AnimationsPage";
+import PagesPage from "./pages/PagesPage";
+import SocialsPage from "./pages/SocialsPage";
 
 function Protected({ children }) {
 	const { isAuth, loading } = useAuth();
@@ -63,7 +65,7 @@ export default function AdminRoutes() {
 				path="socials"
 				element={
 					<Protected>
-						<CrudPage table="socials" title="Social Links" />
+						<SocialsPage />
 					</Protected>
 				}
 			/>
@@ -71,7 +73,7 @@ export default function AdminRoutes() {
 				path="pages"
 				element={
 					<Protected>
-						<CrudPage table="pages" title="Pages" />
+						<PagesPage />
 					</Protected>
 				}
 			/>

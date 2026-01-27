@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import AdminLayout from "../AdminLayout";
 import { useApi } from "../../hooks/useApi";
 
-export default function AnimationsPage() {
+export default function SocialsPage() {
 	const [items, setItems] = useState([]);
 	const [sortField, setSortField] = useState("sort_order");
 	const [sortDirection, setSortDirection] = useState("asc");
@@ -10,17 +10,16 @@ export default function AnimationsPage() {
 	const [editValue, setEditValue] = useState("");
 	const [showForm, setShowForm] = useState(false);
 	const [formData, setFormData] = useState({
-		title: "",
-		description: "",
-		video_url: "",
-		thumb: "",
+		platform: "",
+		url: "",
+		icon: "",
 		sort_order: 0,
 		active: 1,
 	});
 	const api = useApi();
 
 	useEffect(() => {
-		api.getAll("animations").then(setItems);
+		api.getAll("socials").then(setItems);
 	}, []);
 
 	const startEdit = (itemId, field, currentValue) => {
@@ -31,7 +30,7 @@ export default function AnimationsPage() {
 	const handleEdit = async (itemId, field, originalValue) => {
 		if (editValue !== originalValue && editValue !== "") {
 			try {
-				await api.update("animations", itemId, { [field]: editValue });
+				await api.update("socials", itemId, { [field]: editValue });
 				setItems(
 					items.map((i) =>
 						i.id === itemId ? { ...i, [field]: editValue } : i,
@@ -76,27 +75,26 @@ export default function AnimationsPage() {
 	});
 
 	const handleDelete = async (id) => {
-		if (window.confirm("Delete this animation?")) {
-			await api.remove("animations", id);
+		if (window.confirm("Delete this social link?")) {
+			await api.remove("socials", id);
 			setItems(items.filter((i) => i.id !== id));
 		}
 	};
 
 	const handleCreate = async (e) => {
 		e.preventDefault();
-		if (!formData.title) {
-			alert("Title is required");
+		if (!formData.platform || !formData.url) {
+			alert("Platform and URL are required");
 			return;
 		}
 		try {
-			const newItem = await api.create("animations", formData);
+			const newItem = await api.create("socials", formData);
 			setItems([...items, newItem]);
 			setShowForm(false);
 			setFormData({
-				title: "",
-				description: "",
-				video_url: "",
-				thumb: "",
+				platform: "",
+				url: "",
+				icon: "",
 				sort_order: 0,
 				active: 1,
 			});
@@ -130,7 +128,7 @@ export default function AnimationsPage() {
 					marginBottom: "20px",
 				}}
 			>
-				<h1>Animations ({items.length})</h1>
+				<h1>Social Links ({items.length})</h1>
 				<button
 					onClick={() => setShowForm(!showForm)}
 					style={{
@@ -141,7 +139,7 @@ export default function AnimationsPage() {
 						cursor: "pointer",
 					}}
 				>
-					{showForm ? "✕ Cancel" : "+ Add Animation"}
+					{showForm ? "✕ Cancel" : "+ Add Social"}
 				</button>
 			</div>
 
@@ -155,7 +153,7 @@ export default function AnimationsPage() {
 						marginBottom: "20px",
 					}}
 				>
-					<h3 style={{ marginTop: 0 }}>Add New Animation</h3>
+					<h3 style={{ marginTop: 0 }}>Add New Social Link</h3>
 					<div style={{ display: "grid", gap: "15px" }}>
 						<div>
 							<label
@@ -164,18 +162,19 @@ export default function AnimationsPage() {
 									marginBottom: "5px",
 								}}
 							>
-								Title *
+								Platform *
 							</label>
 							<input
 								type="text"
-								value={formData.title}
+								value={formData.platform}
 								onChange={(e) =>
 									setFormData({
 										...formData,
-										title: e.target.value,
+										platform: e.target.value,
 									})
 								}
 								required
+								placeholder="GitHub, LinkedIn, Twitter, etc."
 								style={{
 									width: "100%",
 									padding: "8px",
@@ -191,43 +190,18 @@ export default function AnimationsPage() {
 									marginBottom: "5px",
 								}}
 							>
-								Description
-							</label>
-							<textarea
-								value={formData.description}
-								onChange={(e) =>
-									setFormData({
-										...formData,
-										description: e.target.value,
-									})
-								}
-								rows="2"
-								style={{
-									width: "100%",
-									padding: "8px",
-									border: "1px solid #ddd",
-									borderRadius: "4px",
-								}}
-							/>
-						</div>
-						<div>
-							<label
-								style={{
-									display: "block",
-									marginBottom: "5px",
-								}}
-							>
-								Video URL
+								URL *
 							</label>
 							<input
-								type="text"
-								value={formData.video_url}
+								type="url"
+								value={formData.url}
 								onChange={(e) =>
 									setFormData({
 										...formData,
-										video_url: e.target.value,
+										url: e.target.value,
 									})
 								}
+								required
 								placeholder="https://..."
 								style={{
 									width: "100%",
@@ -244,23 +218,24 @@ export default function AnimationsPage() {
 									marginBottom: "5px",
 								}}
 							>
-								Thumbnail Image
+								Icon Class
 							</label>
 							<input
 								type="text"
-								value={formData.thumb}
+								value={formData.icon}
 								onChange={(e) =>
 									setFormData({
 										...formData,
-										thumb: e.target.value,
+										icon: e.target.value,
 									})
 								}
-								placeholder="images/thumb-animation.png"
+								placeholder="fab fa-github"
 								style={{
 									width: "100%",
 									padding: "8px",
 									border: "1px solid #ddd",
 									borderRadius: "4px",
+									fontFamily: "monospace",
 								}}
 							/>
 						</div>
@@ -336,7 +311,7 @@ export default function AnimationsPage() {
 							fontWeight: "500",
 						}}
 					>
-						Create Animation
+						Create Social Link
 					</button>
 				</form>
 			)}
@@ -353,7 +328,8 @@ export default function AnimationsPage() {
 					<thead>
 						<tr style={{ background: "#f5f5f5" }}>
 							<SortableHeader field="id" label="ID" />
-							<SortableHeader field="title" label="Title" />
+							<SortableHeader field="platform" label="Platform" />
+							<SortableHeader field="url" label="URL" />
 							<SortableHeader field="sort_order" label="Order" />
 							<SortableHeader field="active" label="Active" />
 							<th style={{ padding: "12px", textAlign: "left" }}>
@@ -375,10 +351,14 @@ export default function AnimationsPage() {
 										cursor: "pointer",
 									}}
 									onClick={() =>
-										startEdit(item.id, "title", item.title)
+										startEdit(
+											item.id,
+											"platform",
+											item.platform,
+										)
 									}
 								>
-									{editing === `${item.id}-title` ? (
+									{editing === `${item.id}-platform` ? (
 										<input
 											value={editValue}
 											onChange={(e) =>
@@ -387,16 +367,16 @@ export default function AnimationsPage() {
 											onBlur={() =>
 												handleEdit(
 													item.id,
-													"title",
-													item.title,
+													"platform",
+													item.platform,
 												)
 											}
 											onKeyDown={(e) => {
 												if (e.key === "Enter") {
 													handleEdit(
 														item.id,
-														"title",
-														item.title,
+														"platform",
+														item.platform,
 													);
 												} else if (e.key === "Escape") {
 													setEditing(null);
@@ -412,8 +392,24 @@ export default function AnimationsPage() {
 											}}
 										/>
 									) : (
-										item.title
+										item.platform
 									)}
+								</td>
+								<td
+									style={{
+										padding: "12px",
+										fontSize: "0.9rem",
+										color: "#666",
+									}}
+								>
+									<a
+										href={item.url}
+										target="_blank"
+										rel="noreferrer"
+										style={{ color: "#00d4ff" }}
+									>
+										{item.url?.substring(0, 40)}...
+									</a>
 								</td>
 								<td
 									style={{
