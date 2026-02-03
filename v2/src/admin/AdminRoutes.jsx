@@ -6,9 +6,13 @@ import Dashboard from "./Dashboard";
 import CrudPage from "./CrudPage";
 import ProjectsPage from "./pages/ProjectsPage";
 import ArticlesPage from "./pages/ArticlesPage";
+import ArticlesEditor from "./pages/ArticlesEditor";
 import AnimationsPage from "./pages/AnimationsPage";
 import PagesPage from "./pages/PagesPage";
+import PagesEditor from "./pages/PagesEditor";
 import SocialsPage from "./pages/SocialsPage";
+import SettingsPage from "./pages/SettingsPage";
+import SeoPage from "./pages/SeoPage";
 
 function Protected({ children }) {
 	const { isAuth, loading } = useAuth();
@@ -46,6 +50,14 @@ export default function AdminRoutes() {
 				}
 			/>
 			<Route
+				path="articles/edit/:id"
+				element={
+					<Protected>
+						<ArticlesEditor />
+					</Protected>
+				}
+			/>
+			<Route
 				path="animations"
 				element={
 					<Protected>
@@ -78,10 +90,26 @@ export default function AdminRoutes() {
 				}
 			/>
 			<Route
+				path="pages/edit/:id"
+				element={
+					<Protected>
+						<PagesEditor />
+					</Protected>
+				}
+			/>
+			<Route
 				path="settings"
 				element={
 					<Protected>
-						<CrudPage table="settings" title="Settings" />
+						<SettingsPage />
+					</Protected>
+				}
+			/>
+			<Route
+				path="seo"
+				element={
+					<Protected>
+						<SeoPage />
 					</Protected>
 				}
 			/>

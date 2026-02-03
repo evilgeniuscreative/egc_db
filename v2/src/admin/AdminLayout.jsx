@@ -12,6 +12,7 @@ const nav = [
 	{ path: "/admin/socials", label: "Socials" },
 	{ path: "/admin/pages", label: "Pages" },
 	{ path: "/admin/settings", label: "Settings" },
+	{ path: "/admin/seo", label: "SEO" },
 ];
 
 export default function AdminLayout({ children }) {

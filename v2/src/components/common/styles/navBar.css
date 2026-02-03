@@ -152,17 +152,51 @@
 	}
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
 	.navbar {
-		width: 75%;
-		margin-top: 11.5px;
+		width: 85%;
 	}
 	.nav-list {
-		gap: 25px;
+		gap: 20px;
+		font-size: 90%;
 	}
 	.nav-background {
 		width: 100%;
 		max-width: 100%;
+	}
+}
+
+@media (max-width: 600px) {
+	.navbar {
+		width: 90%;
+		margin-top: 11.5px;
+	}
+	.nav-list {
+		gap: 15px;
+		font-size: 85%;
+	}
+	.nav-background {
+		width: 100%;
+		max-width: 100%;
+		padding-left: 5px;
+		padding-right: 5px;
+	}
+}
+
+@media (max-width: 480px) {
+	.navbar {
+		width: 95%;
+	}
+	.nav-list {
+		gap: 10px;
+		font-size: 80%;
+		margin-left: -10px;
+		margin-right: 10px;
+	}
+	.nav-item.nav-item-start a {
+		padding: 0.15em 0.5em;
+		min-width: 50px;
+		font-size: 90%;
 	}
 	.page-content {
 		max-width: 100%;

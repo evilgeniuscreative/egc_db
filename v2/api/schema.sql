@@ -96,8 +96,22 @@ CREATE TABLE IF NOT EXISTS pages (
     active TINYINT(1) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- SEO metadata per page
+CREATE TABLE IF NOT EXISTS seo_meta (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    page VARCHAR(50) NOT NULL UNIQUE,
+    meta_title VARCHAR(255),
+    meta_description TEXT,
+    meta_keywords TEXT,
+    og_title VARCHAR(255),
+    og_description TEXT,
+    og_image VARCHAR(255),
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 -- Indexes
 CREATE INDEX idx_projects_type ON projects(type);
 CREATE INDEX idx_projects_active ON projects(active);
 CREATE INDEX idx_articles_slug ON articles(slug);
 CREATE INDEX idx_articles_published ON articles(published);
+CREATE INDEX idx_seo_page ON seo_meta(page);

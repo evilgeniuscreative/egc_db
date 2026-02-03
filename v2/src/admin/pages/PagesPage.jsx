@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import AdminLayout from "../AdminLayout";
 import { useApi } from "../../hooks/useApi";
 
 export default function PagesPage() {
+	const navigate = useNavigate();
 	const [items, setItems] = useState([]);
 	const [sortField, setSortField] = useState("page_name");
 	const [sortDirection, setSortDirection] = useState("asc");
@@ -115,6 +117,33 @@ export default function PagesPage() {
 		}
 	};
 
+	const handleEditPage = (item) => {
+		if (item.type === "database") {
+			// Navigate to rich text editor
+			navigate(`/admin/pages/edit/${item.id}`);
+		} else {
+			// Open in IDE - construct file path
+			const fileName =
+				item.name.charAt(0).toUpperCase() + item.name.slice(1);
+			const filePath = `/Users/iankleinfeld/Documents/Web/egc_portfolio/v2/src/pages/${fileName}.jsx`;
+
+			// Try to open in VSCode (most common)
+			window.location.href = `vscode://file${filePath}`;
+
+			// Fallback: show instructions
+			setTimeout(() => {
+				if (
+					window.confirm(
+						`Open ${fileName}.jsx in your IDE?\n\nFile path: ${filePath}\n\nClick OK to copy path to clipboard.`,
+					)
+				) {
+					navigator.clipboard.writeText(filePath);
+					alert("File path copied to clipboard!");
+				}
+			}, 500);
+		}
+	};
+
 	const SortableHeader = ({ field, label }) => (
 		<th
 			onClick={() => handleSort(field)}
@@ -142,6 +171,7 @@ export default function PagesPage() {
 			>
 				<h1>Pages ({items.length})</h1>
 				<button
+					onClick={() => navigate("/admin/pages/edit/new")}
 					style={{
 						padding: "10px 20px",
 						background: "#00d4ff",
@@ -150,7 +180,7 @@ export default function PagesPage() {
 						cursor: "pointer",
 					}}
 				>
-					+ Add
+					+ Add Page
 				</button>
 			</div>
 			<div style={{ marginBottom: "15px", fontSize: "0.9rem" }}>
@@ -240,56 +270,20 @@ export default function PagesPage() {
 									style={{
 										padding: "12px",
 										fontWeight: "500",
-										cursor:
-											item.type === "database"
-												? "pointer"
-												: "default",
+										cursor: "pointer",
 									}}
-									onClick={() =>
-										item.type === "database" &&
-										startEdit(
-											item.id,
-											"page_name",
-											item.page_name,
-										)
-									}
+									onClick={() => handleEditPage(item)}
 								>
-									{editing === `${item.id}-page_name` ? (
-										<input
-											value={editValue}
-											onChange={(e) =>
-												setEditValue(e.target.value)
-											}
-											onBlur={() =>
-												handleEdit(
-													item.id,
-													"page_name",
-													item.page_name,
-												)
-											}
-											onKeyDown={(e) => {
-												if (e.key === "Enter") {
-													handleEdit(
-														item.id,
-														"page_name",
-														item.page_name,
-													);
-												} else if (e.key === "Escape") {
-													setEditing(null);
-													setEditValue("");
-												}
-											}}
-											autoFocus
-											style={{
-												width: "100%",
-												padding: "4px",
-												border: "2px solid #00d4ff",
-												borderRadius: "3px",
-											}}
-										/>
-									) : (
-										item.page_name || item.name
-									)}
+									<span
+										style={{
+											display: "flex",
+											alignItems: "center",
+											gap: "8px",
+										}}
+									>
+										{item.type === "database" ? "✏️" : "📝"}
+										{item.page_name || item.name}
+									</span>
 								</td>
 								<td
 									style={{

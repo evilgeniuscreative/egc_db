@@ -12,20 +12,24 @@
 		"@fortawesome/react-fontawesome": "^3.1.1",
 		"@mui/icons-material": "^7.3.7",
 		"@mui/material": "^7.3.7",
+		"@tinymce/tinymce-react": "^6.3.0",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
 		"react-helmet": "^6.1.0",
 		"react-modal": "^3.16.3",
 		"react-router-dom": "^6.20.0",
 		"react-select": "^5.10.2",
-		"styled-components": "^6.3.8"
+		"styled-components": "^6.3.8",
+		"tinymce": "^8.3.2"
 	},
 	"devDependencies": {
 		"react-scripts": "5.0.1",
 		"react-snap": "^1.23.0"
 	},
 	"scripts": {
-		"start": "react-scripts start",
+		"start": "./start.sh",
+		"start:api": "php -S localhost:8000 -t api",
+		"start:react": "react-scripts start",
 		"build": "react-scripts build && react-snap",
 		"test": "react-scripts test",
 		"eject": "react-scripts eject"

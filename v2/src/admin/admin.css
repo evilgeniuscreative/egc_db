@@ -62,3 +62,205 @@
 	max-width: 1400px;
 	margin: 0 auto;
 }
+
+/* Settings Page Styles */
+.settings-list {
+	background: white;
+	border-radius: 8px;
+	overflow: hidden;
+}
+
+.setting-item {
+	display: grid;
+	grid-template-columns: 250px 1fr;
+	gap: 20px;
+	padding: 15px 20px;
+	border-bottom: 1px solid #eee;
+	align-items: center;
+}
+
+.setting-item:last-child {
+	border-bottom: none;
+}
+
+.setting-key {
+	font-weight: 600;
+	color: #333;
+	font-family: monospace;
+	font-size: 0.9rem;
+}
+
+.setting-value {
+	display: flex;
+	align-items: center;
+}
+
+.view-controls {
+	display: flex;
+	align-items: center;
+	gap: 15px;
+	width: 100%;
+}
+
+.value-text {
+	flex: 1;
+	color: #666;
+	font-size: 0.95rem;
+}
+
+.edit-controls {
+	display: flex;
+	gap: 10px;
+	width: 100%;
+}
+
+.edit-input {
+	flex: 1;
+	padding: 8px 12px;
+	border: 2px solid #00d4ff;
+	border-radius: 4px;
+	font-size: 0.95rem;
+}
+
+.btn-edit,
+.btn-save,
+.btn-cancel {
+	padding: 6px 16px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	font-size: 0.875rem;
+	font-weight: 500;
+	transition: all 0.2s;
+}
+
+.btn-edit {
+	background: #e3f2fd;
+	color: #1565c0;
+}
+
+.btn-edit:hover {
+	background: #bbdefb;
+}
+
+.btn-save {
+	background: #00d4ff;
+	color: white;
+}
+
+.btn-save:hover {
+	background: #00b8e6;
+}
+
+.btn-cancel {
+	background: #f5f5f5;
+	color: #666;
+}
+
+.btn-cancel:hover {
+	background: #e0e0e0;
+}
+
+.message {
+	padding: 12px 20px;
+	border-radius: 4px;
+	margin-bottom: 20px;
+	font-size: 0.95rem;
+}
+
+.message.success {
+	background: #e8f5e9;
+	color: #2e7d32;
+	border-left: 4px solid #4caf50;
+}
+
+.message.error {
+	background: #ffebee;
+	color: #c62828;
+	border-left: 4px solid #f44336;
+}
+
+.loading {
+	text-align: center;
+	padding: 40px;
+	color: #666;
+	font-size: 1.1rem;
+}
+
+.admin-page {
+	background: #f5f5f5;
+	min-height: calc(100vh - 60px);
+	padding: 20px;
+}
+
+.admin-header {
+	background: white;
+	padding: 20px;
+	border-radius: 8px;
+	margin-bottom: 20px;
+}
+
+.admin-header h1 {
+	margin: 0;
+	color: #333;
+	font-size: 1.75rem;
+}
+
+/* Editor Container */
+.editor-container {
+	background: white;
+	border-radius: 8px;
+	padding: 30px;
+}
+
+.form-grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 20px;
+}
+
+.form-group {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.form-group.full-width {
+	grid-column: 1 / -1;
+}
+
+.form-group label {
+	font-weight: 600;
+	color: #333;
+	font-size: 0.9rem;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="url"],
+.form-group textarea,
+.form-group select {
+	padding: 10px 12px;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	font-size: 0.95rem;
+	font-family: inherit;
+	transition: border-color 0.2s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+	outline: none;
+	border-color: #00d4ff;
+}
+
+.form-group textarea {
+	resize: vertical;
+	min-height: 80px;
+}
+
+.form-group input[type="checkbox"] {
+	width: auto;
+	margin-right: 8px;
+}

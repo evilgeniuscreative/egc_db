@@ -13,12 +13,18 @@ export default function Dashboard() {
 			api.getAll("articles"),
 			api.getAll("animations"),
 			api.getAll("narration"),
-		]).then(([p, a, an, n]) => {
+			api.getAll("pages"),
+			api.getAll("socials"),
+		]).then(([p, a, an, n, pg, s]) => {
 			setStats({
 				projects: p.length,
 				articles: a.length,
 				animations: an.length,
 				narration: n.length,
+				pages: pg.length,
+				socials: s.length,
+				settings: "⚙️",
+				seo: "🔍",
 			});
 		});
 	}, []);
